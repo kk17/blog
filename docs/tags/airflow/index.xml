@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>airflow on Code Play</title>
+    <link>https://blog.kk17.net/tags/airflow/</link>
+    <description>Recent content in airflow on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 26 Jul 2019 10:02:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/tags/airflow/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Diving Into Airflow Scheduler</title>
+      <link>https://blog.kk17.net/post/diving-into-airflow-scheduler/</link>
+      <pubDate>Fri, 26 Jul 2019 10:02:55 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/diving-into-airflow-scheduler/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../understand-airflow&#34;&gt;Last article&lt;/a&gt; we told about the basic concepts and architecture of Airflow, and we knew that Airflow has three major components:  &lt;code&gt;webserver&lt;/code&gt;,  &lt;code&gt;scheduler&lt;/code&gt; and &lt;code&gt;executor.&lt;/code&gt;  This article will talk about the detail of the &lt;code&gt;scheduler&lt;/code&gt; by diving into some of the source code(version: 1.10.1).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Understand Airflow</title>
+      <link>https://blog.kk17.net/post/understand-airflow/</link>
+      <pubDate>Wed, 24 Jul 2019 14:24:49 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/understand-airflow/</guid>
+      <description>&lt;h2 id=&#34;key-concepts&#34;&gt;Key concepts&lt;/h2&gt;
+
+&lt;p&gt;For context around the terms used in this blog post, here are a few key concepts for Airflow:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;DAG&lt;/strong&gt; (Directed Acyclic Graph): a workflow which glues all the tasks with inter-dependencies.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Operator&lt;/strong&gt;: a template for a specific type of work to be executed. For example, BashOperator represents how to execute a bash script, while PythonOperator represents how to execute a python function, etc.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sensor&lt;/strong&gt;: a type of special operator which will only execute if a certain condition is met.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Task&lt;/strong&gt;: a parameterized instance of an operator/sensor which represents a unit of actual work to be executed.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugin&lt;/strong&gt;: an extension to allow users to easily extend Airflow with various custom hooks, operators, sensors, macros, and web views.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pools&lt;/strong&gt;: concurrency limit configuration for a set of Airflow tasks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Connections&lt;/em&gt;&lt;/strong&gt; to define any external DB, FTP etc. connection’s authentication.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Variables&lt;/em&gt;&lt;/strong&gt; to store and retrieve arbitrary content or settings as a simple key value.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;XCom&lt;/em&gt;&lt;/strong&gt; to share keys/values between independent tasks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pools&lt;/strong&gt; to limit the execution parallelism on arbitrary sets of tasks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hooks&lt;/strong&gt; to reach external platforms and databases.&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

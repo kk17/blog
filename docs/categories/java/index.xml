@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on Code Play</title>
+    <link>https://blog.kk17.net/categories/java/</link>
+    <description>Recent content in java on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 07 May 2015 09:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>《Effective Java》中文版第2版阅读笔记</title>
+      <link>https://blog.kk17.net/post/effective-java-reading-note/</link>
+      <pubDate>Thu, 07 May 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/effective-java-reading-note/</guid>
+      <description>第2章 创建和销毁对象 第1条：考虑用静态工厂代替构造器 静态工厂的优点： 1. 有名字 2. 不必每次调用都创建新的对象 3. 可以返回原类型的任何子类型（可以于</description>
+    </item>
+    
+    <item>
+      <title>java内存模型和垃圾回收学习笔记</title>
+      <link>https://blog.kk17.net/post/jvm-memory-model-and-gc/</link>
+      <pubDate>Sun, 01 Feb 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/jvm-memory-model-and-gc/</guid>
+      <description>Java（JVM）内存模型 Java内存模型建立在自动内存管理的概念之上。当一个对象不再被一个应用所引用，垃圾回收器就会回收它，从而释放相应的</description>
+    </item>
+    
+  </channel>
+</rss>

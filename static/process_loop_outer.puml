@@ -1,0 +1,98 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+	ArrowColor DeepSkyBlue
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor blue
+	LifeLineBackgroundColor #A9DCDF
+
+	ParticipantBorderColor DeepSkyBlue
+	ParticipantBackgroundColor DodgerBlue
+	ParticipantFontName Impact
+	ParticipantFontSize 17
+	ParticipantFontColor #A9DCDF
+
+	ActorBackgroundColor aqua
+	ActorFontColor DeepSkyBlue
+	ActorFontSize 17
+	ActorFontName Aapex
+}
+
+actor User
+participant "bin.airflow" as A order 1
+participant "bin.cli" as C order 2
+participant "bin.cli.CLIFactory" as F order 3
+participant "airflow.job.ScheduleJob" as J order 4
+participant "DagFileProcessorManager" as PM order 5
+participant "airflow.executors.XXXExecutor" as E order 6
+box sqlalchemy
+participant "scoped_seesion" as S order 11
+end box
+box "argparse"
+participant "ArgumentParser" as P order 21
+participant "Namespace" as N order 22
+end box
+
+== Parse Command ==
+
+User -> A: "airflow scheduler"
+
+A -> F: get_parser
+
+create P
+F -> P: <<construct>>
+
+F --> A: parser
+activate P
+A -> P: parse_arg
+create N
+P -> N: <<construct>>
+P --> A: args
+
+activate N
+A -> N: func
+N -> C: scheduler
+
+deactivate P
+deactivate N
+
+== Process Loop ==
+create J
+C -> J: <<construct>>
+create E
+J -> E: <<construct>>
+C -> J: run
+activate J
+J -> S: add
+activate S
+deactivate S
+J -> J: _execute
+activate J
+
+create PM
+J -> PM: <<construct>>
+J -> J: _execute_helper
+activate J
+activate PM
+activate E
+J -> E: start
+
+loop forever or run_duration
+alt match dag_dir_list_interval
+J -> PM: heartbeat
+PM --> J: simple_dags
+end
+
+end
+
+deactivate E
+deactivate PM
+deactivate J
+deactivate J
+deactivate J
+
+
+@enduml
+foo

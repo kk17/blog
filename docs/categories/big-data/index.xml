@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>big-data on Code Play</title>
+    <link>https://blog.kk17.net/categories/big-data/</link>
+    <description>Recent content in big-data on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 26 Jul 2019 10:02:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/categories/big-data/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Diving Into Airflow Scheduler</title>
+      <link>https://blog.kk17.net/post/diving-into-airflow-scheduler/</link>
+      <pubDate>Fri, 26 Jul 2019 10:02:55 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/diving-into-airflow-scheduler/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;../understand-airflow&#34;&gt;Last article&lt;/a&gt; we told about the basic concepts and architecture of Airflow, and we knew that Airflow has three major components:  &lt;code&gt;webserver&lt;/code&gt;,  &lt;code&gt;scheduler&lt;/code&gt; and &lt;code&gt;executor.&lt;/code&gt;  This article will talk about the detail of the &lt;code&gt;scheduler&lt;/code&gt; by diving into some of the source code(version: 1.10.1).&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Understand Airflow</title>
+      <link>https://blog.kk17.net/post/understand-airflow/</link>
+      <pubDate>Wed, 24 Jul 2019 14:24:49 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/understand-airflow/</guid>
+      <description>&lt;h2 id=&#34;key-concepts&#34;&gt;Key concepts&lt;/h2&gt;
+
+&lt;p&gt;For context around the terms used in this blog post, here are a few key concepts for Airflow:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;DAG&lt;/strong&gt; (Directed Acyclic Graph): a workflow which glues all the tasks with inter-dependencies.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Operator&lt;/strong&gt;: a template for a specific type of work to be executed. For example, BashOperator represents how to execute a bash script, while PythonOperator represents how to execute a python function, etc.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sensor&lt;/strong&gt;: a type of special operator which will only execute if a certain condition is met.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Task&lt;/strong&gt;: a parameterized instance of an operator/sensor which represents a unit of actual work to be executed.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugin&lt;/strong&gt;: an extension to allow users to easily extend Airflow with various custom hooks, operators, sensors, macros, and web views.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pools&lt;/strong&gt;: concurrency limit configuration for a set of Airflow tasks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Connections&lt;/em&gt;&lt;/strong&gt; to define any external DB, FTP etc. connection’s authentication.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Variables&lt;/em&gt;&lt;/strong&gt; to store and retrieve arbitrary content or settings as a simple key value.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;XCom&lt;/em&gt;&lt;/strong&gt; to share keys/values between independent tasks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pools&lt;/strong&gt; to limit the execution parallelism on arbitrary sets of tasks.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hooks&lt;/strong&gt; to reach external platforms and databases.&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Spark Run Mode and Application Deployment Mode</title>
+      <link>https://blog.kk17.net/post/spark-run-mode-and-application-deployment-mode/</link>
+      <pubDate>Tue, 16 Jul 2019 19:31:49 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/spark-run-mode-and-application-deployment-mode/</guid>
+      <description>Spark running mode is often be confused with application deploy mode.
+Spark Running Mode Spark can run on a single local machine or on a cluster manager like Mesos or YARN to leverage the resources(memory, CPU, and so on) across the cluster.
+Run Locally In local mode, spark jobs run on a single machine and are executed in parallel using multi-threading: this restricts parallelism to (at most) the number of cores in your machine.</description>
+    </item>
+    
+    <item>
+      <title>YARN Basics</title>
+      <link>https://blog.kk17.net/post/yarn-basics/</link>
+      <pubDate>Mon, 15 Jul 2019 19:31:49 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/yarn-basics/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html&#34;&gt;Apache Hadoop YARN&lt;/a&gt; is the cluster manager for Hadoop MapReduce, but it can also be used for other compute framework such as Spark. YARN(Yet Another Resource Negotiator) was introduced since Hadoop 2.0 to split up the functionalities of resource management and job scheduling/monitoring into separate daemons. The idea is to have a global ResourceManager (RM) and per-application ApplicationMaster (AM). An application is either a single job or a DAG of jobs.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>How to Extend Spark</title>
+      <link>https://blog.kk17.net/post/how-to-extend-spark/</link>
+      <pubDate>Sat, 25 May 2019 17:43:29 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/how-to-extend-spark/</guid>
+      <description>&lt;p&gt;In this post, we go through extending a Spark application and also Spark APIs by some examples. These two kinds of extensions are sometimes related, and we go with extending a Spark application first.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Pitfalls in Using Spark Catalog API</title>
+      <link>https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/</link>
+      <pubDate>Sat, 27 Apr 2019 16:42:59 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/</guid>
+      <description>&lt;p&gt;Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  &lt;a href=&#34;https://spark.apache.org/docs/latest/sql-data-sources-hive-tables.html&#34;&gt;Hive Tables - Spark 2.4.1 Documentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: &lt;a href=&#34;https://spark.apache.org/docs/2.2.1/api/java/org/apache/spark/sql/catalog/Catalog.html&#34;&gt;Catalog (Spark 2.2.1 JavaDoc)&lt;/a&gt; and &lt;a href=&#34;https://spark.apache.org/docs/2.3.0/api/python/_modules/pyspark/sql/catalog.html&#34;&gt;pyspark.sql.catalog — PySpark master documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After using Spark Catalog API for a period of time, I found some pitfalls.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Use Spark Sql With Hive Metastore</title>
+      <link>https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/</link>
+      <pubDate>Wed, 27 Feb 2019 15:52:48 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/</guid>
+      <description>Spark SQL Spark SQL is a module for working with structured data
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;quot;use database_name&amp;quot;) spark.sql(&amp;quot;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+Hive transforms SQL queries as Hive MapReduce job.
+Besides MapReduce, Hive can use Spark and Tez as execute engine.</description>
+    </item>
+    
+  </channel>
+</rss>

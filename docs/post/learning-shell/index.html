@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Shell学习笔记 - Code Play</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kyle" />
+  <meta name="description" content="shebang #!/usr/bin/env bash 这一行表明，不管用户选择的是那种交互式shell,该脚本需要使用bash shell来运行。由于每种shell的语法大不相同，所以这句非" />
+
+  <meta name="keywords" content="kk17, Kyle, blog" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4" />
+
+
+<link rel="canonical" href="https://blog.kk17.net/post/learning-shell/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="Shell学习笔记" />
+<meta property="og:description" content="shebang #!/usr/bin/env bash 这一行表明，不管用户选择的是那种交互式shell,该脚本需要使用bash shell来运行。由于每种shell的语法大不相同，所以这句非" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.kk17.net/post/learning-shell/" />
+<meta property="article:published_time" content="2015-08-18T09:00:00&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-27T09:00:00&#43;08:00"/>
+
+<meta itemprop="name" content="Shell学习笔记">
+<meta itemprop="description" content="shebang #!/usr/bin/env bash 这一行表明，不管用户选择的是那种交互式shell,该脚本需要使用bash shell来运行。由于每种shell的语法大不相同，所以这句非">
+
+
+<meta itemprop="datePublished" content="2015-08-18T09:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-27T09:00:00&#43;08:00" />
+<meta itemprop="wordCount" content="1358">
+
+
+
+<meta itemprop="keywords" content="linux,shell," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Shell学习笔记"/>
+<meta name="twitter:description" content="shebang #!/usr/bin/env bash 这一行表明，不管用户选择的是那种交互式shell,该脚本需要使用bash shell来运行。由于每种shell的语法大不相同，所以这句非"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-140906699-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Code Play</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kk17.net" rel="noopener" target="_blank">
+              About
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Code Play
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kk17.net" rel="noopener" target="_blank">
+              About
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Shell学习笔记</h1>
+      
+      <div class="post-meta">
+        <time datetime="2015-08-18" class="post-time">
+          2015-08-18
+        </time>
+        <div class="post-category">
+            <a href="https://blog.kk17.net/categories/tools/"> tools </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#shebang">shebang</a></li>
+<li><a href="#变量">变量</a>
+<ul>
+<li><a href="#注意点">注意点</a></li>
+</ul></li>
+<li><a href="#条件语句-if-then-elif-then-fi">条件语句 if/then/elif/then/fi</a></li>
+<li><a href="#test命令与操作符">Test命令与操作符</a>
+<ul>
+<li><a href="#操作符列表">操作符列表</a></li>
+</ul></li>
+<li><a href="#循环">循环</a></li>
+<li><a href="#for-循环">For 循环</a></li>
+<li><a href="#while-循环">While 循环</a></li>
+<li><a href="#case语句">case语句</a></li>
+<li><a href="#命令替换">命令替换</a></li>
+<li><a href="#位置参数处理">位置参数处理</a></li>
+<li><a href="#函数">函数</a></li>
+<li><a href="#一些资源">一些资源</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h2 id="shebang">shebang</h2>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #408080; font-style: italic">#!/usr/bin/env bash</span>
+</code></pre></div>
+
+<p>这一行表明，不管用户选择的是那种交互式shell,该脚本需要使用bash shell来运行。由于每种shell的语法大不相同，所以这句非常重要。</p>
+
+<h2 id="变量">变量</h2>
+
+<ol>
+<li>定义变量</li>
+</ol>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #19177C">X</span><span style="color: #666666">=</span><span style="color: #BA2121">&quot;hello&quot;</span>
+</code></pre></div>
+
+<ol>
+<li>引用变量</li>
+</ol>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #19177C">$X</span>
+</code></pre></div>
+
+<ol>
+<li>单引号 VS 双引号
+基本上来说，<strong>变量名会在双引号中展开</strong>，单引号中则不会。如果你不需要引用变量值，那么使用单引号可以很直观的输出你期望的结果。 An example 示例</li>
+</ol>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #408080; font-style: italic">#!/usr/bin/env bash</span>
+<span style="color: #008000">echo</span> -n <span style="color: #BA2121">&#39;$USER=&#39;</span> 
+<span style="color: #408080; font-style: italic"># -n选项表示阻止echo换行</span>
+<span style="color: #008000">echo</span> <span style="color: #BA2121">&quot;</span><span style="color: #19177C">$USER</span><span style="color: #BA2121">&quot;</span>
+<span style="color: #008000">echo</span> <span style="color: #BA2121">&quot;\$USER=</span><span style="color: #19177C">$USER</span><span style="color: #BA2121">&quot;</span>  
+<span style="color: #408080; font-style: italic"># 该命令等价于上面的两行命令</span>
+</code></pre></div>
+
+<!-- more -->
+
+<h3 id="注意点">注意点</h3>
+
+<ol>
+<li>使用双引号来保护变量名</li>
+</ol>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #408080; font-style: italic"># !/bin/bash</span>
+<span style="color: #19177C">X</span><span style="color: #666666">=</span><span style="color: #BA2121">&quot;&quot;</span>
+<span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">[</span> -n <span style="color: #BA2121">&quot;</span><span style="color: #19177C">$X</span><span style="color: #BA2121">&quot;</span> <span style="color: #666666">]</span>; <span style="color: #008000; font-weight: bold">then</span>    
+<span style="color: #408080; font-style: italic"># -n 用来检查变量是否非空</span>
+         <span style="color: #008000">echo</span> <span style="color: #BA2121">&quot;the variable X is not the empty string&quot;</span>
+<span style="color: #008000; font-weight: bold">fi</span>
+</code></pre></div>
+
+<ol>
+<li>使用大括号保护变量</li>
+</ol>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #408080; font-style: italic"># !/bin/bash</span>
+<span style="color: #19177C">X</span><span style="color: #666666">=</span>ABC
+<span style="color: #008000">echo</span> <span style="color: #BA2121">&quot;</span><span style="color: #BB6688; font-weight: bold">${</span><span style="color: #19177C">X</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BA2121">abc&quot;</span>
+</code></pre></div>
+
+<h2 id="条件语句-if-then-elif-then-fi">条件语句 if/then/elif/then/fi</h2>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">[[</span> condition1 <span style="color: #666666">]]</span>; <span style="color: #008000; font-weight: bold">then</span>
+    statement1
+    statement2
+    ..........
+<span style="color: #008000; font-weight: bold">elif</span> <span style="color: #666666">[[</span> condition2 <span style="color: #666666">]]</span>; <span style="color: #008000; font-weight: bold">then</span>
+    statement3
+    statement4
+    ........    
+<span style="color: #008000; font-weight: bold">else</span>
+    statement5
+    statement6
+    ........    
+<span style="color: #008000; font-weight: bold">fi</span>
+</code></pre></div>
+
+<h2 id="test命令与操作符">Test命令与操作符</h2>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #666666">[[</span> operand1 operator operand2 <span style="color: #666666">]]</span>
+</code></pre></div>
+
+<p>Test命令的格式为“操作数&lt; 空格 &gt;操作符&lt; 空格 &gt;操作数”或者“操作符&lt; 空格 &gt;操作数”，这里特别说明必须要有这些空格，因为shell将没有空格的第一串字符视为一个操作符（以-开头）或者操作数。</p>
+
+<h3 id="操作符列表">操作符列表</h3>
+
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>为真条件</th>
+<th>操作数个数</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>-n</td>
+<td>操作数非0长度</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>-z</td>
+<td>操作有长度</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>-d</td>
+<td>存在目录</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>-f</td>
+<td>存在文件</td>
+<td>1</td>
+</tr>
+
+<tr>
+<td>=</td>
+<td>操作数是字符串并相等</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>!=</td>
+<td>与=相反</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>-eq</td>
+<td>操作数是整数并相等</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>-neq</td>
+<td>与-eq相反</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>-lt</td>
+<td>操作数是整数并操作数1小于操作数2</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>-le</td>
+<td>操作数是整数并操作数1小于等于操作数2</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>-gt</td>
+<td>操作数是整数并操作数1大于操作数2</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>-ge</td>
+<td>操作数是整数并操作数1大于等于操作数2</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="循环">循环</h2>
+
+<h2 id="for-循环">For 循环</h2>
+
+<p>For循环会遍历空格分开的条目。注意，如果某一项含有空格，必须要用引号引起来，例子如下：</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #408080; font-style: italic"># !/bin/bash</span>
+<span style="color: #19177C">colour1</span><span style="color: #666666">=</span><span style="color: #BA2121">&quot;red&quot;</span>
+<span style="color: #19177C">colour2</span><span style="color: #666666">=</span><span style="color: #BA2121">&quot;light blue&quot;</span>
+<span style="color: #19177C">colour3</span><span style="color: #666666">=</span><span style="color: #BA2121">&quot;dark green&quot;</span>
+<span style="color: #008000; font-weight: bold">for</span> X in <span style="color: #BA2121">&quot;</span><span style="color: #19177C">$colour1</span><span style="color: #BA2121">&quot;</span> <span style="color: #19177C">$colour2</span><span style="color: #BA2121">&quot; </span><span style="color: #19177C">$colour3</span><span style="color: #BA2121">&quot;</span>
+<span style="color: #008000; font-weight: bold">do</span>
+    <span style="color: #008000">echo</span> <span style="color: #19177C">$X</span>
+<span style="color: #008000; font-weight: bold">done</span>
+</code></pre></div>
+
+<p><strong>在for循环中可以使用通配符</strong>如果shell解析字符串时遇到*号，会将它展开为所有匹配的文件名</p>
+
+<h2 id="while-循环">While 循环</h2>
+
+<p>当给定条件为真值时，while循环会重复执行。例如：</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #408080; font-style: italic"># !/bin/bash</span>
+<span style="color: #19177C">X</span><span style="color: #666666">=0</span>
+<span style="color: #008000; font-weight: bold">while</span> <span style="color: #666666">[[</span> <span style="color: #19177C">$X</span> -le <span style="color: #666666">20</span> <span style="color: #666666">]</span>; <span style="color: #008000; font-weight: bold">do</span>
+    <span style="color: #008000">echo</span> <span style="color: #19177C">$X</span>
+    <span style="color: #19177C">X</span><span style="color: #666666">=</span><span style="color: #008000; font-weight: bold">$((</span>X+1<span style="color: #008000; font-weight: bold">))</span>
+<span style="color: #008000; font-weight: bold">done</span>
+</code></pre></div>
+
+<h2 id="case语句">case语句</h2>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #008000; font-weight: bold">case</span> <span style="color: #19177C">$key</span> in
+    a|b<span style="color: #666666">)</span>
+    statement1
+    ;;
+    c<span style="color: #666666">)</span>
+    statement2
+    *<span style="color: #666666">)</span>
+    <span style="color: #008000">break</span>
+    <span style="color: #408080; font-style: italic"># unknown option</span>
+    ;;
+<span style="color: #008000; font-weight: bold">esac</span>
+</code></pre></div>
+
+<h2 id="命令替换">命令替换</h2>
+
+<p>大括号扩展： $(commands) 会展开为命令commands的输出结果。并且允许嵌套使用，所以commands中允许包含子大括号扩展。
+反撇好扩展：将commands扩展为命令commands的输出结果。不允许嵌套。</p>
+
+<h2 id="位置参数处理">位置参数处理</h2>
+
+<p><code>$n</code> n为0开始的整数表示第n个命令行参数，<code>$0</code>为命令本身
+<code>$#</code> 参数个数
+位置参数可以用<code>shift</code>命令左移。比如<code>shift 3</code>表示原来的<code>$4</code>现在变成<code>$1</code>，原来的<code>$5</code>现在变成<code>$2</code>等等，原来的<code>$1</code>. <code>$2</code>. <code>$3</code>丢弃，<code>$0</code>不移动。不带参数的<code>shift</code>命令相当于<code>shift 1</code>。</p>
+
+<p>处理参数例子：</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #008000; font-weight: bold">while</span> <span style="color: #666666">[[</span> <span style="color: #19177C">$#</span> &gt; <span style="color: #666666">1</span> <span style="color: #666666">]]</span>
+<span style="color: #008000; font-weight: bold">do</span>
+<span style="color: #19177C">key</span><span style="color: #666666">=</span><span style="color: #BA2121">&quot;</span><span style="color: #19177C">$1</span><span style="color: #BA2121">&quot;</span>
+
+<span style="color: #008000; font-weight: bold">case</span> <span style="color: #19177C">$key</span> in
+    -a<span style="color: #666666">)</span>
+    statement1
+    <span style="color: #008000">shift</span>
+    ;;
+    -b<span style="color: #666666">)</span>
+    statement2
+    <span style="color: #008000">shift</span>
+    ;;
+    *<span style="color: #666666">)</span>
+    <span style="color: #008000">break</span>
+    <span style="color: #408080; font-style: italic"># unknown option</span>
+    ;;
+<span style="color: #008000; font-weight: bold">esac</span>
+<span style="color: #008000; font-weight: bold">done</span>
+</code></pre></div>
+
+<h2 id="函数">函数</h2>
+
+<p>shell 可以用户定义函数，然后在shell脚本中可以随便调用</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-bash" data-lang="bash"><span></span><span style="color: #666666">[</span> <span style="color: #008000; font-weight: bold">function</span> <span style="color: #666666">]</span> funname <span style="color: #666666">[()]</span>
+<span style="color: #666666">{</span>
+    action;
+    <span style="color: #666666">[</span><span style="color: #008000; font-weight: bold">return</span> int;<span style="color: #666666">]</span>
+<span style="color: #666666">}</span>
+
+sum<span style="color: #666666">()</span>
+<span style="color: #666666">{</span>
+    <span style="color: #008000">echo</span> <span style="color: #19177C">$1</span>,<span style="color: #19177C">$2</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000; font-weight: bold">$((</span><span style="color: #19177C">$1</span><span style="color: #666666">+</span><span style="color: #19177C">$2</span><span style="color: #008000; font-weight: bold">))</span>
+<span style="color: #666666">}</span>
+sum <span style="color: #666666">5</span> <span style="color: #666666">7</span>
+<span style="color: #008000">echo</span> <span style="color: #19177C">$?</span>
+</code></pre></div>
+
+<ol>
+<li>定义函数可以与系统命令相同，说明shell搜索命令时候，首先会在当前的shell文件定义好的地方查找，找到直接执行。</li>
+<li>需要获得函数值：通过$?获得</li>
+<li>如果需要传出其它类型函数值，可以在函数调用之前，定义变量（这个就是全局变量）。在函数内部就可以直接修改，然后在执行函数就可以读出修改过的值。</li>
+<li>如果需要定义自己变量，可以在函数中定义：local 变量=值 ，这时变量就是内部变量，它的修改，不会影响函数外部相同变量的值 。</li>
+</ol>
+
+<h2 id="一些资源">一些资源</h2>
+
+<ul>
+<li><a href="http://blog.jobbole.com/85183/">Bash快速入门指南 - 博客 - 伯乐在线</a></li>
+<li><a href="http://www.cnblogs.com/chengmo/archive/2010/10/17/1853356.html">linux shell 自定义函数(定义. 返回值. 变量作用域- ）介绍 - 程默 - 博客园</a></li>
+<li><a href="http://my.oschina.net/itblog/blog/204410">Shell编程基础 - Integer - 开源中国社区</a></li>
+<li><a href="http://www.oschina.net/translate/python-scripts-replacement-bash-utility-scripts">用 Python 替代 Bash 脚本 - 技术翻译 - 开源中国社区</a></li>
+</ul>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Kyle</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2019-04-27</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://blog.kk17.net/tags/linux/">linux</a>
+          <a href="https://blog.kk17.net/tags/shell/">shell</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/linux-commands/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">linux命令行笔记</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/tmux-shortcut/">
+            <span class="next-text nav-default">Tmux快捷键</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kk17/blog"
+            issue-term="pathname"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+  
+    
+
+
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="https://github.com/kk17" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://blog.kk17.net/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kyle
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

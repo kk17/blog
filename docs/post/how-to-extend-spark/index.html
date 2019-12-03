@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>How to Extend Spark - Code Play</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kyle" /><meta name="description" content="In this post, we go through extending a Spark application and also Spark APIs by some examples." />
+<meta name="keywords" content="spark" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4" />
+
+
+<link rel="canonical" href="https://blog.kk17.net/post/how-to-extend-spark/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="How to Extend Spark" />
+<meta property="og:description" content="In this post, we go through extending a Spark application and also Spark APIs by some examples." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.kk17.net/post/how-to-extend-spark/" />
+<meta property="article:published_time" content="2019-05-25T17:43:29&#43;08:00"/>
+<meta property="article:modified_time" content="2019-05-25T17:43:29&#43;08:00"/>
+
+<meta itemprop="name" content="How to Extend Spark">
+<meta itemprop="description" content="In this post, we go through extending a Spark application and also Spark APIs by some examples.">
+
+
+<meta itemprop="datePublished" content="2019-05-25T17:43:29&#43;08:00" />
+<meta itemprop="dateModified" content="2019-05-25T17:43:29&#43;08:00" />
+<meta itemprop="wordCount" content="1703">
+
+
+
+<meta itemprop="keywords" content="spark," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How to Extend Spark"/>
+<meta name="twitter:description" content="In this post, we go through extending a Spark application and also Spark APIs by some examples."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-140906699-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Code Play</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kk17.net" rel="noopener" target="_blank">
+              About
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Code Play
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kk17.net" rel="noopener" target="_blank">
+              About
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">How to Extend Spark</h1>
+      
+      <div class="post-meta">
+        <time datetime="2019-05-25" class="post-time">
+          2019-05-25
+        </time>
+        <div class="post-category">
+            <a href="https://blog.kk17.net/categories/big-data/"> big-data </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#extend-a-spark-application">Extend a Spark Application</a></li>
+<li><a href="#extend-spark-apis">Extend Spark APIs</a>
+<ul>
+<li><a href="#use-extension-points">Use extension points</a>
+<ul>
+<li><a href="#step-1-create-an-optimizer-rule-class">Step 1: Create an Optimizer rule class</a></li>
+<li><a href="#step-2-create-a-first-class-function-with-the-extension-points-api-to-add-a-new-rule">Step 2: Create a first-class function with the Extension Points API to add a new rule</a></li>
+<li><a href="#step-3-enable-the-customized-rule">Step 3: Enable the customized rule</a></li>
+</ul></li>
+<li><a href="#modify-spark-source-code-directly">Modify Spark source code directly</a></li>
+<li><a href="#use-aspect-oriented-programming-aop-extension">Use aspect-oriented programming (AOP) extension</a>
+<ul>
+<li><a href="#step-1-create-a-aspect-class">Step 1: Create a aspect class</a></li>
+<li><a href="#step-2-create-a-aspectj-configuration-file">Step 2: create a AspectJ configuration file</a></li>
+<li><a href="#step-3-enable-aspectj-aspects-in-spark">Step 3: enable AspectJ aspects in Spark</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#handle-code-conflict-with-spark-code">Handle code conflict with Spark Code</a>
+<ul>
+<li><a href="#shade-your-code">Shade your code</a></li>
+<li><a href="#shim">Shim</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p>In this post, we go through extending a Spark application and also Spark APIs by some examples. These two kinds of extensions are sometimes related, and we go with extending a Spark application first.</p>
+
+<h2 id="extend-a-spark-application">Extend a Spark Application</h2>
+
+<p>When we write a Spark application, it quite common that our code depends on other projects. There are several
+ways to submit your application to Spark with dependencies. The first way is to create an assembly jar (or “uber” jar) containing your code and its dependencies. Both <a href="https://github.com/sbt/sbt-assembly">sbt</a> and <a href="http://maven.apache.org/plugins/maven-shade-plugin/">Maven</a> have assembly plugins.
+Another more easy and common way is to use <code>--jars</code> option of <code>spark-submit</code> command to specify your dependent jars and these jars are automatically transferred to the cluster. For Python, the equivalent <code>--py-files</code> option can be used to distribute .egg, .zip and .py libraries to executors.</p>
+
+<p>If you use Maven to manage your dependencies, you can simply supply a comma-delimited list of Maven coordinates with <code>--packages</code>. All transitive dependencies are handled when using this command. Additional repositories (or resolvers in SBT) can be added in a comma-delimited fashion with the flag <code>--repositories</code>. If you want to know more about these methods you can find <a href="https://spark.apache.org/docs/latest/submitting-applications.html">more information</a> on Spark Document.</p>
+
+<p>Spark also allow specify a default <code>spark.jars</code> and <code>spark.packages</code> in <code>spark-defaults.conf</code> configuration file. These two properties can specify programmatically in your application. What I found out is that if the <code>--jars</code> and <code>--packages</code> options will override  corresponding properties in the configuration file and specifying these two properties programmatically sometimes do not work.</p>
+
+<p>Putting the dependencies jars directly into <code>${SPARK_HOME}/jars</code> directory is another method. This effect all the applications, and if you submit an application with <code>deploy-mode=cluster</code> option, you need to make sure the dependencies jars exits in the Spark lib directory of driver machine.</p>
+
+<p>Examples code for testing these methods can be found here: <a href="https://github.com/kk17/extend_spark_application_example">extend_spark_application_example</a>. If you want to know more about all these options, you can read the discussion <a href="https://stackoverflow.com/questions/37132559/add-jars-to-a-spark-job-spark-submit">here</a>.</p>
+
+<h2 id="extend-spark-apis">Extend Spark APIs</h2>
+
+<p>Sometimes we may find that Spark APIs cannot satisfy our requirements. Therefore we want to
+add some custom feature into Spark APIs.</p>
+
+<p>If we add new APIs, we can simply package our extension code and put the jar file into <code>${SPARK_HOME}/jars</code>.</p>
+
+<h3 id="use-extension-points">Use extension points</h3>
+
+<p>If we want to modify Spark APIs, things became a bit more complicated. Spark provides some extension points which added in <a href="https://issues.apache.org/jira/browse/SPARK-18127">SPARK-18127</a> that can be used to inject our custom code. For example, The <a href="https://spark.apache.org/docs/2.3.0/api/java/org/apache/spark/sql/SparkSessionExtensions.html">SparkSessionExtensions</a> provides the following extension points:</p>
+
+<ul>
+<li>Analyzer Rules.</li>
+<li>Check Analysis Rules</li>
+<li>Optimizer Rules.</li>
+<li>Planning Strategies.</li>
+<li>Customized Parser.</li>
+<li>(External) Catalog listeners.</li>
+</ul>
+
+<p><a href="https://github.com/kk17/spark-authorizer">spark-authorizer</a>, one of the projects I involved, is using SparkSessionExtensions to inject an optimizer rule that used to implement user authorization. I demonstrate the steps below.</p>
+
+<h4 id="step-1-create-an-optimizer-rule-class">Step 1: Create an Optimizer rule class</h4>
+
+<p>To implement the authorization, use the <code>AuthorizerExtension</code>  class as shown in the following example:</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">package</span> <span style="color: #0000FF; font-weight: bold">org.apache.spark.sql.catalyst.optimizer</span>
+
+<span style="color: #008000; font-weight: bold">case</span> <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">AuthorizerExtension</span><span style="color: #666666">(</span>spark<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">SparkSession</span><span style="color: #666666">)</span> <span style="color: #008000; font-weight: bold">extends</span> <span style="color: #0000FF; font-weight: bold">Rule</span><span style="color: #666666">[</span><span style="color: #B00040">LogicalPlan</span><span style="color: #666666">]</span> <span style="color: #008000; font-weight: bold">with</span> <span style="color: #0000FF; font-weight: bold">Authorizable</span>
+</code></pre></div>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">trait</span> <span style="color: #0000FF; font-weight: bold">Authorizable</span> <span style="color: #008000; font-weight: bold">extends</span> <span style="color: #0000FF; font-weight: bold">Rule</span><span style="color: #666666">[</span><span style="color: #B00040">LogicalPlan</span><span style="color: #666666">]</span> <span style="color: #008000; font-weight: bold">with</span> <span style="color: #0000FF; font-weight: bold">Logging</span> <span style="color: #666666">{</span>
+
+  <span style="color: #008000; font-weight: bold">def</span> spark<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">SparkSession</span>
+
+  <span style="color: #008000; font-weight: bold">override</span> <span style="color: #008000; font-weight: bold">def</span> apply<span style="color: #666666">(</span>plan<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">LogicalPlan</span><span style="color: #666666">)</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">LogicalPlan</span> <span style="color: #666666">=</span> <span style="color: #666666">{</span>
+    <span style="color: #008000; font-weight: bold">val</span> operationType<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">HiveOperationType</span> <span style="color: #666666">=</span> getOperationType<span style="color: #666666">(</span>plan<span style="color: #666666">)</span>
+    <span style="color: #008000; font-weight: bold">val</span> <span style="color: #666666">(</span>in<span style="color: #666666">,</span> out<span style="color: #666666">)</span> <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">PrivilegesBuilder</span><span style="color: #666666">.</span>build<span style="color: #666666">(</span>plan<span style="color: #666666">)</span>
+    spark<span style="color: #666666">.</span>sharedState<span style="color: #666666">.</span>externalCatalog <span style="color: #008000; font-weight: bold">match</span> <span style="color: #666666">{</span>
+      <span style="color: #008000; font-weight: bold">case</span> <span style="color: #008000; font-weight: bold">_:</span> <span style="color: #B00040">HiveExternalCatalog</span> <span style="color: #666666">=&gt;</span>
+        <span style="color: #008000; font-weight: bold">try</span> <span style="color: #666666">{</span>
+          <span style="color: #0000FF; font-weight: bold">AuthorizationProvider</span><span style="color: #666666">.</span>checkPrivileges<span style="color: #666666">(</span>
+            spark<span style="color: #666666">,</span>
+            <span style="color: #008000; font-weight: bold">new</span> <span style="color: #0000FF; font-weight: bold">AuthorizationRequest</span><span style="color: #666666">(</span>operationType<span style="color: #666666">,</span> in<span style="color: #666666">,</span> out<span style="color: #666666">)</span>
+          <span style="color: #666666">)</span>
+        <span style="color: #666666">}</span> <span style="color: #008000; font-weight: bold">catch</span> <span style="color: #666666">{</span>
+          <span style="color: #008000; font-weight: bold">case</span> hae<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">HiveAccessControlException</span> <span style="color: #666666">=&gt;</span>
+            error<span style="color: #666666">(</span>
+              <span style="color: #BA2121">s&quot;&quot;&quot;</span>
+<span style="color: #BA2121">                 |+===============================+</span>
+<span style="color: #BA2121">                 ||Spark SQL Authorization Failure|</span>
+<span style="color: #BA2121">                 ||-------------------------------|</span>
+<span style="color: #BA2121">                 ||</span><span style="color: #BB6688; font-weight: bold">${</span>hae<span style="color: #666666">.</span>getMessage<span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BA2121"></span>
+<span style="color: #BA2121">                 ||-------------------------------|</span>
+<span style="color: #BA2121">                 ||Spark SQL Authorization Failure|</span>
+<span style="color: #BA2121">                 |+===============================+</span>
+<span style="color: #BA2121">               &quot;&quot;&quot;</span><span style="color: #666666">.</span>stripMargin<span style="color: #666666">)</span>
+            <span style="color: #008000; font-weight: bold">throw</span> hae
+          <span style="color: #008000; font-weight: bold">case</span> e<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Exception</span> <span style="color: #666666">=&gt;</span> <span style="color: #008000; font-weight: bold">throw</span> e
+        <span style="color: #666666">}</span>
+      <span style="color: #008000; font-weight: bold">case</span> <span style="color: #008000; font-weight: bold">_</span> <span style="color: #008000; font-weight: bold">=&gt;</span>
+    <span style="color: #666666">}</span>
+    <span style="color: #408080; font-style: italic">// iff no exception.</span>
+    <span style="color: #408080; font-style: italic">// We just return the original plan here, so this rule will be executed only once.</span>
+    plan
+  <span style="color: #666666">}</span>
+</code></pre></div>
+
+<h4 id="step-2-create-a-first-class-function-with-the-extension-points-api-to-add-a-new-rule">Step 2: Create a first-class function with the Extension Points API to add a new rule</h4>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">package</span> <span style="color: #0000FF; font-weight: bold">org.apache.spark.sql.authorization</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">AuthorizationExtension</span> <span style="color: #008000; font-weight: bold">extends</span> <span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">SparkSessionExtensions</span> <span style="color: #008000; font-weight: bold">=&gt;</span> <span style="color: #0000FF; font-weight: bold">Unit</span><span style="color: #666666">)</span> <span style="color: #666666">{</span>
+  <span style="color: #008000; font-weight: bold">override</span> <span style="color: #008000; font-weight: bold">def</span> apply<span style="color: #666666">(</span>ext<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">SparkSessionExtensions</span><span style="color: #666666">)</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Unit</span> <span style="color: #666666">=</span> <span style="color: #666666">{</span>
+    ext<span style="color: #666666">.</span>injectOptimizerRule<span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">AuthorizerExtension</span><span style="color: #666666">)</span>
+  <span style="color: #666666">}</span>
+<span style="color: #666666">}</span>
+</code></pre></div>
+
+<h4 id="step-3-enable-the-customized-rule">Step 3: Enable the customized rule</h4>
+
+<p>There are two ways to enable customized rule. One is using the <code>withExtensions</code> option when creating SparkSession.</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">val</span> spark <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">SparkSession</span><span style="color: #666666">.</span>builder<span style="color: #666666">().</span>withExtensions<span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">AuthorizerExtension</span><span style="color: #666666">).</span>getOrCreate<span style="color: #666666">()</span>
+</code></pre></div>
+
+<p>However, we want the authorization rule to be enabled by default, so we choose to configure the <code>spark-defaults.conf</code> by adding the following line.</p>
+
+<pre><code>spark.sql.extensions org.apache.spark.sql.authorization.AuthorizationExtension
+</code></pre>
+
+<p>SparkSessionExtensions do not work on <code>pyspark</code> 2.2.x and 2.3.x. You can find the issue discussed <a href="https://issues.apache.org/jira/browse/SPARK-25003">here</a>.</p>
+
+<h3 id="modify-spark-source-code-directly">Modify Spark source code directly</h3>
+
+<p>Sometimes the extension point many can match our need for some reasons. One of this situation is that there is a bug in Spark that affects our application, and this bug will not be fixed by Spark maintainers. One of these bugs I run into is <a href="https://issues.apache.org/jira/browse/SPARK-24570">SPARK-24570</a>: Spark Thrift Server having a problem showing schemas SQL client tools. I solved this problem by <a href="https://github.com/kk17/spark/commit/0b06526019cb9a0ba1857b41c3a47dd7bce87529">modify</a> Spark source code directly and built a new thrift-server jar.</p>
+
+<h3 id="use-aspect-oriented-programming-aop-extension">Use aspect-oriented programming (AOP) extension</h3>
+
+<p>Because Scala, the native program language used by Spark, is a JVM language. So we can <a href="https://www.eclipse.org/aspectj/">AspectJ</a> to intercept Spark code. In this way, we can modify the Spark APIs without modifying Spark source code directly.</p>
+
+<p>For those not familiar with AspectJ, here is a brief introduction. AspectJ is an aspect-oriented programming (AOP) extension created at PARC for the Java programming language. AspectJ has become a widely used de facto standard for AOP by emphasizing simplicity and usability for end users.</p>
+
+<p><img src="/img/aop.png" alt="" /></p>
+
+<p>I used AspectJ in the <a href="https://github.com/kk17/spark-authorizer">spark-authorizer</a> project. I use it to enhance Spark SessionCatalog, making it only return the databases and tables user have privileges to access.</p>
+
+<h4 id="step-1-create-a-aspect-class">Step 1: Create a aspect class</h4>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">package</span> <span style="color: #0000FF; font-weight: bold">org.apache.spark.sql.catalyst.catalog</span>
+
+<span style="color: #666666">...</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SessionCatalogAspect</span> <span style="color: #008000; font-weight: bold">extends</span> <span style="color: #0000FF; font-weight: bold">Logging</span> <span style="color: #666666">{</span>
+
+  <span style="color: #008000; font-weight: bold">private</span> <span style="color: #008000; font-weight: bold">lazy</span> <span style="color: #008000; font-weight: bold">val</span> spark<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">SparkSession</span> <span style="color: #666666">=</span> <span style="color: #0000FF; font-weight: bold">SparkSession</span><span style="color: #666666">.</span>getActiveSession
+    <span style="color: #666666">.</span>getOrElse<span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">SparkSession</span><span style="color: #666666">.</span>getDefaultSession<span style="color: #666666">.</span>get<span style="color: #666666">)</span>
+
+  <span style="color: #AA22FF">@Around</span><span style="color: #666666">(</span>
+    <span style="color: #BA2121">&quot;execution(public * org.apache.spark.sql.catalyst.catalog.SessionCatalog.listDatabases(..))&quot;</span>
+  <span style="color: #666666">)</span>
+  <span style="color: #008000; font-weight: bold">def</span> filterListDatabasesResult<span style="color: #666666">(</span>pjp<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">ProceedingJoinPoint</span><span style="color: #666666">)</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Seq</span><span style="color: #666666">[</span><span style="color: #B00040">String</span><span style="color: #666666">]</span> <span style="color: #008000; font-weight: bold">=</span> <span style="color: #666666">{</span>
+    logDebug<span style="color: #666666">(</span><span style="color: #BA2121">&quot;filterListDatabasesResult&quot;</span><span style="color: #666666">)</span>
+    <span style="color: #008000; font-weight: bold">val</span> dbs <span style="color: #008000; font-weight: bold">=</span> pjp<span style="color: #666666">.</span>proceed<span style="color: #666666">.</span>asInstanceOf<span style="color: #666666">[</span><span style="color: #B00040">Seq</span><span style="color: #666666">[</span><span style="color: #B00040">String</span><span style="color: #666666">]]</span>
+    <span style="color: #008000; font-weight: bold">val</span> operationType<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">HiveOperationType</span> <span style="color: #666666">=</span> <span style="color: #0000FF; font-weight: bold">HiveOperationType</span><span style="color: #666666">.</span><span style="color: #0000FF; font-weight: bold">SWITCHDATABASE</span>
+    <span style="color: #008000; font-weight: bold">val</span> requests <span style="color: #008000; font-weight: bold">=</span> dbs<span style="color: #666666">.</span>map <span style="color: #666666">{</span> db <span style="color: #008000; font-weight: bold">=&gt;</span>
+      <span style="color: #008000; font-weight: bold">val</span> inputObjs <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">new</span> <span style="color: #0000FF; font-weight: bold">JAList</span><span style="color: #666666">[</span><span style="color: #B00040">HPO</span><span style="color: #666666">]</span>
+      <span style="color: #008000; font-weight: bold">val</span> outputObjs <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">new</span> <span style="color: #0000FF; font-weight: bold">JAList</span><span style="color: #666666">[</span><span style="color: #B00040">HPO</span><span style="color: #666666">]</span>
+      inputObjs<span style="color: #666666">.</span>add<span style="color: #666666">(</span>
+        <span style="color: #0000FF; font-weight: bold">HivePrivilegeObject</span><span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">HivePrivilegeObjectType</span><span style="color: #666666">.</span><span style="color: #0000FF; font-weight: bold">DATABASE</span><span style="color: #666666">,</span> db<span style="color: #666666">,</span> db<span style="color: #666666">))</span>
+      <span style="color: #008000; font-weight: bold">new</span> <span style="color: #0000FF; font-weight: bold">AuthorizationRequest</span><span style="color: #666666">(</span>operationType<span style="color: #666666">,</span> inputObjs<span style="color: #666666">,</span> outputObjs<span style="color: #666666">)</span>
+    <span style="color: #666666">}</span>
+    <span style="color: #008000; font-weight: bold">val</span> result <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">AuthorizationProvider</span><span style="color: #666666">.</span>checkPrivileges<span style="color: #666666">(</span>spark<span style="color: #666666">,</span> requests<span style="color: #666666">)</span>
+    <span style="color: #666666">(</span>dbs zip result<span style="color: #666666">).</span>filter<span style="color: #666666">(</span><span style="color: #008000; font-weight: bold">_</span><span style="color: #666666">.</span>_2<span style="color: #666666">).</span>map<span style="color: #666666">(</span><span style="color: #008000; font-weight: bold">_</span><span style="color: #666666">.</span>_1<span style="color: #666666">)</span>
+  <span style="color: #666666">}</span>
+<span style="color: #666666">...</span>
+
+<span style="color: #666666">}</span>
+</code></pre></div>
+
+<h4 id="step-2-create-a-aspectj-configuration-file">Step 2: create a AspectJ configuration file</h4>
+
+<p>create a <code>aop.xml</code> file in <code>META-INFO</code>:</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-xml" data-lang="xml"><span></span><span style="color: #BC7A00">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;aspectj&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;aspects&gt;</span>
+        <span style="color: #008000; font-weight: bold">&lt;aspect</span> <span style="color: #7D9029">name=</span><span style="color: #BA2121">&quot;org.apache.spark.sql.catalyst.catalog.SessionCatalogAspect&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;/aspects&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;weaver</span> <span style="color: #7D9029">options=</span><span style="color: #BA2121">&quot;-Xset:weaveJavaxPackages=true&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;weaver</span> <span style="color: #7D9029">options=</span><span style="color: #BA2121">&quot;-XaddSerialVersionUID&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;/aspectj&gt;</span>
+</code></pre></div>
+
+<h4 id="step-3-enable-aspectj-aspects-in-spark">Step 3: enable AspectJ aspects in Spark</h4>
+
+<p>To enable AspectJ aspects in Spark, you need to put the jar file contains the aspects into <code>${SPARK_HOME}/jars</code> and add the following line to <code>spark-defaults.conf</code>.</p>
+
+<pre><code>spark.driver.extraJavaOptions -javaagent:/path/to/aspectjweaver-{version}.jar
+</code></pre>
+
+<h2 id="handle-code-conflict-with-spark-code">Handle code conflict with Spark Code</h2>
+
+<p>Spark itself has large source code and depends on many third party projects. When you add code to extend Spark, there is a risk that your code or the dependencies of your code conflict with Spark code. The maintainers of Spark do try to decrease the possibility of conflict. That&rsquo;s the reason they <a href="https://issues.apache.org/jira/browse/SPARK-5293">replace Akka</a> with alternative RPC implementations and a common event loop in Spark. As a user, we also have some methods to avoid these conflicts.</p>
+
+<h3 id="shade-your-code">Shade your code</h3>
+
+<p>Shading a dependency consists of taking its content (resources files and Java class files) and renaming some of its packages before putting them in the same JAR file. Both SBT and <a href="http://maven.apache.org/plugins/maven-shade-plugin/">Maven</a> have shade plugins.</p>
+
+<p>An example for shading use SBT can be found <a href="https://github.com/wsargent/shade-with-sbt-assembly">wsargent/shade-with-sbt-assembly: SBT project showing shading a library with SBT assembly</a></p>
+
+<p>An example for shading use Maven can be found on <a href="https://github.com/kk17/spark/tree/v2.3.2/sql/shaded-hive-thriftserver/pom.xml">the Spark Thrift Service source code I modified</a>.</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-xml" data-lang="xml"><span></span><span style="color: #008000; font-weight: bold">&lt;project</span> <span style="color: #7D9029">xmlns=</span><span style="color: #BA2121">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span style="color: #7D9029">xmlns:xsi=</span><span style="color: #BA2121">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+         <span style="color: #7D9029">xsi:schemaLocation=</span><span style="color: #BA2121">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;modelVersion&gt;</span>4.0.0<span style="color: #008000; font-weight: bold">&lt;/modelVersion&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;parent&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;groupId&gt;</span>org.apache.spark<span style="color: #008000; font-weight: bold">&lt;/groupId&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;artifactId&gt;</span>spark-parent_2.11<span style="color: #008000; font-weight: bold">&lt;/artifactId&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;version&gt;</span>2.3.2<span style="color: #008000; font-weight: bold">&lt;/version&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;relativePath&gt;</span>../../pom.xml<span style="color: #008000; font-weight: bold">&lt;/relativePath&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;/parent&gt;</span>
+
+  <span style="color: #008000; font-weight: bold">&lt;artifactId&gt;</span>shaded-spark-hive-thriftserver_2.11<span style="color: #008000; font-weight: bold">&lt;/artifactId&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;packaging&gt;</span>jar<span style="color: #008000; font-weight: bold">&lt;/packaging&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;name&gt;</span>Shaded Spark Project Hive Thrift Server<span style="color: #008000; font-weight: bold">&lt;/name&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;url&gt;</span>http://spark.apache.org/<span style="color: #008000; font-weight: bold">&lt;/url&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;properties&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;sbt.project.name&gt;</span>shaded-hive-thriftserver<span style="color: #008000; font-weight: bold">&lt;/sbt.project.name&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;/properties&gt;</span>
+
+  <span style="color: #008000; font-weight: bold">&lt;dependencies&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;dependency&gt;</span>
+      <span style="color: #008000; font-weight: bold">&lt;groupId&gt;</span>org.apache.spark<span style="color: #008000; font-weight: bold">&lt;/groupId&gt;</span>
+      <span style="color: #008000; font-weight: bold">&lt;artifactId&gt;</span>spark-hive-thriftserver_${scala.binary.version}<span style="color: #008000; font-weight: bold">&lt;/artifactId&gt;</span>
+      <span style="color: #008000; font-weight: bold">&lt;version&gt;</span>${project.version}<span style="color: #008000; font-weight: bold">&lt;/version&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;/dependency&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;/dependencies&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;build&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;outputDirectory&gt;</span>target/scala-${scala.binary.version}/classes<span style="color: #008000; font-weight: bold">&lt;/outputDirectory&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;testOutputDirectory&gt;</span>target/scala-${scala.binary.version}/test-classes<span style="color: #008000; font-weight: bold">&lt;/testOutputDirectory&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;plugins&gt;</span>
+      <span style="color: #008000; font-weight: bold">&lt;plugin&gt;</span>
+        <span style="color: #008000; font-weight: bold">&lt;groupId&gt;</span>org.apache.maven.plugins<span style="color: #008000; font-weight: bold">&lt;/groupId&gt;</span>
+        <span style="color: #008000; font-weight: bold">&lt;artifactId&gt;</span>maven-shade-plugin<span style="color: #008000; font-weight: bold">&lt;/artifactId&gt;</span>
+        <span style="color: #008000; font-weight: bold">&lt;executions&gt;</span>
+          <span style="color: #008000; font-weight: bold">&lt;execution&gt;</span>
+            <span style="color: #008000; font-weight: bold">&lt;phase&gt;</span>package<span style="color: #008000; font-weight: bold">&lt;/phase&gt;</span>
+            <span style="color: #008000; font-weight: bold">&lt;goals&gt;</span>
+              <span style="color: #008000; font-weight: bold">&lt;goal&gt;</span>shade<span style="color: #008000; font-weight: bold">&lt;/goal&gt;</span>
+            <span style="color: #008000; font-weight: bold">&lt;/goals&gt;</span>
+            <span style="color: #008000; font-weight: bold">&lt;configuration</span> <span style="color: #008000; font-weight: bold">&gt;</span>
+              <span style="color: #008000; font-weight: bold">&lt;artifactSet&gt;</span>
+                <span style="color: #008000; font-weight: bold">&lt;includes&gt;</span>
+                  <span style="color: #008000; font-weight: bold">&lt;include&gt;</span>org.apache.spark:spark-hive-thriftserver_${scala.binary.version}<span style="color: #008000; font-weight: bold">&lt;/include&gt;</span>
+                <span style="color: #008000; font-weight: bold">&lt;/includes&gt;</span>
+              <span style="color: #008000; font-weight: bold">&lt;/artifactSet&gt;</span>
+              <span style="color: #008000; font-weight: bold">&lt;relocations&gt;</span>
+                <span style="color: #008000; font-weight: bold">&lt;relocation&gt;</span>
+                  <span style="color: #008000; font-weight: bold">&lt;pattern&gt;</span>org.apache.spark.sql.hive.thriftserver<span style="color: #008000; font-weight: bold">&lt;/pattern&gt;</span>
+                  <span style="color: #008000; font-weight: bold">&lt;shadedPattern&gt;</span>shaded.org.apache.spark.sql.hive.thriftserver<span style="color: #008000; font-weight: bold">&lt;/shadedPattern&gt;</span>
+                  <span style="color: #008000; font-weight: bold">&lt;includes&gt;</span>
+                    <span style="color: #008000; font-weight: bold">&lt;include&gt;</span>org.apache.spark.sql.hive.thriftserver.**<span style="color: #008000; font-weight: bold">&lt;/include&gt;</span>
+                  <span style="color: #008000; font-weight: bold">&lt;/includes&gt;</span>
+                <span style="color: #008000; font-weight: bold">&lt;/relocation&gt;</span>
+              <span style="color: #008000; font-weight: bold">&lt;/relocations&gt;</span>
+            <span style="color: #008000; font-weight: bold">&lt;/configuration&gt;</span>
+          <span style="color: #008000; font-weight: bold">&lt;/execution&gt;</span>
+        <span style="color: #008000; font-weight: bold">&lt;/executions&gt;</span>
+      <span style="color: #008000; font-weight: bold">&lt;/plugin&gt;</span>
+    <span style="color: #008000; font-weight: bold">&lt;/plugins&gt;</span>
+  <span style="color: #008000; font-weight: bold">&lt;/build&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;/project&gt;</span>
+</code></pre></div>
+
+<p>I created a new module called <code>shaded-spark-hive-thriftserver</code> to shade the code from the original <code>spark-hive-thriftserver</code> module. After this shading, I use the shaded class <code>shaded.org.apache.spark.sql.hive.thriftserver.HiveThriftServer2</code> as the Main class of my application, so I don&rsquo;t need to replace the original <code>spark-hive-thriftserver</code> jar in the Spark lib directory.</p>
+
+<h3 id="shim">Shim</h3>
+
+<p>By renaming resources, shading avoids possible resource conflicts. It&rsquo;s powerful but also limited. User needs to use the renamed resources on his own. Think about injecting an authorization rule into Spark mentioned above. The authorization rule has third-party dependencies. To keep the functionality of the authorization rule and avoid possible code conflicts at the same time, we need to make the extension class visible for Spark while other classes are isolated from Spark. The way of doing this is by using a shim.</p>
+
+<p>In computer science, shims can have two meanings. In general, a shim is a small library that transparently intercepts an API, changing the parameters passed, handling the operation itself, or redirecting the operation elsewhere. This kind of shims is used in Spark, like the <a href="https://github.com/apache/spark/blob/master/sql/hive/src/main/scala/org/apache/spark/sql/hive/client/HiveShim.scala">HiveShim</a>, but what I am going to talk about is the other kind of shims. These shims are used to isolate your application code from other parts of the system. Shims divert calls to specific methods to the actual implementation code that you write.</p>
+
+<p>When I developing the spark-authorizer project, I got this shim idea from <a href="https://github.com/apache/ranger/tree/master/ranger-hive-plugin-shim">ranger-hive-plugin-shim</a>, then I developed a similar shim for the spark-authorizer.</p>
+
+<p>When a class is loaded into two runtime classes by different ClassLoaders, these two classes are treated as different classes in JVM runtime. The principle behinds this kind of shims is that we create a proxy class for our application entrance class, and then this proxy uses an independent ClassLoader to load you actual implement class from a specific place. The proxy redirects the calls to the actual class. Therefore the real code is isolated. Below is the shim code I wrote for <code>AuthorizationExtension</code>.</p>
+<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">package</span> <span style="color: #0000FF; font-weight: bold">org.apache.spark.sql.authorization</span>
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">AuthorizationExtension</span> <span style="color: #008000; font-weight: bold">extends</span> <span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">SparkSessionExtensions</span> <span style="color: #008000; font-weight: bold">=&gt;</span> <span style="color: #0000FF; font-weight: bold">Unit</span><span style="color: #666666">)</span> <span style="color: #008000; font-weight: bold">with</span> <span style="color: #0000FF; font-weight: bold">Logging</span> <span style="color: #666666">{</span>
+
+  <span style="color: #008000; font-weight: bold">private</span> <span style="color: #008000; font-weight: bold">val</span> <span style="color: #0000FF; font-weight: bold">SPARK_PLUGIN_TYPE</span> <span style="color: #008000; font-weight: bold">=</span> <span style="color: #BA2121">&quot;authorizer&quot;</span>
+  <span style="color: #008000; font-weight: bold">private</span> <span style="color: #008000; font-weight: bold">val</span> <span style="color: #0000FF; font-weight: bold">AUTHORIZER_IMPL_CLASSNAME</span> <span style="color: #008000; font-weight: bold">=</span> <span style="color: #BA2121">&quot;org.apache.spark.sql.catalyst.optimizer.AuthorizerExtension&quot;</span>
+
+  <span style="color: #008000; font-weight: bold">private</span> <span style="color: #008000; font-weight: bold">lazy</span> <span style="color: #008000; font-weight: bold">val</span> pluginClassLoader <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">SparkPluginClassLoader</span><span style="color: #666666">.</span>getInstance<span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">SPARK_PLUGIN_TYPE</span><span style="color: #666666">,</span> <span style="color: #008000; font-weight: bold">this</span><span style="color: #666666">.</span>getClass<span style="color: #666666">)</span>
+
+  <span style="color: #008000; font-weight: bold">private</span> <span style="color: #008000; font-weight: bold">lazy</span> <span style="color: #008000; font-weight: bold">val</span> authorizerImpl<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">SparkSession</span> <span style="color: #666666">=&gt;</span> <span style="color: #0000FF; font-weight: bold">Rule</span><span style="color: #666666">[</span><span style="color: #B00040">LogicalPlan</span><span style="color: #666666">]</span> <span style="color: #008000; font-weight: bold">=</span> <span style="color: #666666">{</span>
+    logDebug<span style="color: #666666">(</span><span style="color: #BA2121">&quot;==&gt; AuthorizationExtension.init()&quot;</span><span style="color: #666666">)</span>
+    <span style="color: #008000; font-weight: bold">try</span> <span style="color: #666666">{</span>
+      <span style="color: #008000; font-weight: bold">val</span> cls <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">Class</span><span style="color: #666666">.</span>forName<span style="color: #666666">(</span><span style="color: #0000FF; font-weight: bold">AUTHORIZER_IMPL_CLASSNAME</span> <span style="color: #666666">+</span> <span style="color: #BA2121">&quot;$&quot;</span><span style="color: #666666">,</span> <span style="color: #008000; font-weight: bold">true</span><span style="color: #666666">,</span> pluginClassLoader<span style="color: #666666">)</span>
+      activatePluginClassLoader<span style="color: #666666">()</span>
+      <span style="color: #008000; font-weight: bold">val</span> instance <span style="color: #008000; font-weight: bold">=</span> cls<span style="color: #666666">.</span>getField<span style="color: #666666">(</span><span style="color: #BA2121">&quot;MODULE$&quot;</span><span style="color: #666666">).</span>get<span style="color: #666666">(</span>cls<span style="color: #666666">).</span>asInstanceOf<span style="color: #666666">[</span><span style="color: #B00040">SparkSession</span> <span style="color: #008000; font-weight: bold">=&gt;</span> <span style="color: #B00040">Rule</span><span style="color: #666666">[</span><span style="color: #B00040">LogicalPlan</span><span style="color: #666666">]]</span>
+      logDebug<span style="color: #666666">(</span><span style="color: #BA2121">&quot;&lt;== AuthorizationExtension.init()&quot;</span><span style="color: #666666">)</span>
+      instance
+    <span style="color: #666666">}</span> <span style="color: #008000; font-weight: bold">catch</span> <span style="color: #666666">{</span>
+      <span style="color: #008000; font-weight: bold">case</span> e<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Exception</span> <span style="color: #666666">=&gt;</span> <span style="color: #666666">{</span>
+        <span style="color: #408080; font-style: italic">// check what need to be done</span>
+        logError<span style="color: #666666">(</span><span style="color: #BA2121">&quot;Error Enabling AuthorizationExtension&quot;</span><span style="color: #666666">,</span> e<span style="color: #666666">)</span>
+        <span style="color: #008000; font-weight: bold">throw</span> e
+      <span style="color: #666666">}</span>
+    <span style="color: #666666">}</span> <span style="color: #008000; font-weight: bold">finally</span> deactivatePluginClassLoader<span style="color: #666666">()</span>
+  <span style="color: #666666">}</span>
+
+
+  <span style="color: #008000; font-weight: bold">private</span> <span style="color: #008000; font-weight: bold">def</span> activatePluginClassLoader<span style="color: #666666">()</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Unit</span> <span style="color: #666666">=</span> <span style="color: #666666">{</span>
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>pluginClassLoader <span style="color: #666666">!=</span> <span style="color: #008000; font-weight: bold">null</span><span style="color: #666666">)</span> pluginClassLoader<span style="color: #666666">.</span>activate
+  <span style="color: #666666">}</span>
+
+  <span style="color: #008000; font-weight: bold">private</span> <span style="color: #008000; font-weight: bold">def</span> deactivatePluginClassLoader<span style="color: #666666">()</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Unit</span> <span style="color: #666666">=</span> <span style="color: #666666">{</span>
+    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>pluginClassLoader <span style="color: #666666">!=</span> <span style="color: #008000; font-weight: bold">null</span><span style="color: #666666">)</span> pluginClassLoader<span style="color: #666666">.</span>deactivate
+  <span style="color: #666666">}</span>
+
+  <span style="color: #008000; font-weight: bold">override</span> <span style="color: #008000; font-weight: bold">def</span> apply<span style="color: #666666">(</span>ext<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">SparkSessionExtensions</span><span style="color: #666666">)</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Unit</span> <span style="color: #666666">=</span> <span style="color: #666666">{</span>
+    ext<span style="color: #666666">.</span>injectOptimizerRule<span style="color: #666666">(</span>authorizerImpl<span style="color: #666666">)</span>
+  <span style="color: #666666">}</span>
+
+<span style="color: #666666">}</span>
+</code></pre></div>
+
+<h2 id="references">References</h2>
+
+<ul>
+<li><a href="https://developer.ibm.com/code/2017/11/30/learn-extension-points-apache-spark-extend-spark-catalyst-optimizer/">Learn the extension points in Apache Spark and extend the Spark Catalyst Optimizer - IBM Code</a></li>
+</ul>
+    </div>
+
+    
+    
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://blog.kk17.net/tags/spark/">spark</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/yarn-basics/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">YARN Basics</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/pitfalls-in-using-spark-catalog-api/">
+            <span class="next-text nav-default">Pitfalls in Using Spark Catalog API</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kk17/blog"
+            issue-term="pathname"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+  
+    
+
+
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="https://github.com/kk17" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://blog.kk17.net/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kyle
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>YARN on Code Play</title>
+    <link>https://blog.kk17.net/tags/yarn/</link>
+    <description>Recent content in YARN on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 15 Jul 2019 19:31:49 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/tags/yarn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>YARN Basics</title>
+      <link>https://blog.kk17.net/post/yarn-basics/</link>
+      <pubDate>Mon, 15 Jul 2019 19:31:49 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/yarn-basics/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html&#34;&gt;Apache Hadoop YARN&lt;/a&gt; is the cluster manager for Hadoop MapReduce, but it can also be used for other compute framework such as Spark. YARN(Yet Another Resource Negotiator) was introduced since Hadoop 2.0 to split up the functionalities of resource management and job scheduling/monitoring into separate daemons. The idea is to have a global ResourceManager (RM) and per-application ApplicationMaster (AM). An application is either a single job or a DAG of jobs.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

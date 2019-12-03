@@ -1,0 +1,74 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+	ArrowColor DeepSkyBlue
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor blue
+	LifeLineBackgroundColor #A9DCDF
+
+	ParticipantBorderColor DeepSkyBlue
+	ParticipantBackgroundColor DodgerBlue
+	ParticipantFontName Impact
+	ParticipantFontSize 17
+	ParticipantFontColor #A9DCDF
+
+	ActorBackgroundColor aqua
+	ActorFontColor DeepSkyBlue
+	ActorFontSize 17
+	ActorFontName Aapex
+}
+
+participant "DagFileProcessorManager" as PM order 1
+participant "DagFileProcessor:List" as FP order 2
+participant "SchedulerJob" as J order 3
+box multiprocessing
+participant "Queue" as Q order 21
+participant "Process" as P order 22
+end box
+
+create FP
+
+PM -> FP: <<constructor>>
+activate FP
+-> PM: heartbeat
+activate PM
+PM -> FP: start
+create Q
+FP -> Q: <<constructor>>
+activate Q
+create P
+FP -> P: <<constructor>>
+FP -> P: start
+activate P
+||60||
+P ->> FP: helper
+activate FP
+create J
+FP -> J: <<constructor>>
+FP -> J: process_file
+J --> FP: result
+FP -> Q: put(result)
+deactivate P
+||60||
+deactivate FP
+activate J
+PM -> FP: done
+FP -> Q: empty
+Q --> FP: empty
+alt not empty
+FP -> Q: get
+Q --> FP: result
+end
+FP --> PM: done
+alt done
+PM -> FP: result
+FP --> PM: simple_dags
+end
+[<-- PM : simple_dags
+deactivate Q
+deactivate FP
+deactivate PM
+
+@enduml

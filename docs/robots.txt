@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://blog.kk17.net/sitemap.xml

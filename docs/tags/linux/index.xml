@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on Code Play</title>
+    <link>https://blog.kk17.net/tags/linux/</link>
+    <description>Recent content in linux on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 19 Aug 2015 09:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>linux命令行笔记</title>
+      <link>https://blog.kk17.net/post/linux-commands/</link>
+      <pubDate>Wed, 19 Aug 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/linux-commands/</guid>
+      <description>命令行日常系快捷键 如下的快捷方式非常有用，能够极大的提升你的工作效率： CTRL + A – 移动光标到行首 CTRL + E – 移动光标到行末 CTRL + U – 剪切光标前的内容 CTRL</description>
+    </item>
+    
+    <item>
+      <title>Shell学习笔记</title>
+      <link>https://blog.kk17.net/post/learning-shell/</link>
+      <pubDate>Tue, 18 Aug 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/learning-shell/</guid>
+      <description>shebang #!/usr/bin/env bash 这一行表明，不管用户选择的是那种交互式shell,该脚本需要使用bash shell来运行。由于每种shell的语法大不相同，所以这句非</description>
+    </item>
+    
+    <item>
+      <title>Tmux快捷键</title>
+      <link>https://blog.kk17.net/post/tmux-shortcut/</link>
+      <pubDate>Mon, 17 Aug 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/tmux-shortcut/</guid>
+      <description>在tmux内： 功能 命令 创建窗口 C-b c 关闭窗口 C-b &amp;amp; 重命名窗口 C-b , 重命名会话 C-b $ 切换到上一窗口 C-b p 切换到下一窗口 C-b n 列出窗口供选择 C-b w detach C-b d 列出列</description>
+    </item>
+    
+  </channel>
+</rss>

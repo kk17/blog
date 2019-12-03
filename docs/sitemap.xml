@@ -1,0 +1,284 @@
+<?xml-stylesheet type="text/xsl" href="https://blog.kk17.net/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/</loc>
+    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/</loc>
+    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/diving-into-airflow-scheduler/</loc>
+    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/</loc>
+    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/</loc>
+    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/airflow/</loc>
+    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/big-data/</loc>
+    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/understand-airflow/</loc>
+    <lastmod>2019-07-24T14:24:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/spark-run-mode-and-application-deployment-mode/</loc>
+    <lastmod>2019-07-16T19:31:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/spark/</loc>
+    <lastmod>2019-07-16T19:31:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/yarn/</loc>
+    <lastmod>2019-07-15T19:31:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/yarn-basics/</loc>
+    <lastmod>2019-07-15T19:31:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/how-to-extend-spark/</loc>
+    <lastmod>2019-05-25T17:43:29+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/</loc>
+    <lastmod>2019-04-27T16:42:59+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/spark-catalog/</loc>
+    <lastmod>2019-04-27T16:42:59+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/spark-sql/</loc>
+    <lastmod>2019-04-27T16:42:59+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/</loc>
+    <lastmod>2019-02-27T15:52:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/hive/</loc>
+    <lastmod>2019-02-27T15:52:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/metastore/</loc>
+    <lastmod>2019-02-27T15:52:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/thrift-server/</loc>
+    <lastmod>2019-02-27T15:52:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/linux/</loc>
+    <lastmod>2019-04-27T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/linux-commands/</loc>
+    <lastmod>2015-08-19T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/note/</loc>
+    <lastmod>2015-08-19T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/learning-shell/</loc>
+    <lastmod>2019-04-27T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/shell/</loc>
+    <lastmod>2019-04-27T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/tools/</loc>
+    <lastmod>2019-04-27T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/tmux-shortcut/</loc>
+    <lastmod>2015-08-17T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/tmux/</loc>
+    <lastmod>2015-08-17T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/prelog/</loc>
+    <lastmod>2015-05-08T10:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/reading-note/</loc>
+    <lastmod>2015-05-08T10:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/seven-days-seven-languages-prelog/</loc>
+    <lastmod>2015-05-08T10:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/io-language/</loc>
+    <lastmod>2015-05-08T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/seven-days-seven-languages-io/</loc>
+    <lastmod>2015-05-08T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/java/</loc>
+    <lastmod>2015-05-07T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/java/</loc>
+    <lastmod>2015-05-07T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/effective-java-reading-note/</loc>
+    <lastmod>2015-05-07T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/docker-in-practice/</loc>
+    <lastmod>2015-03-08T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/docker/</loc>
+    <lastmod>2015-03-08T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/docker/</loc>
+    <lastmod>2015-03-08T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/jvm-memory-model-and-gc/</loc>
+    <lastmod>2015-02-01T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/jvm/</loc>
+    <lastmod>2015-02-01T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/sublime-text/</loc>
+    <lastmod>2015-01-26T09:00:00+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/sublime-text/</loc>
+    <lastmod>2015-01-26T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/tools/</loc>
+    <lastmod>2015-01-26T09:00:00+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

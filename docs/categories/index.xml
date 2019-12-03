@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Code Play</title>
+    <link>https://blog.kk17.net/categories/</link>
+    <description>Recent content in Categories on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 26 Jul 2019 10:02:55 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>big-data</title>
+      <link>https://blog.kk17.net/categories/big-data/</link>
+      <pubDate>Fri, 26 Jul 2019 10:02:55 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/categories/big-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>note</title>
+      <link>https://blog.kk17.net/categories/note/</link>
+      <pubDate>Wed, 19 Aug 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/categories/note/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tools</title>
+      <link>https://blog.kk17.net/categories/tools/</link>
+      <pubDate>Tue, 18 Aug 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/categories/tools/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>reading-note</title>
+      <link>https://blog.kk17.net/categories/reading-note/</link>
+      <pubDate>Fri, 08 May 2015 10:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/categories/reading-note/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>java</title>
+      <link>https://blog.kk17.net/categories/java/</link>
+      <pubDate>Thu, 07 May 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/categories/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://blog.kk17.net/categories/docker/</link>
+      <pubDate>Sun, 08 Mar 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/categories/docker/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

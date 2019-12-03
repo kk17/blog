@@ -1,0 +1,131 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+skinparam sequence {
+	ArrowColor DeepSkyBlue
+	ActorBorderColor DeepSkyBlue
+	LifeLineBorderColor blue
+	LifeLineBackgroundColor #A9DCDF
+
+	ParticipantBorderColor DeepSkyBlue
+	ParticipantBackgroundColor DodgerBlue
+	ParticipantFontName Impact
+	ParticipantFontSize 17
+        ParticipantFontColor #A9DCDF
+
+	ActorBackgroundColor aqua
+	ActorFontColor DeepSkyBlue
+	ActorFontSize 17
+	ActorFontName Aapex
+}
+
+participant "SchedulerJob" as J order 1
+participant "TaskInstance" as TI order 2
+participant "DagRun" as DR order 3
+participant "DagBag" as DB order 4
+participant "DAG:List" as D order 5
+participant "impl" as I order 6
+participant "import_lib" as IL order 7
+participant "ZipFile" as ZF order 8
+
+-> J: process_file(file_path)
+activate J
+create DB
+J -> DB: <<constructor>>(dag_folder)
+activate DB
+DB -> DB: collect_dags
+activate DB
+loop file_path
+DB -> DB: process_file
+alt not zip_file
+    DB -> I: load_source(mod_name, filepath)
+    create D
+    I -> D: <<constructor>>
+    I --> DB: mod
+else zip_file
+    create ZF
+    DB -> ZF: <<constructor>>
+    DB -> ZF: info_list
+    activate ZF
+    loop mod in info_list
+        DB -> IL: import_module
+        create D
+        IL -> D: <<constructor>>
+        IL --> DB: mod
+    end loop
+    deactivate ZF
+end
+
+loop dag in mods:
+    DB -> DB: bag_dag(dag)
+end loop
+deactivate DB
+
+
+loop dag in dag_bag
+    J -> D: sync_to_db
+    alt dag not pause:
+        J -> J: simple_dags.append(dag)
+    end alt
+end loop
+J -> J: _process_dags
+activate J
+
+loop dag in dag_bag
+    J -> J: create_dag_run(dag)
+    activate J
+        alt next_run_date and period_end <= now
+            create DR
+            J -> DR: <<constructor>>
+            activate DR
+            DR -> DR: verify_integrity
+            activate DR
+            create TI
+            DR -> TI: <<constructor>>\nstate=NONE
+            deactivate DR
+        end alt
+    deactivate J
+    J -> J: _process_task_instances(dag， tis_out)
+    activate J
+    J -> DR: find(state=State.RUNNING)
+    DR --> J: active_dag_runs
+    loop dr in active_dag_runs
+        J -> DR: get_task_instances(state=(State.NONE, State.UP_FOR_RETRY))
+        activate TI
+        DR --> J: task_instances
+        loop ti in task_instances
+            J -> TI: are_dependencies_met
+            alt met
+                J -> J: tis_to_schedule.append(ti.key)
+            end alt
+        end loop
+    end loop
+    deactivate J
+    deactivate TI
+
+    J -> J: manage_slas(dag)
+end loop
+
+deactivate J
+loop ti in tis_to_schedule
+    J -> TI: refresh_from_db
+    activate TI
+    J -> TI: are_dependencies_met
+    alt met
+        J -> TI: state=SCHEDULED
+    end alt
+    deactivate TI
+end loop
+
+[<-- J: simple_dags
+
+deactivate DR
+deactivate DB
+deactivate TI
+
+
+deactivate J
+deactivate J
+
+@enduml

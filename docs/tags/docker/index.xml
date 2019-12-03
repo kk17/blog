@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Code Play</title>
+    <link>https://blog.kk17.net/tags/docker/</link>
+    <description>Recent content in docker on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 08 Mar 2015 09:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker入门实践小结</title>
+      <link>https://blog.kk17.net/post/docker-in-practice/</link>
+      <pubDate>Sun, 08 Mar 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/docker-in-practice/</guid>
+      <description>Docker是近来大热的技术，似乎没有用过Docker都要落伍了，于是我也在一个个人的项目中用上了Docker，也算有了一些实践经验，与大家</description>
+    </item>
+    
+  </channel>
+</rss>

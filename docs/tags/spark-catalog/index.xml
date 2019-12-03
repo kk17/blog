@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>spark-catalog on Code Play</title>
+    <link>https://blog.kk17.net/tags/spark-catalog/</link>
+    <description>Recent content in spark-catalog on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 27 Apr 2019 16:42:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/tags/spark-catalog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Pitfalls in Using Spark Catalog API</title>
+      <link>https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/</link>
+      <pubDate>Sat, 27 Apr 2019 16:42:59 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/</guid>
+      <description>&lt;p&gt;Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  &lt;a href=&#34;https://spark.apache.org/docs/latest/sql-data-sources-hive-tables.html&#34;&gt;Hive Tables - Spark 2.4.1 Documentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: &lt;a href=&#34;https://spark.apache.org/docs/2.2.1/api/java/org/apache/spark/sql/catalog/Catalog.html&#34;&gt;Catalog (Spark 2.2.1 JavaDoc)&lt;/a&gt; and &lt;a href=&#34;https://spark.apache.org/docs/2.3.0/api/python/_modules/pyspark/sql/catalog.html&#34;&gt;pyspark.sql.catalog — PySpark master documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After using Spark Catalog API for a period of time, I found some pitfalls.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

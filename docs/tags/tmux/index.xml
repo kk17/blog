@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tmux on Code Play</title>
+    <link>https://blog.kk17.net/tags/tmux/</link>
+    <description>Recent content in tmux on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 17 Aug 2015 09:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/tags/tmux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tmux快捷键</title>
+      <link>https://blog.kk17.net/post/tmux-shortcut/</link>
+      <pubDate>Mon, 17 Aug 2015 09:00:00 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/tmux-shortcut/</guid>
+      <description>在tmux内： 功能 命令 创建窗口 C-b c 关闭窗口 C-b &amp;amp; 重命名窗口 C-b , 重命名会话 C-b $ 切换到上一窗口 C-b p 切换到下一窗口 C-b n 列出窗口供选择 C-b w detach C-b d 列出列</description>
+    </item>
+    
+  </channel>
+</rss>

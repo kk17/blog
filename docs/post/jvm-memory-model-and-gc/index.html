@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>java内存模型和垃圾回收学习笔记 - Code Play</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="Kyle" />
+  <meta name="description" content="Java（JVM）内存模型 Java内存模型建立在自动内存管理的概念之上。当一个对象不再被一个应用所引用，垃圾回收器就会回收它，从而释放相应的" />
+
+  <meta name="keywords" content="kk17, Kyle, blog" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.55.4" />
+
+
+<link rel="canonical" href="https://blog.kk17.net/post/jvm-memory-model-and-gc/" />
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="java内存模型和垃圾回收学习笔记" />
+<meta property="og:description" content="Java（JVM）内存模型 Java内存模型建立在自动内存管理的概念之上。当一个对象不再被一个应用所引用，垃圾回收器就会回收它，从而释放相应的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.kk17.net/post/jvm-memory-model-and-gc/" />
+<meta property="article:published_time" content="2015-02-01T09:00:00&#43;08:00"/>
+<meta property="article:modified_time" content="2015-02-01T09:00:00&#43;08:00"/>
+
+<meta itemprop="name" content="java内存模型和垃圾回收学习笔记">
+<meta itemprop="description" content="Java（JVM）内存模型 Java内存模型建立在自动内存管理的概念之上。当一个对象不再被一个应用所引用，垃圾回收器就会回收它，从而释放相应的">
+
+
+<meta itemprop="datePublished" content="2015-02-01T09:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2015-02-01T09:00:00&#43;08:00" />
+<meta itemprop="wordCount" content="1206">
+
+
+
+<meta itemprop="keywords" content="jvm," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="java内存模型和垃圾回收学习笔记"/>
+<meta name="twitter:description" content="Java（JVM）内存模型 Java内存模型建立在自动内存管理的概念之上。当一个对象不再被一个应用所引用，垃圾回收器就会回收它，从而释放相应的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-140906699-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Code Play</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/">Home</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/post/">Archives</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/tags/">Tags</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/categories/">Categories</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kk17.net" rel="noopener" target="_blank">
+              About
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+        
+      </li>
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      Code Play
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/">Home</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/post/">Archives</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/tags/">Tags</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://blog.kk17.net/categories/">Categories</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://kk17.net" rel="noopener" target="_blank">
+              About
+              
+              <i class="iconfont">
+                <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M623.36 272.96 473.216 423.04C467.2 429.056 467.072 438.656 472.896 444.416c0 0-6.72-6.656 1.6 1.6C496.064 467.648 528.64 500.224 528.64 500.224 534.464 506.048 544 505.856 550.016 499.904l150.08-150.144 67.328 66.432c9.024 8.96 27.456 4.544 30.4-8.96 19.968-92.608 46.656-227.52 46.656-227.52 6.848-34.496-16.192-56.704-49.92-49.92 0 0-134.656 26.816-227.328 46.784C560.32 178.048 556.352 182.272 554.752 187.136c-3.2 6.208-3.008 14.208 3.776 20.992L623.36 272.96z"></path>
+  <path d="M841.152 457.152c-30.528 0-54.784 24.512-54.784 54.656l0 274.752L237.696 786.56 237.696 237.696l206.016 0c6.656 0 10.752 0 13.248 0C487.68 237.696 512 213.184 512 182.848 512 152.32 487.36 128 456.96 128L183.04 128C153.216 128 128 152.576 128 182.848c0 3.136 0.256 6.272 0.768 9.28C128.256 195.136 128 198.272 128 201.408l0 639.488c0 0.064 0 0.192 0 0.256 0 0.128 0 0.192 0 0.32 0 30.528 24.512 54.784 54.784 54.784l646.976 0c6.592 0 9.728 0 11.712 0 28.736 0 52.928-22.976 54.464-51.968C896 843.264 896 842.304 896 841.344l0-20.352L896 561.408 896 512.128C896 481.792 871.424 457.152 841.152 457.152z"></path>
+</svg>
+
+              </i>
+            </a>
+          
+
+        
+
+      </li>
+    
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">java内存模型和垃圾回收学习笔记</h1>
+      
+      <div class="post-meta">
+        <time datetime="2015-02-01" class="post-time">
+          2015-02-01
+        </time>
+        <div class="post-category">
+            <a href="https://blog.kk17.net/categories/java/"> java </a>
+            
+          </div>
+        
+
+        
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Table of Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#java-jvm-内存模型">Java（JVM）内存模型</a></li>
+<li><a href="#堆空间与永久代">堆空间与永久代：</a>
+<ul>
+<li><a href="#永久代-permanent-generation">永久代（Permanent Generation）</a></li>
+<li><a href="#堆空间">堆空间</a></li>
+</ul></li>
+<li><a href="#java垃圾回收">Java垃圾回收</a></li>
+<li><a href="#java垃圾收集监控">Java垃圾收集监控</a></li>
+<li><a href="#相关文章">相关文章</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h2 id="java-jvm-内存模型">Java（JVM）内存模型</h2>
+
+<p>Java内存模型建立在自动内存管理的概念之上。当一个对象不再被一个应用所引用，垃圾回收器就会回收它，从而释放相应的内存。这一点和其他很多需要自行释放内存的语言有很大不同。</p>
+
+<p>JVM从底层操作系统中分配内存，并将它们分为以下几个区域：
+<img src="http://www.pointsoftware.ch/wp-content/uploads/2012/11/Cookbook_JVMArguments_2_MemoryModel.png" alt="" /></p>
+
+<!-- more -->
+
+<p><img src="http://www.pointsoftware.ch/wp-content/uploads/2012/10/JUtH_20121024_RuntimeDataAreas_2_MemoryModel.png" alt="" /></p>
+
+<ol>
+<li><p>堆空间（Heap Space）：这是共享的内存区域，用于存储可以被垃圾回收器回收的对象。</p></li>
+
+<li><p>方法区（Method Area）：这块区域以前被称作“永生代”（permanent generation），用于存储被加载的类。这块区域最近被JVM取消了。现在，被加载的类作为元数据加载到底层操作系统的本地内存区。</p></li>
+
+<li><p>本地区（Native Area）：这个区域用于存储基本类型的引用和变量。</p></li>
+</ol>
+
+<h2 id="堆空间与永久代">堆空间与永久代：</h2>
+
+<p><img src="http://colobu.com/2014/12/16/java-jvm-memory-model-and-garbage-collection-monitoring-tuning/Java-Memory-Model.png" alt="" /></p>
+
+<h3 id="永久代-permanent-generation">永久代（Permanent Generation）</h3>
+
+<p>永久代或者“Perm Gen”包含了JVM需要的应用元数据，这些元数据描述了在应用里使用的类和方法。注意，永久代不是Java堆内存的一部分。
+永久代存放JVM运行时使用的类。永久代同样包含了Java SE库的类和方法。永久代的对象在full GC时进行垃圾收集。</p>
+
+<h3 id="堆空间">堆空间</h3>
+
+<p>Java 中的堆是 JVM 所管理的最大的一块内存空间，主要用于存放各种类的实例对象。
+在 Java 中，堆被划分成两个不同的区域：新生代 ( Young )、老年代 ( Old )。新生代 ( Young ) 又被划分为三个区域：Eden、From Survivor、To Survivor。
+这样划分的目的是为了使 JVM 能够更好的管理堆内存中的对象，包括内存的分配以及回收。</p>
+
+<h2 id="java垃圾回收">Java垃圾回收</h2>
+
+<p><strong>所有的垃圾收集都是“Stop the World”事件，因为所有的应用线程都会停下来直到操作完成（所以叫“Stop the World”）。</strong></p>
+
+<p>因为年轻代里的对象都是一些声明周期很短的（short-lived ）对象，执行Minor GC非常快，所以应用不会受到程序暂停的影响。</p>
+
+<p>由于Major GC会检查所有存活的对象，因此会花费更长的时间。应该尽量减少Major GC。因为Major GC会在垃圾回收期间让你的应用反应迟钝，所以如果你有一个需要快速响应的应用， 在频繁发生Major GC时，你会看到超时错误。</p>
+
+<p>垃圾回收时间取决于垃圾回收策略。这就是为什么有必要去监控垃圾收集和对垃圾收集进行调优。从而避免要求快速响应的应用出现超时错误。</p>
+
+<p>图解垃圾回收过程：
+<img src="https://plumbr.eu/wp-content/uploads/2015/02/minor-gc-major-gc-full-gc.jpg" alt="图解垃圾回收过程" /></p>
+
+<p>回收算法与Stop the World：
+<img src="http://apmblog.dynatrace.com/wp-content/600x263xGC-Compare-600x263.png.pagespeed.ic.3rAxdnMHEa.png" alt="回收算法与Stop the World" /></p>
+
+<p>可用的垃圾回收算法选项：
+<img src="http://www.jdon.com/idea/images/jvm.png" alt="可用的垃圾回收算法选项" /></p>
+
+<h2 id="java垃圾收集监控">Java垃圾收集监控</h2>
+
+<ol>
+<li><p>jstat
+可以使用jstat命令行工具监控JVM内存和垃圾回收。标准的JDK已经附带了jstat，所以不需要做任何额外的事情就可以得到它</p></li>
+
+<li><p>Java VisualVM及Visual GC插件
+如果你想在GUI里查看内存和GC，那么可以使用jvisualvm工具。Java VisualVM同样是JDK的一部分，所以你不需要单独去下载。</p></li>
+</ol>
+
+<h2 id="相关文章">相关文章</h2>
+
+<p><a href="http://www.importnew.com/13556.html">JVM必备指南 - ImportNew</a><br />
+<a href="http://www.jdon.com/idea/jvm.html">JVM内存模型和性能优化 - 解道Jdon</a><br />
+<a href="http://colobu.com/2014/12/16/java-jvm-memory-model-and-garbage-collection-monitoring-tuning/">Java内存与垃圾回收调优 | 鸟窝</a><br />
+<a href="https://plumbr.eu/blog/garbage-collection/minor-gc-vs-major-gc-vs-full-gc">Minor GC vs Major GC vs Full GC – Plumbr</a><br />
+<a href="http://apmblog.dynatrace.com/2011/03/10/major-gcs-separating-myth-from-reality/">Major GCs - Separating Myth from Reality - Dynatrace APM Blog</a><br />
+<a href="http://www.pointsoftware.ch/de/under-the-hood-runtime-data-areas-javas-memory-model/">Point Software AG</a></p>
+
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Kyle</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">2015-02-01</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://blog.kk17.net/tags/jvm/">jvm</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/docker-in-practice/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Docker入门实践小结</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/sublime-text/">
+            <span class="next-text nav-default">Sublime Text技巧</span>
+            <span class="prev-text nav-mobile">Next</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kk17/blog"
+            issue-term="pathname"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  
+  
+    
+
+
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="https://github.com/kk17" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://blog.kk17.net/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2015 -
+    2019
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        Kyle
+        
+      </span></span>
+
+  
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
