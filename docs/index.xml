@@ -73,9 +73,12 @@ but it is taught in octave/Matlab, which may be a little outdated.&lt;/p&gt;
 
 &lt;p&gt;I decided to focus on the Prof. Hsuan-Tien Lin&amp;rsquo;s courses while using Andrew&amp;rsquo;s course as a reference.&lt;/p&gt;
 
-&lt;p&gt;Some notes about these courses share by others are also helpful, but they are also in Chinese.
-- &lt;a href=&#34;https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes&#34;&gt;fengdu78/Coursera-ML-AndrewNg-Notes: 吴恩达老师的机器学习课程个人笔记&lt;/a&gt;
-- &lt;a href=&#34;https://wizardforcel.gitbooks.io/ntu-hsuantienlin-ml/content/&#34;&gt;台湾大学林轩田机器学习笔记 · 台湾大学林轩田机器学习笔记&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Some notes about these courses share by others are also helpful, but they are also in Chinese.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes&#34;&gt;fengdu78/Coursera-ML-AndrewNg-Notes: 吴恩达老师的机器学习课程个人笔记&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wizardforcel.gitbooks.io/ntu-hsuantienlin-ml/content/&#34;&gt;台湾大学林轩田机器学习笔记 · 台湾大学林轩田机器学习笔记&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&#34;deep-learning&#34;&gt;Deep Learning&lt;/h2&gt;
 
@@ -88,7 +91,7 @@ but it is taught in octave/Matlab, which may be a little outdated.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/donnemartin/data-science-ipython-notebooks&#34;&gt;donnemartin/data-science-ipython-notebooks&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/yanshengjia/ml-road&#34;&gt;yanshengjia/ml-road: Machine Learning Resources, Practice and Research&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;immersive linear algebra](&lt;a href=&#34;http://immersivemath.com/ila/index.html):&#34;&gt;http://immersivemath.com/ila/index.html):&lt;/a&gt; The world&amp;rsquo;s first linear algebra book with fully interactive figures.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://immersivemath.com/ila/index.html&#34;&gt;immersive linear algebra&lt;/a&gt;: The world&amp;rsquo;s first linear algebra book with fully interactive figures.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
