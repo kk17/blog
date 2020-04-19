@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jul 2019 10:02:55 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 Apr 2020 11:35:38 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.kk17.net/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The Beginner&#39;s Learning Path to Machine Learning</title>
+      <link>https://blog.kk17.net/post/the-beginners-learning-path-to-machine-learning/</link>
+      <pubDate>Sun, 19 Apr 2020 11:35:38 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/the-beginners-learning-path-to-machine-learning/</guid>
+      <description>Motivation In my work as a data engineer, I work closely together with data scientists. I am always interested in the major part of their work - building a model using machine learning. So I applied for a part-time master&amp;rsquo;s program in Artificial Intelligence that will start in August this year. Before this program start, I want to make some preparations for it. I decided to self teach some courses.</description>
+    </item>
     
     <item>
       <title>Diving Into Airflow Scheduler</title>

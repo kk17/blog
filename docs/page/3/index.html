@@ -62,7 +62,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://blog.kk17.net/" />
 
-<meta property="og:updated_time" content="2019-07-26T10:02:55&#43;08:00"/>
+<meta property="og:updated_time" content="2020-04-19T11:35:38&#43;08:00"/>
 
 <meta itemprop="name" content="Code Play">
 <meta itemprop="description" content="Kyle&#39;s blog.">
@@ -322,6 +322,44 @@ if (!doNotTrack) {
   <header class="post-header">
     <h1 class="post-title">
       
+      <a class="post-link" href="/post/pitfalls-in-using-spark-catalog-api/">Pitfalls in Using Spark Catalog API</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2019-04-27" class="post-time">
+        2019-04-27
+      </time>
+      <div class="post-category">
+          <a href="https://blog.kk17.net/categories/big-data/"> big-data </a>
+          
+        </div>
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      <p>Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  <a href="https://spark.apache.org/docs/latest/sql-data-sources-hive-tables.html">Hive Tables - Spark 2.4.1 Documentation</a></p>
+
+<p>Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: <a href="https://spark.apache.org/docs/2.2.1/api/java/org/apache/spark/sql/catalog/Catalog.html">Catalog (Spark 2.2.1 JavaDoc)</a> and <a href="https://spark.apache.org/docs/2.3.0/api/python/_modules/pyspark/sql/catalog.html">pyspark.sql.catalog — PySpark master documentation</a>.</p>
+
+<p>After using Spark Catalog API for a period of time, I found some pitfalls.</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/pitfalls-in-using-spark-catalog-api/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+    
+      <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
       <a class="post-link" href="/post/use-spark-sql-with-hive-metastore/">Use Spark Sql With Hive Metastore</a>
     </h1>
     
@@ -383,40 +421,6 @@ Besides MapReduce, Hive can use Spark and Tez as execute engine.
     </div>
     <div class="read-more">
       <a href="/post/linux-commands/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-    
-      <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/learning-shell/">Shell学习笔记</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2015-08-18" class="post-time">
-        2015-08-18
-      </time>
-      <div class="post-category">
-          <a href="https://blog.kk17.net/categories/tools/"> tools </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      shebang #!/usr/bin/env bash 这一行表明，不管用户选择的是那种交互式shell,该脚本需要使用bash shell来运行。由于每种shell的语法大不相同，所以这句非
-    </div>
-    <div class="read-more">
-      <a href="/post/learning-shell/" class="read-more-link">Read more</a>
     </div>
     
   </div>
@@ -527,7 +531,7 @@ Besides MapReduce, Hive can use Spark and Tez as execute engine.
     &copy;
     
       2015 -
-    2019
+    2020
     <span class="heart">
       
       <i class="iconfont">
