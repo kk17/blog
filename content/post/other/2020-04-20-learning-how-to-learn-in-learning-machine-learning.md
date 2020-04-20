@@ -81,7 +81,7 @@ Some other techniques are also helpful for avoiding procrastination.
 
 I want to share more about the process and product. Before this course, I focused too much on the product. Although I can force myself to learn new stuff that I fell difficult and uncomfortable, I always want to finish the task as soon as possible. And when the task takes more time than I expected, it drives me crazy, and I will start to get more and more negative emotions. After I learn to focus more on the process, I feel relieved. I focus my goal on how long I should use for my study every day. As long as I study for that particular time and I have learned something new, I know that I am on the process. I will adjust the whole learning path base on the outcome of all these processes. I believe that the product I expected will finally come one day.
 
-## Conclude
+## Conclusion
 
 The learning-how-to-learn course is so valuable. There are many learning techniques in the course I did not mention here. I am grateful to Dr. Barbara Oakley and Dr. Terrence Sejnowski for teaching this great course and wish I could learn this course early in my life. But learning is a lifetime journey. It is always good to learn more about learning, no matter when.
 
