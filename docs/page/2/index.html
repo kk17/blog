@@ -62,7 +62,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://blog.kk17.net/" />
 
-<meta property="og:updated_time" content="2020-04-19T11:35:38&#43;08:00"/>
+<meta property="og:updated_time" content="2020-04-20T00:03:23&#43;08:00"/>
 
 <meta itemprop="name" content="Code Play">
 <meta itemprop="description" content="Kyle&#39;s blog.">
@@ -322,6 +322,56 @@ if (!doNotTrack) {
   <header class="post-header">
     <h1 class="post-title">
       
+      <a class="post-link" href="/post/understand-airflow/">Understand Airflow</a>
+    </h1>
+    
+    <div class="post-meta">
+      <time datetime="2019-07-24" class="post-time">
+        2019-07-24
+      </time>
+      <div class="post-category">
+          <a href="https://blog.kk17.net/categories/big-data/"> big-data </a>
+          
+        </div>
+      
+      
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    
+    <div class="post-summary">
+      <h2 id="key-concepts">Key concepts</h2>
+
+<p>For context around the terms used in this blog post, here are a few key concepts for Airflow:</p>
+
+<ul>
+<li><strong>DAG</strong> (Directed Acyclic Graph): a workflow which glues all the tasks with inter-dependencies.</li>
+<li><strong>Operator</strong>: a template for a specific type of work to be executed. For example, BashOperator represents how to execute a bash script, while PythonOperator represents how to execute a python function, etc.</li>
+<li><strong>Sensor</strong>: a type of special operator which will only execute if a certain condition is met.</li>
+<li><strong>Task</strong>: a parameterized instance of an operator/sensor which represents a unit of actual work to be executed.</li>
+<li><strong>Plugin</strong>: an extension to allow users to easily extend Airflow with various custom hooks, operators, sensors, macros, and web views.</li>
+<li><strong>Pools</strong>: concurrency limit configuration for a set of Airflow tasks.</li>
+<li><strong><em>Connections</em></strong> to define any external DB, FTP etc. connection’s authentication.</li>
+<li><strong><em>Variables</em></strong> to store and retrieve arbitrary content or settings as a simple key value.</li>
+<li><strong><em>XCom</em></strong> to share keys/values between independent tasks.</li>
+<li><strong>Pools</strong> to limit the execution parallelism on arbitrary sets of tasks.</li>
+<li><strong>Hooks</strong> to reach external platforms and databases.</li>
+</ul>
+    </div>
+    <div class="read-more">
+      <a href="/post/understand-airflow/" class="read-more-link">Read more</a>
+    </div>
+    
+  </div>
+</article>
+
+    
+      <article class="post bg-white">
+  <header class="post-header">
+    <h1 class="post-title">
+      
       <a class="post-link" href="/post/spark-run-mode-and-application-deployment-mode/">Spark Run Mode and Application Deployment Mode</a>
     </h1>
     
@@ -382,40 +432,6 @@ Run Locally In local mode, spark jobs run on a single machine and are executed i
     </div>
     <div class="read-more">
       <a href="/post/yarn-basics/" class="read-more-link">Read more</a>
-    </div>
-    
-  </div>
-</article>
-
-    
-      <article class="post bg-white">
-  <header class="post-header">
-    <h1 class="post-title">
-      
-      <a class="post-link" href="/post/how-to-extend-spark/">How to Extend Spark</a>
-    </h1>
-    
-    <div class="post-meta">
-      <time datetime="2019-05-25" class="post-time">
-        2019-05-25
-      </time>
-      <div class="post-category">
-          <a href="https://blog.kk17.net/categories/big-data/"> big-data </a>
-          
-        </div>
-      
-      
-      
-    </div>
-  </header>
-  
-  <div class="post-content">
-    
-    <div class="post-summary">
-      <p>In this post, we go through extending a Spark application and also Spark APIs by some examples. These two kinds of extensions are sometimes related, and we go with extending a Spark application first.</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/how-to-extend-spark/" class="read-more-link">Read more</a>
     </div>
     
   </div>

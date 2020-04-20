@@ -6,10 +6,19 @@
     <description>Recent content in Categories on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jul 2019 10:02:55 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 20 Apr 2020 00:03:23 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.kk17.net/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>other</title>
+      <link>https://blog.kk17.net/categories/other/</link>
+      <pubDate>Mon, 20 Apr 2020 00:03:23 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/categories/other/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>big-data</title>

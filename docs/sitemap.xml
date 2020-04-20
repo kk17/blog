@@ -2,14 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.kk17.net/</loc>
-    <lastmod>2020-04-19T11:35:38+08:00</lastmod>
+    <loc>https://blog.kk17.net/categories/</loc>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://blog.kk17.net/</loc>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/post/learning-how-to-learn-in-learning-machine-learning/</loc>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.kk17.net/post/</loc>
-    <lastmod>2020-04-19T11:35:38+08:00</lastmod>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/categories/other/</loc>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -18,12 +37,6 @@
     <lastmod>2020-04-19T11:35:38+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.kk17.net/categories/</loc>
-    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

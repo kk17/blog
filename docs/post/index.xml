@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Apr 2020 11:35:38 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 20 Apr 2020 00:03:23 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.kk17.net/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Learning How to Learn in Learning Machine Learning</title>
+      <link>https://blog.kk17.net/post/learning-how-to-learn-in-learning-machine-learning/</link>
+      <pubDate>Mon, 20 Apr 2020 00:03:23 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/learning-how-to-learn-in-learning-machine-learning/</guid>
+      <description>The Learning How to Learn Course Learning-how-to-learn is a free Coursera course that teaches about how the brain uses two very different learning modes and how it encapsulates (&amp;ldquo;chunks&amp;rdquo;) information. It also covers illusions of learning, memory techniques, dealing with procrastination, and best practices shown by research to be most effective in helping you master tough subjects.
+I first knew about this course when I was trying to create my own learning path for learning machine learning.</description>
+    </item>
     
     <item>
       <title>The Beginner&#39;s Learning Path to Machine Learning</title>

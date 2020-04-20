@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>other on Code Play</title>
+    <link>https://blog.kk17.net/categories/other/</link>
+    <description>Recent content in other on Code Play</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 20 Apr 2020 00:03:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.kk17.net/categories/other/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Learning How to Learn in Learning Machine Learning</title>
+      <link>https://blog.kk17.net/post/learning-how-to-learn-in-learning-machine-learning/</link>
+      <pubDate>Mon, 20 Apr 2020 00:03:23 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/post/learning-how-to-learn-in-learning-machine-learning/</guid>
+      <description>The Learning How to Learn Course Learning-how-to-learn is a free Coursera course that teaches about how the brain uses two very different learning modes and how it encapsulates (&amp;ldquo;chunks&amp;rdquo;) information. It also covers illusions of learning, memory techniques, dealing with procrastination, and best practices shown by research to be most effective in helping you master tough subjects.
+I first knew about this course when I was trying to create my own learning path for learning machine learning.</description>
+    </item>
+    
+  </channel>
+</rss>
