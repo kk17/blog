@@ -6,7 +6,7 @@ lastmod: 2020-04-20T00:03:23+08:00
 draft: false
 keywords: ["learning-how-to-learn"]
 description: ""
-tags: []
+tags: ['learning-how-to-learn', 'machine-learning']
 categories: ["other"]
 author: "Kyle"
 
@@ -29,7 +29,8 @@ I first knew about this course when I was trying to create my own [learning path
 
 ## Modes of Thinking: Focused Mode vs. Diffuse Mode
 
-![](/img/focused-diffuse.jpg)
+![](/img/focused-diffuse.jpg 'focused-diffuse mode')
+*Image source: [Learning how to learn - Introduction to the Focused and Diffuse Modes - What is Learning?](https://www.coursera.org/lecture/learning-how-to-learn/introduction-to-the-focused-and-diffuse-modes-75EsZ)*
 
 Focused mode is you try to learn something by paying attention to it. Diffuse mode is a more relaxed thinking style that allows you to think broadly, and even solve your problem unconsciously. Before this course, I never know the value of diffuse mode and only use the focused mode for my study. When I stuck in one difficulty problem, I always want to solve it as soon as possible. Usually, it results in sitting for a long time but not solving the problem. It just makes me feel desperate and tried. And even worse is that it occupied the time I assigned for other tasks, which leads to procrastination.
 After this course, I try to schedule the study time for both focused mode and diffuse mode. Below are some of the techniques I used:
@@ -40,7 +41,8 @@ After this course, I try to schedule the study time for both focused mode and di
 
 ## Chunking
 
-![chunking](/img/chunking.jpg)
+![chunking](/img/chunking.jpg 'chunking')
+*Image source: [Learning how to learn - What is a Chunk? - McMaster University & University of California San Diego](https://www.coursera.org/learn/learning-how-to-learn/lecture/LurUJ/what-is-a-chunk)*
 
 Chunks are compact packages of information, neuroscientifically speaking, bound together through meaning or use. When chunks are formed, you can easily access it as a whole. There are three essential elements for forming a chunk: 
 
@@ -55,7 +57,8 @@ After I realized this illusion, even though the *Data Science Handbook* does not
 
 ## Short Term Memory and Long Term Memory
 
-![](/img/stm-ltm.jpg)
+![](/img/stm-ltm.jpg 'Short Term Memory and Long Term Memory') 
+*Image source:[Learning how to learn - What is Long Term Memory?](https://www.coursera.org/learn/learning-how-to-learn/lecture/2Uqfy/what-is-long-term-memory)*
 
 Our short term memory analogous to a whiteboard that can record information but gets erased when new information comes in. Researches reveal that we only have four slots in our short working memory. Long term memory analogous to a warehouse where information is stored and retrieved when needed. Long term memory will be reconsolidated when being retrieved. You can boost your ability to remember by mapping ideas to visual cues that are memorable. 
 
@@ -65,7 +68,8 @@ Handwriting also helps you understand better. While highlighting some key points
 
 ## Procrastination
 
-![](/img/procrastination.jpg)
+![](/img/procrastination.jpg 'procrastination')
+*Image source: [Learning how to learn - Tackling Procrastination](https://www.coursera.org/learn/learning-how-to-learn/lecture/J5vCL/tackling-procrastination-it-is-easier-and-more-valuable-than-you-think)*
 
 Procrastination is a bad keystone habit that influences many important areas of your life. In many aspects, it is similar to addition. There are four elements in avoiding procrastination and forming good study habits.
 
