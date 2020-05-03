@@ -27,6 +27,24 @@
   </url>
   
   <url>
+    <loc>https://blog.kk17.net/tags/</loc>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/learning-how-to-learn/</loc>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.kk17.net/tags/machine-learning/</loc>
+    <lastmod>2020-04-20T00:03:23+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.kk17.net/categories/other/</loc>
     <lastmod>2020-04-20T00:03:23+08:00</lastmod>
     <priority>0</priority>
@@ -44,12 +62,6 @@
     <lastmod>2019-07-26T10:02:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.kk17.net/tags/</loc>
-    <lastmod>2019-07-26T10:02:55+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -232,13 +244,13 @@
   </url>
   
   <url>
-    <loc>https://blog.kk17.net/tags/java/</loc>
+    <loc>https://blog.kk17.net/categories/java/</loc>
     <lastmod>2015-05-07T09:00:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.kk17.net/categories/java/</loc>
+    <loc>https://blog.kk17.net/tags/java/</loc>
     <lastmod>2015-05-07T09:00:00+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -258,13 +270,13 @@
   </url>
   
   <url>
-    <loc>https://blog.kk17.net/tags/docker/</loc>
+    <loc>https://blog.kk17.net/categories/docker/</loc>
     <lastmod>2015-03-08T09:00:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.kk17.net/categories/docker/</loc>
+    <loc>https://blog.kk17.net/tags/docker/</loc>
     <lastmod>2015-03-08T09:00:00+08:00</lastmod>
     <priority>0</priority>
   </url>

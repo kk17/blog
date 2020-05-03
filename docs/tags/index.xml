@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 26 Jul 2019 10:02:55 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 20 Apr 2020 00:03:23 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.kk17.net/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>learning-how-to-learn</title>
+      <link>https://blog.kk17.net/tags/learning-how-to-learn/</link>
+      <pubDate>Mon, 20 Apr 2020 00:03:23 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/tags/learning-how-to-learn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>machine-learning</title>
+      <link>https://blog.kk17.net/tags/machine-learning/</link>
+      <pubDate>Mon, 20 Apr 2020 00:03:23 +0800</pubDate>
+      
+      <guid>https://blog.kk17.net/tags/machine-learning/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>airflow</title>
