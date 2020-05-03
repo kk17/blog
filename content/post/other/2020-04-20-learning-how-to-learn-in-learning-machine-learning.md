@@ -42,7 +42,7 @@ After this course, I try to schedule the study time for both focused mode and di
 ## Chunking
 
 ![chunking](/img/chunking.jpg 'chunking')
-*Image source: [Learning how to learn - What is a Chunk? - McMaster University & University of California San Diego](https://www.coursera.org/learn/learning-how-to-learn/lecture/LurUJ/what-is-a-chunk)*
+*Image source: [Learning how to learn - What is a Chunk?](https://www.coursera.org/learn/learning-how-to-learn/lecture/LurUJ/what-is-a-chunk)*
 
 Chunks are compact packages of information, neuroscientifically speaking, bound together through meaning or use. When chunks are formed, you can easily access it as a whole. There are three essential elements for forming a chunk: 
 
