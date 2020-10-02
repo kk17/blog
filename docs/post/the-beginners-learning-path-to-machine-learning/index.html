@@ -32,7 +32,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/the-beginners-learning-path-to-machine-learning/" />
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -61,16 +61,13 @@
 <meta property="og:description" content="Motivation In my work as a data engineer, I work closely together with data scientists. I am always interested in the major part of their work - building a model using machine learning. So I applied for a part-time master&rsquo;s program in Artificial Intelligence that will start in August this year. Before this program start, I want to make some preparations for it. I decided to self teach some courses." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/the-beginners-learning-path-to-machine-learning/" />
-<meta property="article:published_time" content="2020-04-19T11:35:38&#43;08:00"/>
-<meta property="article:modified_time" content="2020-04-19T11:35:38&#43;08:00"/>
-
+<meta property="article:published_time" content="2020-04-19T11:35:38+08:00" />
+<meta property="article:modified_time" content="2020-04-19T11:35:38+08:00" />
 <meta itemprop="name" content="The Beginner&#39;s Learning Path to Machine Learning">
 <meta itemprop="description" content="Motivation In my work as a data engineer, I work closely together with data scientists. I am always interested in the major part of their work - building a model using machine learning. So I applied for a part-time master&rsquo;s program in Artificial Intelligence that will start in August this year. Before this program start, I want to make some preparations for it. I decided to self teach some courses.">
-
-
-<meta itemprop="datePublished" content="2020-04-19T11:35:38&#43;08:00" />
-<meta itemprop="dateModified" content="2020-04-19T11:35:38&#43;08:00" />
-<meta itemprop="wordCount" content="870">
+<meta itemprop="datePublished" content="2020-04-19T11:35:38+08:00" />
+<meta itemprop="dateModified" content="2020-04-19T11:35:38+08:00" />
+<meta itemprop="wordCount" content="1052">
 
 
 
@@ -347,107 +344,80 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#motivation">Motivation</a></li>
-<li><a href="#who-should-use-this-path">Who should use this path</a></li>
-<li><a href="#time-for-this-learning-path">Time for this learning path</a></li>
-<li><a href="#mathematics-for-machine-learning">Mathematics for Machine learning</a></li>
-<li><a href="#machine-learning">Machine Learning</a></li>
-<li><a href="#deep-learning">Deep Learning</a></li>
-<li><a href="#other-resources">Other resources</a></li>
-<li><a href="#reference">Reference</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#motivation">Motivation</a></li>
+    <li><a href="#who-should-use-this-path">Who should use this path</a></li>
+    <li><a href="#time-for-this-learning-path">Time for this learning path</a></li>
+    <li><a href="#mathematics-for-machine-learning">Mathematics for Machine learning</a></li>
+    <li><a href="#machine-learning">Machine Learning</a></li>
+    <li><a href="#deep-learning">Deep Learning</a></li>
+    <li><a href="#other-resources">Other resources</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      
-
-<h2 id="motivation">Motivation</h2>
-
+      <h2 id="motivation">Motivation</h2>
 <p>In my work as a data engineer, I work closely together with data scientists. I am always interested in the major part of their work - building a model using machine learning. So I applied for a part-time master&rsquo;s program in Artificial Intelligence that will start in August this year. Before this program start, I want to make some preparations for it. I decided to self teach some courses. So I spend about one month searching and collecting the resources about machine learning and draw this learning path. I am now following it this path and will try to keep update here.</p>
-
 <h2 id="who-should-use-this-path">Who should use this path</h2>
-
 <p>As I mentioned above, this path is used by me, can be useful to readers who have a background like me, a software engineer who does not have a machine learning or statistics background.  It is also suitable for university students (undergraduate or graduate) learning about machine learning. The requirement of this path is some basic python program skills. For those who want to learn python, the <a href="https://towardsdatascience.com">Towards Data Science</a> blog <a href="https://towardsdatascience.com/beginners-learning-path-for-machine-learning-5a7fb90f751a">post</a> offered an excellent guide.</p>
-
 <h2 id="time-for-this-learning-path">Time for this learning path</h2>
-
 <p>My plan is to try to use 8 to 9 months to finish this learning path. If anything changed, I would try to update it here. There is no perfect plan. A bad plan is better than no plan.</p>
-
 <h2 id="mathematics-for-machine-learning">Mathematics for Machine learning</h2>
-
 <p>Mathematics is the most scarred part for me in the pathway. After working for several years, I forget most of the mathematics I learn from college. So the first question is that do I need to learn mathematics again. My answer is yes. The open-source book <a href="https://mml-book.github.io/">Mathematics for Machine Learning</a> provides the necessary mathematical skills for machine learning. Just a  glance about the first chapter of this book lets you know about how mathematics is used in machine learning. But my plan is not to dive into this book thoroughly, instead, I will try to learn these Python’s famous libraries Numpy, pandas, matplotlib first. If I run into a math problem, I will refer to the book or some other resources on the internet.</p>
-
 <p>The learning path for this part is to try to finish the first four chapters of the <a href="https://github.com/jakevdp/PythonDataScienceHandbook">Python Data Science Handbook</a>, each chapter in one or two weeks. One of the fascinating parts of this book is that it is writing using Jupyter notebooks. It is so convenient that you can use Google Colab to view and run those notebooks.</p>
-
 <ol>
 <li><a href="https://colab.research.google.com/github/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/work/notebooks/01.00-IPython-Beyond-Normal-Python.ipynb">IPython: Beyond Normal Python</a></li>
 <li><a href="https://colab.research.google.com/github/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/work/notebooks/02.00-Introduction-to-NumPy.ipynb">Introduction to NumPy</a></li>
 <li><a href="https://colab.research.google.com/github/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/work/notebooks/03.00-Introduction-to-Pandas.ipynb">Data Manipulation with Pandas</a></li>
 <li><a href="https://colab.research.google.com/github/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/work/notebooks/04.00-Introduction-To-Matplotlib.ipynb">Visualization with Matplotlib</a></li>
 </ol>
-
 <p>Just reading the book is not enough. Practicing is the only ways to make you really master these libraries. I found some related quiz notebooks are very helpful. It is recommended to practice these quizzes while reading the book.</p>
-
 <ul>
 <li><a href="https://github.com/rougier/numpy-100">rougier/numpy-100: 100 numpy exercises</a></li>
 <li><a href="https://github.com/ajcr/100-pandas-puzzles">ajcr/100-pandas-puzzles: 100 data puzzles for pandas, ranging from short and simple to super tricky</a></li>
 <li><a href="https://www.machinelearningplus.com/plots/top-50-matplotlib-visualizations-the-master-plots-python/">Top 50 matplotlib Visualizations</a></li>
 <li><a href="https://github.com/DunderData/Quizzes">DunderData/Quizzes: Python, Pandas, and Scikit-Learn Quizzes and Solutions</a></li>
 </ul>
-
 <p>Microsoft&rsquo;s <a href="https://www.edx.org/course/essential-math-for-machine-learning-python-edition-3">Essential Math for Machine Learning: Python Edition</a> on edx.org is one of the MOOC course I want to try after finished learning these libraries.</p>
-
 <h2 id="machine-learning">Machine Learning</h2>
-
 <p>There are many MOOC courses about machine learning on the internet. It is good to do some researches about the courses you may want to learn and select the most suitable for you. For me, I mainly deep researched about two courses:
 <a href="https://www.coursera.org/learn/machine-learning">Machine Learning by Andrew Ng</a> on Coursera and Machine Learning serials by Prof. Hsuan-Tien Lin:<a href="https://www.coursera.org/learn/ntumlone-mathematicalfoundations">Mathematical Foundations</a>, <a href="https://www.coursera.org/learn/ntumlone-algorithmicfoundations">Algorithmic Foundations</a>, <a href="https://www.coursera.org/learn/machine-learning-techniques">Techniques</a> on Coursera.
 Andrew&rsquo;s course is well known. It teaches from very basic concepts to advanced concepts, and it is a very comprehensive course for beginners.
 but it is taught in octave/Matlab, which may be a little outdated.</p>
-
 <p>Prof. Hsuan-Tien Lin&rsquo;s courses are more updated and are organized in a when-why-how structure, which I think provides a more insightful view about machine learning. But these courses are taught in Chinese. Maybe it will be a problem for some people. The total length of these course on Coursera are</p>
-
 <ul>
 <li>Mathematical Foundations: 16 hours in 8 weeks</li>
 <li>Algorithmic Foundations: 13 hours in 8 weeks</li>
 <li>Techniques: 64 hours in 16 weeks</li>
 </ul>
-
 <p>I decided to focus on the Prof. Hsuan-Tien Lin&rsquo;s courses while using Andrew&rsquo;s course as a reference.</p>
-
 <p>Some notes about these courses share by others are also helpful, but they are also in Chinese.</p>
-
 <ul>
 <li><a href="https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes">fengdu78/Coursera-ML-AndrewNg-Notes: 吴恩达老师的机器学习课程个人笔记</a></li>
 <li><a href="https://wizardforcel.gitbooks.io/ntu-hsuantienlin-ml/content/">台湾大学林轩田机器学习笔记 · 台湾大学林轩田机器学习笔记</a></li>
 </ul>
-
 <h2 id="deep-learning">Deep Learning</h2>
-
 <p>I am not going to include deep learning in this learn path. When I finished this pathway, I will create a particular learning path for deep learning.</p>
-
 <h2 id="other-resources">Other resources</h2>
-
 <p>There are other resources that I found that may help.</p>
-
 <ul>
 <li><a href="https://github.com/donnemartin/data-science-ipython-notebooks">donnemartin/data-science-ipython-notebooks</a></li>
 <li><a href="https://github.com/yanshengjia/ml-road">yanshengjia/ml-road: Machine Learning Resources, Practice and Research</a></li>
 <li><a href="http://immersivemath.com/ila/index.html">immersive linear algebra</a>: The world&rsquo;s first linear algebra book with fully interactive figures.</li>
 </ul>
-
 <h2 id="reference">Reference</h2>
-
 <ul>
 <li><a href="https://towardsdatascience.com/beginners-learning-path-for-machine-learning-5a7fb90f751a">Beginners Learning Path for Machine Learning - Towards Data Science</a></li>
 <li><a href="https://medium.com/@youngladesh/absolute-beginners-guide-to-machine-learning-and-deep-learning-7fa032944047">Absolute Beginner’s Guide to Machine Learning and Deep Learning</a></li>
 </ul>
+<hr>
+<p>update on 2020-10-02</p>
+<p>I tried a few lessons of <a href="https://www.edx.org/course/essential-math-for-machine-learning-python-edition-3">Essential Math for Machine Learning: Python Edition</a>. It is too basic. So I quite. I finished the <a href="https://www.coursera.org/specializations/mathematics-machine-learning">Mathematics for Machine Learning Specialization</a> on Coursera. It contains three courses about linear algebra, multivariate calculus, and PCA. Honestly, the quality of the courses is not bad. But considering you need premium access: $49/mo for that, it is not good enough. First, it is not comprehensive. Second, there is no instructor to answer the question in the forum. For a more comprehensive understanding of all the related mathematics, I will try to quickly go through the open-source book <a href="https://mml-book.github.io/">Mathematics for Machine Learning</a>.</p>
+<p>I also finished <a href="https://www.coursera.org/learn/ntumlone-mathematicalfoundations">Mathematical Foundations</a>, <a href="https://www.coursera.org/learn/ntumlone-algorithmicfoundations">Algorithmic Foundations</a> Coursera course delivered by Prof. Hsuan-Tien Lin. But I don&rsquo;t have time to take the <a href="https://www.coursera.org/learn/machine-learning-techniques">Techniques</a> course. Based on the two courses I have finished, I have to say, these are really good courses. Courses are well structured can comprehensive. When I was taking the course, I really felt that I was learning step by step. I will definitely take the <a href="https://www.coursera.org/learn/machine-learning-techniques">Techniques</a> course when I have time.</p>
 
     </div>
 

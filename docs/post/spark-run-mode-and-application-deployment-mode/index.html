@@ -34,7 +34,7 @@ Run Locally In local mode, spark jobs run on a single machine and are executed i
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/spark-run-mode-and-application-deployment-mode/" />
@@ -53,7 +53,7 @@ Run Locally In local mode, spark jobs run on a single machine and are executed i
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -65,17 +65,14 @@ Spark Running Mode Spark can run on a single local machine or on a cluster manag
 Run Locally In local mode, spark jobs run on a single machine and are executed in parallel using multi-threading: this restricts parallelism to (at most) the number of cores in your machine." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/spark-run-mode-and-application-deployment-mode/" />
-<meta property="article:published_time" content="2019-07-16T19:31:49&#43;08:00"/>
-<meta property="article:modified_time" content="2019-07-16T19:31:49&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-07-16T19:31:49+08:00" />
+<meta property="article:modified_time" content="2019-07-16T19:31:49+08:00" />
 <meta itemprop="name" content="Spark Run Mode and Application Deployment Mode">
 <meta itemprop="description" content="Spark running mode is often be confused with application deploy mode.
 Spark Running Mode Spark can run on a single local machine or on a cluster manager like Mesos or YARN to leverage the resources(memory, CPU, and so on) across the cluster.
 Run Locally In local mode, spark jobs run on a single machine and are executed in parallel using multi-threading: this restricts parallelism to (at most) the number of cores in your machine.">
-
-
-<meta itemprop="datePublished" content="2019-07-16T19:31:49&#43;08:00" />
-<meta itemprop="dateModified" content="2019-07-16T19:31:49&#43;08:00" />
+<meta itemprop="datePublished" content="2019-07-16T19:31:49+08:00" />
+<meta itemprop="dateModified" content="2019-07-16T19:31:49+08:00" />
 <meta itemprop="wordCount" content="661">
 
 
@@ -358,103 +355,67 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#spark-running-mode">Spark Running Mode</a>
-<ul>
-<li><a href="#run-locally">Run Locally</a></li>
-<li><a href="#run-on-cluster">Run on Cluster</a></li>
-</ul></li>
-<li><a href="#spark-application-deployment-mode">Spark Application Deployment Mode</a>
-<ul>
-<li><a href="#client-deployment-mode">Client Deployment Mode</a></li>
-<li><a href="#cluster-deployment-mode">Cluster Deployment Mode</a></li>
-</ul></li>
-<li><a href="#reference-and-further-reading">Reference and Further Reading</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#spark-running-mode">Spark Running Mode</a>
+      <ul>
+        <li><a href="#run-locally">Run Locally</a></li>
+        <li><a href="#run-on-cluster">Run on Cluster</a></li>
+      </ul>
+    </li>
+    <li><a href="#spark-application-deployment-mode">Spark Application Deployment Mode</a>
+      <ul>
+        <li><a href="#client-deployment-mode">Client Deployment Mode</a></li>
+        <li><a href="#cluster-deployment-mode">Cluster Deployment Mode</a></li>
+      </ul>
+    </li>
+    <li><a href="#reference-and-further-reading">Reference and Further Reading</a></li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      
-
-<p>Spark running mode is often be confused with application deploy mode.</p>
-
+      <p>Spark running mode is often be confused with application deploy mode.</p>
 <h2 id="spark-running-mode">Spark Running Mode</h2>
-
 <p>Spark can run on a single local machine or on a cluster manager like Mesos or YARN to leverage the resources(memory, CPU, and so on) across the cluster.</p>
-
 <h3 id="run-locally">Run Locally</h3>
-
 <p>In local mode, spark jobs run on a single machine and are executed in parallel using multi-threading: this restricts parallelism to (at most) the number of cores in your machine.
 The local mode can be enabled by setting the [master url][master-url] to <code>local</code> or <code>local[x]</code>. The biggest advantage of the local mode is that you don&rsquo;t need to deploy a Spark cluster before you run a Spark application, so it&rsquo;s usually used for developing and testing a Spark application.</p>
-
 <h3 id="run-on-cluster">Run on Cluster</h3>
-
 <p>Spark support serval type of <a href="https://spark.apache.org/docs/latest/cluster-overview.html#cluster-manager-types">cluster managers</a>.</p>
-
 <p>The system currently supports several cluster managers:</p>
-
 <ul>
 <li><a href="https://spark.apache.org/docs/latest/spark-standalone.html">Standalone</a> – a simple cluster manager included with Spark that makes it easy to set up a cluster.</li>
 <li><a href="https://spark.apache.org/docs/latest/running-on-mesos.html">Apache Mesos</a> – a general cluster manager that can also run Hadoop MapReduce and service applications.</li>
 <li><a href="https://spark.apache.org/docs/latest/running-on-yarn.html">Hadoop YARN</a> – the resource manager in Hadoop 2.</li>
 <li><a href="https://spark.apache.org/docs/latest/running-on-kubernetes.html">Kubernetes</a> – an open-source system for automating deployment, scaling, and management of containerized applications.</li>
 </ul>
-
 <p>A third-party project (not supported by the Spark project) exists to add support for <a href="https://github.com/hashicorp/nomad-spark">Nomad</a> as a cluster manager.</p>
-
 <p>Examples of submitting an application on different types of cluster can be found on <a href="https://spark.apache.org/docs/latest/submitting-applications.html#launching-applications-with-spark-submit">Spark Offical Documents</a>.</p>
-
 <p>Below is an example that uses <code>docker-compose</code> and <a href="https://hub.docker.com/r/jupyter/pyspark-notebook/">jupyter/pyspark-notebook</a> docker image to set up a Spark Standalone Cluster and use the cluster for Jupyter.</p>
-
 <h2 id="spark-application-deployment-mode">Spark Application Deployment Mode</h2>
-
 <p>Before we going to the detail of deployment mode, we should know about the components of a Spark application.</p>
-
 <p>A Spark application is composed of the driver and executors that can run locally (on a single JVM) or using cluster resources (like CPU, RAM and disk that are managed by a cluster manager).</p>
-
-<p><img src="https://spark.apache.org/docs/latest/img/cluster-overview.png" alt="A Spark application run on a cluster" /></p>
-
+<p><img src="https://spark.apache.org/docs/latest/img/cluster-overview.png" alt="A Spark application run on a cluster"></p>
 <p>Deploy modes are all about where the Spark driver runs. Spark provides two types of deploy mode: client and cluster. In client deploy mode, the Spark driver (and SparkContext) runs on a client node outside a cluster whereas in cluster mode it runs inside a cluster, i.e. inside a YARN container alongside ApplicationMaster (that acts as the Spark application in YARN).</p>
-
 <p>Deploy mode can be specified using the <code>--deploy-mode</code> parameter or <code>spark.submit.deployMode</code> when submitting a Spark application.</p>
-
-<hr />
-
+<hr>
 <p><strong>Note</strong></p>
-
 <p>cluster deploy mode is only available for non-local cluster deployments.</p>
-
-<hr />
-
+<hr>
 <h3 id="client-deployment-mode">Client Deployment Mode</h3>
-
-<p><img src="https://www.cloudera.com/documentation/enterprise/5-4-x/images/spark-yarn-client.png" alt="" /></p>
-
+<p><img src="https://www.cloudera.com/documentation/enterprise/5-4-x/images/spark-yarn-client.png" alt=""></p>
 <p>Client deployment mode is the default mode when submitting a Spark application. In client mode, the driver daemon runs in the machine through which you submit the spark job to your cluster. This mode is great when you want to use Spark interactively like give some user input or use any shell command. Also, in this mode, you can use actions like <code>take()</code> or <code>collect()</code> which fetch all transformation results to the driver program and can be seen.</p>
-
 <h3 id="cluster-deployment-mode">Cluster Deployment Mode</h3>
-
-<p><img src="https://www.cloudera.com/documentation/enterprise/5-4-x/images/spark-yarn-cluster.png" alt="" /></p>
-
+<p><img src="https://www.cloudera.com/documentation/enterprise/5-4-x/images/spark-yarn-cluster.png" alt=""></p>
 <p>In cluster mode, you don&rsquo;t get to use the spark job interactively as the client through which you submit the job is gone as soon as it successfully submits the job to cluster. In this mode, most of the time, it&rsquo;s a waste of memory to use <code>take()</code>, as it will fetch all the results to your driver (in the cluster and not in the client that submit the job). So you may want to store the results of your transformation to a distributed environment like HDFS.
 Some resources have to be reserved for the driver daemon process as it will be running in your cluster.</p>
-
-<hr />
-
+<hr>
 <p><strong>Note</strong></p>
-
 <p>Cluster deploy mode is not applicable to Spark shell tools, including <code>spark-shell</code>, <code>pyspark</code> and <code>spark-sql</code>.</p>
-
-<hr />
-
+<hr>
 <h2 id="reference-and-further-reading">Reference and Further Reading</h2>
-
 <ul>
 <li><a href="https://www.cloudera.com/documentation/enterprise/5-4-x/topics/cdh_ig_running_spark_on_yarn.html#concept_asc_2hr_gs">Running Spark Applications on YARN | 5.4.x | Cloudera Documentation</a></li>
 <li><a href="https://jaceklaskowski.gitbooks.io/mastering-apache-spark/yarn/">Spark on YARN · The Internals of Apache Spark</a></li>

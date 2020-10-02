@@ -32,7 +32,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/seven-days-seven-languages-io/" />
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -61,16 +61,13 @@
 <meta property="og:description" content="Io简介 大多数的Io社区都致力于将Io作为带有微型虚拟机和丰富并发特性的可嵌入语言来推广。 Io的核心优势是拥有大量可定制的语法和函数，以及强" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/seven-days-seven-languages-io/" />
-<meta property="article:published_time" content="2015-05-08T09:00:00&#43;08:00"/>
-<meta property="article:modified_time" content="2015-05-08T09:00:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2015-05-08T09:00:00+08:00" />
+<meta property="article:modified_time" content="2015-05-08T09:00:00+08:00" />
 <meta itemprop="name" content="七周七语言之IO学习笔记">
 <meta itemprop="description" content="Io简介 大多数的Io社区都致力于将Io作为带有微型虚拟机和丰富并发特性的可嵌入语言来推广。 Io的核心优势是拥有大量可定制的语法和函数，以及强">
-
-
-<meta itemprop="datePublished" content="2015-05-08T09:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2015-05-08T09:00:00&#43;08:00" />
-<meta itemprop="wordCount" content="4385">
+<meta itemprop="datePublished" content="2015-05-08T09:00:00+08:00" />
+<meta itemprop="dateModified" content="2015-05-08T09:00:00+08:00" />
+<meta itemprop="wordCount" content="4371">
 
 
 
@@ -350,70 +347,60 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#io简介">Io简介</a></li>
-<li><a href="#对象-原型和继承">对象、原型和继承</a></li>
-<li><a href="#方法">方法</a>
-<ul>
-<li><a href="#单例">单例</a></li>
-</ul></li>
-<li><a href="#第一天自习">第一天自习</a></li>
-<li><a href="#运算符">运算符</a></li>
-<li><a href="#消息">消息</a></li>
-<li><a href="#反射">反射</a></li>
-<li><a href="#第二天自习">第二天自习</a></li>
-<li><a href="#领域特定语言">领域特定语言</a></li>
-<li><a href="#io的method-messing">Io的method_messing</a></li>
-<li><a href="#并发">并发</a>
-<ul>
-<li><a href="#1-协程">1.协程</a></li>
-<li><a href="#2-actor">2.Actor</a></li>
-<li><a href="#3-future">3.future</a></li>
-</ul></li>
-<li><a href="#第三天自习">第三天自习</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#io简介">Io简介</a></li>
+    <li><a href="#对象原型和继承">对象、原型和继承</a></li>
+    <li><a href="#方法">方法</a>
+      <ul>
+        <li><a href="#单例">单例</a></li>
+      </ul>
+    </li>
+    <li><a href="#第一天自习">第一天自习</a></li>
+    <li><a href="#运算符">运算符</a></li>
+    <li><a href="#消息">消息</a></li>
+    <li><a href="#反射">反射</a></li>
+    <li><a href="#第二天自习">第二天自习</a></li>
+    <li><a href="#领域特定语言">领域特定语言</a></li>
+    <li><a href="#io的method_messing">Io的method_messing</a></li>
+    <li><a href="#并发">并发</a>
+      <ul>
+        <li><a href="#1协程">1.协程</a></li>
+        <li><a href="#2actor">2.Actor</a></li>
+        <li><a href="#3future">3.future</a></li>
+      </ul>
+    </li>
+    <li><a href="#第三天自习">第三天自习</a></li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      
-
-<h2 id="io简介">Io简介</h2>
-
-<p>大多数的Io社区都致力于将Io作为带有微型虚拟机和丰富并发特性的可嵌入语言来推广。<br />
-Io的核心优势是拥有大量可定制的语法和函数，以及强有力的并发模型。<br />
+      <h2 id="io简介">Io简介</h2>
+<p>大多数的Io社区都致力于将Io作为带有微型虚拟机和丰富并发特性的可嵌入语言来推广。<br>
+Io的核心优势是拥有大量可定制的语法和函数，以及强有力的并发模型。<br>
 在Io中，万事万物皆为消息，且每条消息都灰返回另一接受消息的对象。Io这门语言没有关键字，有的只是少量在行为上接近于关键字的字符。</p>
-
-<h2 id="对象-原型和继承">对象、原型和继承</h2>
-
-<p>Io是一门原型语言，所有的对象都有原型，对象还带有槽（slot，相当于类的域和方法？？）。<br />
-槽的相关操作<br />
- 1.  <code>:=</code>当槽不存在，Io会创建一个槽，然后赋值<br />
- 2.  <code>=</code>给槽赋值，如果槽不存在，抛出异常<br />
- 3.  <code>::=</code>新建槽
- 4.  type 任何对象都有type这个槽，返回对象的原型<br />
- 5.  slotNames返回对象的槽名列表<br />
- 6.  getSlot(name)获取槽的内容，如果槽不存在会获取父对象的槽</p>
-
-<p>Io的类型是一个非常好的机制。从惯用的角度说，以大写开开头的对象时类型，因此Io会对它设置type槽。而类型的复制品若以小写开头则会调用它父对象的type槽。<br />
-<!-- more --></p>
-
+<h2 id="对象原型和继承">对象、原型和继承</h2>
+<p>Io是一门原型语言，所有的对象都有原型，对象还带有槽（slot，相当于类的域和方法？？）。<br>
+槽的相关操作</p>
+<ol>
+<li><code>:=</code>当槽不存在，Io会创建一个槽，然后赋值</li>
+<li><code>=</code>给槽赋值，如果槽不存在，抛出异常</li>
+<li><code>::=</code>新建槽</li>
+<li>type 任何对象都有type这个槽，返回对象的原型</li>
+<li>slotNames返回对象的槽名列表</li>
+<li>getSlot(name)获取槽的内容，如果槽不存在会获取父对象的槽</li>
+</ol>
+<p>Io的类型是一个非常好的机制。从惯用的角度说，以大写开开头的对象时类型，因此Io会对它设置type槽。而类型的复制品若以小写开头则会调用它父对象的type槽。</p>
+<!-- raw HTML omitted -->
 <h2 id="方法">方法</h2>
-
-<p>方法是槽的一种？<br />
+<p>方法是槽的一种？ <br>
 方法也是对象，和其它类型的对象一样，你可以获取它的类型。</p>
-
 <pre><code>Io&gt;method() type  
 ==&gt;Block  
 </code></pre>
-
 <p>Lobby是主命名空间（相当于浏览器中javascript的window？），包含所有已命名的对象。</p>
-
 <pre><code>Io&gt; Lobby
   Protos           = Object_0x1dac868
   _                = Object_0x1dac8c8
@@ -421,49 +408,44 @@ Io的核心优势是拥有大量可定制的语法和函数，以及强有力的
   forward          = method(...)
   set_             = method(...)
 </code></pre>
-
 <ol>
 <li>所有事物都是对象；</li>
 <li>所有与对象的交互都是消息</li>
-<li>你要做的不是实例化类，而是复制那些叫做原型的对象<br /></li>
-<li>对象会记住它的原型<br /></li>
-<li>对象有槽<br /></li>
-<li>槽包含对象（包括方法对象）<br /></li>
-<li>消息返回槽中的值，或调用槽中的方法<br /></li>
-<li>如果对象无法响应某消息，它则会把消息发送给自己的原型<br /></li>
+<li>你要做的不是实例化类，而是复制那些叫做原型的对象</li>
+<li>对象会记住它的原型</li>
+<li>对象有槽</li>
+<li>槽包含对象（包括方法对象）</li>
+<li>消息返回槽中的值，或调用槽中的方法</li>
+<li>如果对象无法响应某消息，它则会把消息发送给自己的原型</li>
 </ol>
-
 <h3 id="单例">单例</h3>
-
 <p>true、false和nil都是单例（singleton），对它们进行复制，返回的只是单例对象的值。构建单例只需重定义clone方法，让它返回单例对象自身即可。</p>
-
 <h2 id="第一天自习">第一天自习</h2>
-
 <ol>
-<li><p>对1+1求值，然后对1+&ldquo;one&rdquo;求值。Io是强类型还是弱类型？用代码证实你的答案。</p>
-
-<pre><code>Io&gt; 1+1
-==&gt; 2
-Io&gt; 1+&quot;one&quot;
-
-Exception: argument 0 to method '+' must be a Number, not a 'Sequence'
----------
-message '+' in 'Command Line' on line 1
-
-Io&gt; &quot;1&quot;+&quot;one&quot;
-
-Exception: Io Assertion 'operation not valid on non-number encodings'
----------
-message '+' in 'Command Line' on line 1
-
-Io&gt; &quot;1&quot; .. &quot;one&quot;
-==&gt; 1one
-Io&gt; 1 .. &quot;one&quot;
-==&gt; 1one
-</code></pre></li>
-
-<li><p>0是true还是false？空字符串是true还是false？nil是true还是false？用代码证实你的答案。</p>
-
+<li>
+<p>对1+1求值，然后对1+&ldquo;one&quot;求值。Io是强类型还是弱类型？用代码证实你的答案。</p>
+<pre><code> Io&gt; 1+1
+ ==&gt; 2
+ Io&gt; 1+&quot;one&quot;
+	
+ Exception: argument 0 to method '+' must be a Number, not a 'Sequence'
+ ---------
+ message '+' in 'Command Line' on line 1
+	
+ Io&gt; &quot;1&quot;+&quot;one&quot;
+	
+ Exception: Io Assertion 'operation not valid on non-number encodings'
+ ---------
+ message '+' in 'Command Line' on line 1
+	
+ Io&gt; &quot;1&quot; .. &quot;one&quot;
+ ==&gt; 1one
+ Io&gt; 1 .. &quot;one&quot;
+ ==&gt; 1one
+</code></pre>
+</li>
+<li>
+<p>0是true还是false？空字符串是true还是false？nil是true还是false？用代码证实你的答案。</p>
 <pre><code>Io&gt; if( 0 , true println,false println)
 true
 ==&gt; true
@@ -473,59 +455,57 @@ true
 Io&gt; if( nil , true println,false println)
 false
 ==&gt; false
-</code></pre></li>
-
-<li><p>如何知道某个原型具有哪些槽？</p>
-
-<pre><code>Io&gt; Sequence slotNames foreach(println)
-log
-linePrint
-beforeSeq
-pathComponent
-urlDecoded
-removeSeq
-bitwiseAnd
-removeOddIndexes
-uppercase
-findSeq
-replaceSeq
-cPrint
-logicalOr
-...
-</code></pre></li>
-
-<li><p><code>=、:=、::=</code>之间有什么区别？你会在什么时候使用它们？</p>
-
-<pre><code>Io&gt; OperatorTable
-==&gt; OperatorTable_0x951180:
-Operators
-  0   ? @ @@
-  ...
-
-Assign Operators
-  ::= newSlot
-  :=  setSlot
-  =   updateSlot
 </code></pre>
-
-<p>实际测试没有发现::=与:=的区别。</p></li>
-
-<li><p>从文件中运行Io程序。</p>
-
-<pre><code>D:\IoCodes&gt;cat sum.io
-sum := 0
-for(i,1,100,
-        sum = sum + i
-)
-sum println
-
-D:\IoCodes&gt;io sum.io
-5050
-</code></pre></li>
+</li>
+<li>
+<p>如何知道某个原型具有哪些槽？</p>
+<pre><code> Io&gt; Sequence slotNames foreach(println)
+ log
+ linePrint
+ beforeSeq
+ pathComponent
+ urlDecoded
+ removeSeq
+ bitwiseAnd
+ removeOddIndexes
+ uppercase
+ findSeq
+ replaceSeq
+ cPrint
+ logicalOr
+ ...
+</code></pre>
+</li>
+<li>
+<p><code>=、:=、::=</code>之间有什么区别？你会在什么时候使用它们？</p>
+<pre><code> Io&gt; OperatorTable
+ ==&gt; OperatorTable_0x951180:
+ Operators
+   0   ? @ @@
+   ...
+	
+ Assign Operators
+   ::= newSlot
+   :=  setSlot
+   =   updateSlot
+</code></pre>
+<p>实际测试没有发现::=与:=的区别。</p>
+</li>
+<li>
+<p>从文件中运行Io程序。</p>
+<pre><code> D:\IoCodes&gt;cat sum.io
+ sum := 0
+ for(i,1,100,
+         sum = sum + i
+ )
+ sum println
+	
+ D:\IoCodes&gt;io sum.io
+ 5050
+</code></pre>
+</li>
 </ol>
-
 <h2 id="运算符">运算符</h2>
-
 <pre><code>Io&gt; OperatorTable addOperator(&quot;xor&quot;,11)
 ==&gt; OperatorTable_0x1d61180:
 Operators
@@ -542,7 +522,7 @@ Assign Operators
   =   updateSlot
 
 To add a new operator: OperatorTable addOperator(&quot;+&quot;, 4) and implement the + message.
-To add a new assign operator: OperatorTable addAssignOperator(&quot;=&quot;, &quot;updateSlot&quot;) and implement the updateSlot   message.
+To add a new assign operator: OperatorTable addAssignOperator(&quot;=&quot;, &quot;updateSlot&quot;) and implement the updateSlot 	message.
 
 Io&gt; true xor := method(bool,if(bool,false,true))
 ==&gt; method(bool,
@@ -555,11 +535,8 @@ Io&gt; false xor := method(bool,if(bool,true,false))
 Io&gt; true xor false
 ==&gt; true
 </code></pre>
-
 <h2 id="消息">消息</h2>
-
 <p>在Io中，几乎一切都是消息。一个消息由三部分组成：发送者（sender)、目标（target）、参数（arguments）。你可以用call方法访问任何消息的元信息。</p>
-
 <pre><code>//msg.io
 MsgReceiver := Object clone
 MsgReceiver receive := method(
@@ -631,24 +608,17 @@ arguments[0] is : Message
 arguments[0] is : Sequence
 [Finished in 0.2s]
 </code></pre>
-
 <p>可以看到，send方法的发送者是全局对象Lobby。
 evalArgAt和argAt是两者间的区别：</p>
-
 <blockquote>
-<p>evalArgAt(argNumber)<br />
- Evaluates the specified argument of the Call’s message in the context of it’s sender.</p>
-
-<p>argAt(argNumber)<br />
-  Returns the message’s argNumber arg. Shorthand for same as call message argAt(argNumber).</p>
+<p>evalArgAt(argNumber)<br>
+Evaluates the specified argument of the Call’s message in the context of it’s sender.</p>
+<p>argAt(argNumber)<br>
+Returns the message’s argNumber arg. Shorthand for same as call message argAt(argNumber).</p>
 </blockquote>
-
 <p>大多数语言都将参数作为栈上的值传递，但是Io不是这样。Io传递的是消息本身和上下文，在由接受者对消息求值。实际上你可以用消息实现控制结构。</p>
-
 <h2 id="反射">反射</h2>
-
 <p>在Io中，处理反射分为两个部分。在邮局那个例子中，是消息反射。对象反射是处理对象和对象的槽。</p>
-
 <pre><code>Object ancestors := method(
     prototype := self proto
     if(prototype !=Object,
@@ -693,12 +663,10 @@ type
 waddle
 quack
 </code></pre>
-
 <h2 id="第二天自习">第二天自习</h2>
-
 <ol>
-<li><p>计算斐波那契数列的递归和循环两种方法：</p>
-
+<li>
+<p>计算斐波那契数列的递归和循环两种方法：</p>
 <pre><code>fib := method(n,
     if(n ==1 or n == 2) then(
         return 1
@@ -706,7 +674,7 @@ quack
         return (fib(n-1) + fib(n-2))
     )
 )
-
+	
 fib2 := method(n,
     if(n == 1) then (
         return 1
@@ -722,10 +690,10 @@ fib2 := method(n,
         return cur
     )
 )
-</code></pre></li>
-
-<li><p>在分母为0的情况下如何让运算符/返回0？</p>
-
+</code></pre>
+</li>
+<li>
+<p>在分母为0的情况下如何让运算符/返回0？</p>
 <pre><code>Number setSlot(&quot;coreDivision&quot;, Number getSlot(&quot;/&quot;))
 
 Number / = method(n,
@@ -737,17 +705,17 @@ Number / = method(n,
 )
 
 (4/0) println
-
+	
 (8/4) println
-
+	
 (16/8) println
-
+	
 (16 / -8) println
-</code></pre></li>
-
-<li><p>写一个程序，把二维数组的所有数相加<br />
+</code></pre>
+</li>
+<li>
+<p>写一个程序，把二维数组的所有数相加<br>
 Io中没有Array这个原型，所以用List代替数组</p>
-
 <pre><code>sum := method(arr,
     if(arr type != &quot;List&quot;) then(
         return 0
@@ -765,17 +733,17 @@ Io中没有Array这个原型，所以用List代替数组</p>
     )
     return sum
 )
-
+	
 sum(list(list(3,4),list(5))) println
 sum(list(7,8)) println
 
 ************output*************
 7
 0
-</code></pre></li>
-
-<li><p>对列表增加一个名为myAverage的槽，以计算所有数字的平均值。</p>
-
+</code></pre>
+</li>
+<li>
+<p>对列表增加一个名为myAverage的槽，以计算所有数字的平均值。</p>
 <pre><code>List myAverage := method(
     if(self isEmpty) then( return 0 )
     sum := 0
@@ -787,13 +755,13 @@ sum(list(7,8)) println
     )
     avg := sum / self size
 )
-
+	
 list() myAverage println
 list(3,4,5,1.2) myAverage println
-</code></pre></li>
-
-<li><p>对二维矩阵写一个原型。该原型dim的方法可为一个包含y个列表的列表分配内存，其中每个列表有x个元素，set(x,y) 方法可以设置类别中的值，get(x,y)方法可返回列表中的值。</p>
-
+</code></pre>
+</li>
+<li>
+<p>对二维矩阵写一个原型。该原型dim的方法可为一个包含y个列表的列表分配内存，其中每个列表有x个元素，set(x,y) 方法可以设置类别中的值，get(x,y)方法可返回列表中的值。</p>
 <pre><code>TwoDArray := Object clone
 TwoDArray dim := method(x,y,
     self data := list()
@@ -805,7 +773,7 @@ TwoDArray dim := method(x,y,
         data append(innerList)
     )
 )
-
+	
 TwoDArray set := method(x,y,e,
     outterList := self data
     if(x &gt; outterList size, return)
@@ -813,7 +781,7 @@ TwoDArray set := method(x,y,e,
     if(y &gt; innerList size, return)
     innerList atPut(y,e)
 )
-
+	
 TwoDArray get := method(x,y,
     outterList := self data
     if(x &gt; outterList size, return nil)
@@ -821,8 +789,8 @@ TwoDArray get := method(x,y,
     if(y &gt; innerList size, return nil)
     innerList at(y)
 )
-
-
+	
+	
 arr2 := TwoDArray clone
 arr2 dim(3,4)
 arr2 set(1,2,3)
@@ -830,11 +798,10 @@ arr2 set(1,10,3)
 arr2 get(1,2) println
 arr2 get(1,10) println
 </code></pre>
-
-<p>dim(x,y)分配了包含x个列表的列表，每个子列表有y个元素，与题目有点不同，但觉得这样更好理解。  代码没有对数组下标越界抛出异常，抛出异常应该更好。</p></li>
-
-<li><p>写一个转置方法，是原列表上的matrix get(x,y)与转置后的列表(new_matrix get(y,x))相等。</p>
-
+<p>dim(x,y)分配了包含x个列表的列表，每个子列表有y个元素，与题目有点不同，但觉得这样更好理解。	代码没有对数组下标越界抛出异常，抛出异常应该更好。</p>
+</li>
+<li>
+<p>写一个转置方法，是原列表上的matrix get(x,y)与转置后的列表(new_matrix get(y,x))相等。</p>
 <pre><code>TwoDArray transpose := method(
     outterList := self data
     y := outterList size
@@ -849,8 +816,8 @@ arr2 get(1,10) println
     )
     return ret
 )
-
-
+	
+	
 arr2 := TwoDArray clone
 arr2 dim(3,4)
 arr2 set(1,2,3)
@@ -861,10 +828,10 @@ arr2 get(1,10) println
 arr3 := arr2 transpose
 arr3 get(2,1) println
 arr3 get(10,1) println
-</code></pre></li>
-
-<li><p>将文件写入矩阵，并从文件读取矩阵</p>
-
+</code></pre>
+</li>
+<li>
+<p>将文件写入矩阵，并从文件读取矩阵</p>
 <pre><code>TwoDArray writeMatrix := method(filePath,
     f := File with(filePath)
     f remove
@@ -882,8 +849,8 @@ arr3 get(10,1) println
     )
     f close
 )
-
-
+	
+	
 TwoDArray readMatrix := method(filePath,
     f := File with(filePath)
     f openForReading
@@ -909,8 +876,8 @@ TwoDArray readMatrix := method(filePath,
     f close
     return ret
 )
-
-
+	
+	
 TwoDArray writeMatrix2 := method(filePath,
     f := File with(filePath)
     f remove
@@ -918,13 +885,13 @@ TwoDArray writeMatrix2 := method(filePath,
     f write(self serialized())
     f close
 )
-
+	
 TwoDArray readMatrix2 := method(filePath,
     ret := doFile(filePath)
     return ret
 )
-
-
+	
+	
 arr2 := TwoDArray clone
 arr2 dim(3,4)
 arr2 set(1,2,3)
@@ -935,26 +902,26 @@ arr2 get(1,10) println
 arr3 := arr2 transpose
 arr3 get(2,1) println
 arr3 get(10,1) println
-
+	
 arr3 writeMatrix(&quot;./test.dt&quot;)
-
+	
 arr4 := TwoDArray readMatrix(&quot;./test.dt&quot;)
-
+	
 arr4 println
 arr4 get(2,1) println
 arr4 get(10,1) println
-
+	
 arr3 writeMatrix2(&quot;./test2.dt&quot;)
-
+	
 arr5 := TwoDArray readMatrix2(&quot;./test2.dt&quot;)
-
+	
 arr5 println
 arr5 get(2,1) println
 arr5 get(10,1) println
-</code></pre></li>
-
-<li><p>写一个程序，提供10次尝试机会，猜一个1~100之间的随机数。如果</p>
-
+</code></pre>
+</li>
+<li>
+<p>写一个程序，提供10次尝试机会，猜一个1~100之间的随机数。如果</p>
 <pre><code>GuessNumGame := Object clone
 GuessNumGame init := method(
     self secretNum := Random value(1,101) floor
@@ -963,7 +930,7 @@ GuessNumGame init := method(
     self highBoundry := 100
     secretNum println
 )
-
+	
 GuessNumGame guess := method(x,
     guessTimes println
     if(guessTimes &gt; 10) then(
@@ -981,26 +948,22 @@ GuessNumGame guess := method(x,
     )
     guessTimes = guessTimes + 1
 )
-
+	
 game := GuessNumGame clone
 game guess(10)
 game guess(50)
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
-
 <h2 id="领域特定语言">领域特定语言</h2>
-
-<p>几乎每一个研究过Io语言的人，都会对它在DSL方面的强大赞不绝口。下面实现一种有趣的电话号码语法的API。<br />
+<p>几乎每一个研究过Io语言的人，都会对它在DSL方面的强大赞不绝口。下面实现一种有趣的电话号码语法的API。<br>
 比如：</p>
-
 <pre><code>{
     &quot;Bob smith&quot;:&quot;5195551212&quot;,
     &quot;Mary Walsh&quot;:&quot;4162223434&quot;
 }
 </code></pre>
-
 <p>解决这一个问题的办法：</p>
-
 <pre><code>OperatorTable addAssignOperator(&quot;:&quot;,&quot;atPutNumber&quot;)
 curlyBrackets := method(
     r := Map clone
@@ -1022,29 +985,22 @@ phoneNumbers := doString(s)  //doString把电话号码簿求值为Io代码
 phoneNumbers keys println
 phoneNumbers values println
 </code></pre>
-
-<h2 id="io的method-messing">Io的method_messing</h2>
-
-<p>就像Ruby的method_missing那样，你也可以用Io的forward消息做到同样的事，但是这样做的风险会高一些。Io没有类，所以改变forward也将改变从Object获得的基本行为方式。<br />
+<h2 id="io的method_messing">Io的method_messing</h2>
+<p>就像Ruby的method_missing那样，你也可以用Io的forward消息做到同样的事，但是这样做的风险会高一些。Io没有类，所以改变forward也将改变从Object获得的基本行为方式。<br>
 XML是对数据进行结构化的绝妙方式，但是却有着令人作呕的语法。为了摆脱这语法，你可以写一个程序，用Io代码来表示XML数据。
 假如你想把下面的数据：</p>
-
 <pre><code>&lt;body&gt;
 &lt;p&gt;
 This is a simple paragraph.
 &lt;/p&gt;
 &lt;/body&gt;
 </code></pre>
-
 <p>表示成：</p>
-
 <pre><code>body(
     p(&quot;This is a simple paragraph.&quot;)
 )
 </code></pre>
-
 <p>我们把这种新语言称作LispML。我们将用Io的forward处理这门语言，就像处理不存在的方法一样（missing_method）。</p>
-
 <pre><code>Builder := Object clone
 Builder forward := method(
     writeln(&quot;&lt;&quot;,call message name,&quot;&gt;&quot;)
@@ -1061,16 +1017,11 @@ Builder ul(
     li(&quot;Javascript&quot;)
 )
 </code></pre>
-
 <h2 id="并发">并发</h2>
-
 <p>Io有非常出色的并发库，其主要组成部分包括协程、actor和future。</p>
-
-<h3 id="1-协程">1.协程</h3>
-
+<h3 id="1协程">1.协程</h3>
 <p>协程是并发的基础。它提供了进程自动挂起和恢复执行的机制。你可以把协程想象成有多个入口和出口的函数。每次yield都会自动挂起当前进程，并把控制转到另一个进程中。
 通过在消息前加上@或@@，你可以异步触发消息，前者将返回future，后者会返回nil，并在其自身线程中触发消息。</p>
-
 <pre><code>vizzini := Object clone
 vizzini talk := method(
     &quot;Fezzik, are there rooks ahead?&quot; println
@@ -1092,14 +1043,10 @@ fezzik @@rhyme
 
 Coroutine currentCoroutine pause
 </code></pre>
-
 <p>协程是组成更高级抽象概念（如actor）的基本元素。你可以把actor想象成通用的并发原语，它可以发送消息、处理消息以及创建其它actor。actor接收到的消息是并发的。在Io中，actor把新到达的消息放到队列上，并用协程处理队列中的各个消息。</p>
-
-<h3 id="2-actor">2.Actor</h3>
-
-<p>和线程相比，actor有巨大的理论优势。一个actor可以改变其自身状态，并且通过严格控制的队列接触其它actor。而多个线程可以不受限制地改变状态。线程容易接受到被称为竞争条件的并发影响。在这种问题中，如果两个线程同时存取资源，可能导致不可预测的后果。<br />
+<h3 id="2actor">2.Actor</h3>
+<p>和线程相比，actor有巨大的理论优势。一个actor可以改变其自身状态，并且通过严格控制的队列接触其它actor。而多个线程可以不受限制地改变状态。线程容易接受到被称为竞争条件的并发影响。在这种问题中，如果两个线程同时存取资源，可能导致不可预测的后果。<br>
 Io的动人之处就在于此，发送异步消息给任何对象就是actor，就这么简单。举一个例子：</p>
-
 <pre><code>slower := Object clone
 faster := Object clone
 
@@ -1120,31 +1067,25 @@ slower @@start
 faster @@start
 Coroutine currentCoroutine pause
 </code></pre>
-
-<h3 id="3-future">3.future</h3>
-
+<h3 id="3future">3.future</h3>
 <p>在Io中，future并不是代理实现。future会阻塞到可获得结果为止。future的值一开始是个future对象，但等到结果产生之后，所有future值的实例都会指向结果对象。</p>
-
 <pre><code>futureResult := URL with(&quot;http://google.com/&quot;) @fetch
 writeln(&quot;doing other thing ...&quot;)
 wait(2)
 writeln(&quot;fetched,&quot; futureResult size,&quot; bytes&quot;)
 </code></pre>
-
 <p>在windows下运行上面代码出现Exception: Object does not respond to &lsquo;URL&rsquo;异常，google了一下，未能解决，望高手指点。</p>
-
 <h2 id="第三天自习">第三天自习</h2>
-
 <ol>
-<li><p>改进本节生成的XML程序，增加空格以显示缩进结构。</p>
-
+<li>
+<p>改进本节生成的XML程序，增加空格以显示缩进结构。</p>
 <pre><code>Builder := Object clone
 Builder indentSize := 4
 Builder i := 0
 Builder forward := method(
     (i * indentSize) repeat(write(&quot; &quot;))
     writeln(&quot;&lt;&quot;,call message name,&quot;&gt;&quot;)
-
+	
     i = i + 1
     call message arguments foreach(arg,
         content := self doMessage(arg)
@@ -1154,22 +1095,22 @@ Builder forward := method(
         )
     )
     i = i -1
-
+	
     (i * indentSize) repeat(write(&quot; &quot;))
     writeln(&quot;&lt;/&quot;,call message name,&quot;&gt;&quot;)
 )
-
+	
 Builder ul(
     li(p(&quot;IO&quot;)),
     li(&quot;Lua&quot;),
     li(&quot;Javascript&quot;)
 )
-</code></pre></li>
-
-<li><p>创建一种使用括号的列表语法</p>
-
-<pre><code>squareBrackets := method(       
-  if(call message arguments asString containsSeq(&quot;squareBrackets&quot;) not,return call message arguments)       //如果不含子数组就直接返回参数列表,参数列表本来就是一个list
+</code></pre>
+</li>
+<li>
+<p>创建一种使用括号的列表语法</p>
+<pre><code>squareBrackets := method(		
+  if(call message arguments asString containsSeq(&quot;squareBrackets&quot;) not,return call message arguments) 		//如果不含子数组就直接返回参数列表,参数列表本来就是一个list
   list := List clone
   call message arguments foreach(arg,
    aArg := if(arg asString beginsWithSeq(&quot;squareBrackets&quot;),doMessage(arg),arg)
@@ -1177,41 +1118,41 @@ Builder ul(
   )
   list
 )
-
+	
 [] println
 [1,&quot;kk&quot;] println
 [1,[&quot;kk&quot;,10.5]] println
-</code></pre></li>
-
-<li><p>改进本节生成xml程序，使其可以处理属性：如果第一个参数时映射（用大括号语法），则为xml添加属性。例如：<br />
-<code>book({&quot;author&quot;:&quot;Tate&quot;}...)</code> 将打印出<code>&lt;book author=&quot;Tate&quot;&gt;</code></p>
-
+</code></pre>
+</li>
+<li>
+<p>改进本节生成xml程序，使其可以处理属性：如果第一个参数时映射（用大括号语法），则为xml添加属性。例如：<br>
+<code>book({&quot;author&quot;:&quot;Tate&quot;}...)</code> 将打印出<code> &lt;book author=&quot;Tate&quot;&gt;</code></p>
 <pre><code>OperatorTable addAssignOperator(&quot;:&quot;,&quot;addAttribute&quot;)
-
+	
 Builder := Object clone
-
+	
 Builder addAttribute := method(
     call message arguments println
     write(call evalArgAt(0))
     write(&quot;=\&quot;&quot;,call evalArgAt(1),&quot;\&quot;&quot;)
 )
-
+	
 Builder curlyBrackets := method(
     call message arguments foreach(arg,
         self doMessage(arg)
     )
 )
-
-
-
+	
+	
+	
 Builder indentSize := 4
 Builder i := 0
 Builder forward := method(
     (i * indentSize) repeat(write(&quot; &quot;))
     write(&quot;&lt;&quot;,call message name)
-
+	
     i = i + 1
-
+		
     args :=call message arguments 
     arg1 := args at(0)
     if( arg1 asString beginsWithSeq(&quot;curlyBrackets&quot;),
@@ -1228,21 +1169,20 @@ Builder forward := method(
         )
     )
     i = i -1
-
+	
     (i * indentSize) repeat(write(&quot; &quot;))
     writeln(&quot;&lt;/&quot;,call message name,&quot;&gt;&quot;)
 )
-
-
+			
+	
 Builder ul(
     {&quot;class&quot; : &quot;foo&quot;,&quot;id&quot; : &quot;language&quot;},
     li(&quot;Io&quot;)
 )
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
-
 <p>上面代码会出现异常，不知道如何解决。</p>
-
 <pre><code>    &lt;ul
       Exception: Sequence does not respond to ':'
       ---------

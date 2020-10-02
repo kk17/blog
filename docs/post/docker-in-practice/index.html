@@ -32,7 +32,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/docker-in-practice/" />
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -61,15 +61,12 @@
 <meta property="og:description" content="Docker是近来大热的技术，似乎没有用过Docker都要落伍了，于是我也在一个个人的项目中用上了Docker，也算有了一些实践经验，与大家" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/docker-in-practice/" />
-<meta property="article:published_time" content="2015-03-08T09:00:00&#43;08:00"/>
-<meta property="article:modified_time" content="2015-03-08T09:00:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2015-03-08T09:00:00+08:00" />
+<meta property="article:modified_time" content="2015-03-08T09:00:00+08:00" />
 <meta itemprop="name" content="Docker入门实践小结">
 <meta itemprop="description" content="Docker是近来大热的技术，似乎没有用过Docker都要落伍了，于是我也在一个个人的项目中用上了Docker，也算有了一些实践经验，与大家">
-
-
-<meta itemprop="datePublished" content="2015-03-08T09:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2015-03-08T09:00:00&#43;08:00" />
+<meta itemprop="datePublished" content="2015-03-08T09:00:00+08:00" />
+<meta itemprop="dateModified" content="2015-03-08T09:00:00+08:00" />
 <meta itemprop="wordCount" content="947">
 
 
@@ -349,40 +346,28 @@ if (!doNotTrack) {
 <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
-    
+    <nav id="TableOfContents"></nav>
   </div>
 </div>
 
     
     <div class="post-content">
       <p><a href="https://www.docker.com/">Docker</a>是近来大热的技术，似乎没有用过Docker都要落伍了，于是我也在一个个人的项目中用上了Docker，也算有了一些实践经验，与大家分享交流一下。</p>
-
 <p>首先是安装和配置本地的Docker环境，因为Docker是Linux容器引擎，所以宿主机必须是Linux，Windows和Mac系统使用Docker必须先安装Boot2Docker运行一个包含Docker依赖的最小化Linux虚拟机作为宿主机，当然也可以用虚拟机运行一个完整Linux桌面系统然后再在里面安装Docker，个人更推荐后面一种方法。</p>
-
-<p>国内连Docker Hub Pull镜像速度比较慢，推荐使用注册免费使用<a href="http://www.daocloud.io">DaoCloud</a>的个人加速链接，注册后还可以有Boot2Docker的加速下载链接。
-<!-- more --></p>
-
+<p>国内连Docker Hub Pull镜像速度比较慢，推荐使用注册免费使用<a href="http://www.daocloud.io">DaoCloud</a>的个人加速链接，注册后还可以有Boot2Docker的加速下载链接。</p>
+<!-- raw HTML omitted -->
 <p>如果你想在服务器上运行Docker但是自己没有服务器，推荐使用DigitalOcean的旧金山的VPS，<a href="http://www.zhujiceping.com/3469.html">注册教程</a>, 欢迎使用我的<a href="http://www.digitalocean.com/?refcode=40d439332dc3">推广链接</a>注册，注册后你可以获得10美元，相当于可以免费使用最小容量的Droplet两个月，如果你消费了25美元，我也可以获得25美元。</p>
-
 <p>有了环境，如果你想系统学习Docker，可以参考下面的书和系列文章。</p>
-
 <ol>
 <li><a href="http://book.douban.com/subject/26285268/">第一本Docker书 (豆瓣)</a></li>
 <li><a href="http://book.douban.com/subject/26284823/">Docker 技术入门与实战 (豆瓣)</a> <a href="http://dockerpool.com/static/books/docker_practice/index.html">在线阅读</a></li>
 <li><a href="http://www.infoq.com/cn/articles/docker-core-technology-preview">深入浅出Docker系列</a></li>
 </ol>
-
 <p>使用Docker时尽量使用Dockerfile构建镜像，为Dockerfile创建一个GitHub Repository，然后使用<a href="https://hub.docker.com/">Docker Hub</a>关联到这个GitHub Repository，就可以自动构建镜像了，每次有提交都会触发自动构建。大的Dockerfile修改提交到Github前最好本地演练一下，避免自动构建失败。国内网络本地运行Docker镜像安装依赖程序比较慢，可以使用国内的镜像软件源，例如如果是ubuntu可以运行下面命令。</p>
-
 <pre><code>sed 's/archive\.ubuntu\.com/mirrors\.zju\.edu\.cn/' -i /etc/apt/sources.list
-</code></pre>
-
-<p>Dockerfile的一些细节可以参考官方的Dockerfile，例如<a href="https://github.com/docker-library/redis/blob/062335e0a8d20cab2041f25dfff2fbaf58544471/2.8/Dockerfile">redis Dockerfile</a></p>
-
+</code></pre><p>Dockerfile的一些细节可以参考官方的Dockerfile，例如<a href="https://github.com/docker-library/redis/blob/062335e0a8d20cab2041f25dfff2fbaf58544471/2.8/Dockerfile">redis Dockerfile</a></p>
 <p>尽量一个容器（镜像）只负责运行一个应用程序，多个容器可以使用<a href="http://www.fig.sh/">Fig</a>进行简单编配。例如本人的<a href="https://github.com/kk17/CoolCantonese">CoolCantonese</a>项目，使用3个容器分别运行python、redis和nginx。</p>
-
 <p>fig.xml:</p>
-
 <pre><code>wechat:
   image: kk17/coolcantonese
   entrypoint: python
@@ -406,9 +391,7 @@ nginx:
     - configs/nginx.conf:/etc/nginx/nginx.conf:ro
   ports:
     - &quot;9090:9090&quot;
-</code></pre>
-
-<p>以上就是本人对Docker的一些基础实践，欢迎多交流。</p>
+</code></pre><p>以上就是本人对Docker的一些基础实践，欢迎多交流。</p>
 
     </div>
 

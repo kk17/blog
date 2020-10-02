@@ -32,7 +32,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/linux-commands/" />
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -61,16 +61,13 @@
 <meta property="og:description" content="命令行日常系快捷键 如下的快捷方式非常有用，能够极大的提升你的工作效率： CTRL &#43; A – 移动光标到行首 CTRL &#43; E – 移动光标到行末 CTRL &#43; U – 剪切光标前的内容 CTRL" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/linux-commands/" />
-<meta property="article:published_time" content="2015-08-19T09:00:00&#43;08:00"/>
-<meta property="article:modified_time" content="2015-08-19T09:00:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2015-08-19T09:00:00+08:00" />
+<meta property="article:modified_time" content="2015-08-19T09:00:00+08:00" />
 <meta itemprop="name" content="linux命令行笔记">
 <meta itemprop="description" content="命令行日常系快捷键 如下的快捷方式非常有用，能够极大的提升你的工作效率： CTRL &#43; A – 移动光标到行首 CTRL &#43; E – 移动光标到行末 CTRL &#43; U – 剪切光标前的内容 CTRL">
-
-
-<meta itemprop="datePublished" content="2015-08-19T09:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2015-08-19T09:00:00&#43;08:00" />
-<meta itemprop="wordCount" content="839">
+<meta itemprop="datePublished" content="2015-08-19T09:00:00+08:00" />
+<meta itemprop="dateModified" content="2015-08-19T09:00:00+08:00" />
+<meta itemprop="wordCount" content="834">
 
 
 
@@ -350,35 +347,29 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#命令行日常系快捷键">命令行日常系快捷键</a></li>
-<li><a href="#网络">网络：</a></li>
-<li><a href="#cpu">CPU：</a></li>
-<li><a href="#内存">内存：</a></li>
-<li><a href="#磁盘">磁盘：</a></li>
-<li><a href="#文件查找">文件查找</a></li>
-<li><a href="#软件管理">软件管理</a></li>
-<li><a href="#linux服务器之间相互复制文件">linux服务器之间相互复制文件</a></li>
-<li><a href="#有用的命令">有用的命令</a>
-<ul>
-<li><a href="#一些资源">一些资源：</a></li>
-</ul></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#命令行日常系快捷键">命令行日常系快捷键</a></li>
+    <li><a href="#网络">网络：</a></li>
+    <li><a href="#cpu">CPU：</a></li>
+    <li><a href="#内存">内存：</a></li>
+    <li><a href="#磁盘">磁盘：</a></li>
+    <li><a href="#文件查找">文件查找</a></li>
+    <li><a href="#软件管理">软件管理</a></li>
+    <li><a href="#linux服务器之间相互复制文件">linux服务器之间相互复制文件</a></li>
+    <li><a href="#有用的命令">有用的命令</a>
+      <ul>
+        <li><a href="#一些资源">一些资源：</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      
-
-<h2 id="命令行日常系快捷键">命令行日常系快捷键</h2>
-
+      <h2 id="命令行日常系快捷键">命令行日常系快捷键</h2>
 <p>如下的快捷方式非常有用，能够极大的提升你的工作效率：</p>
-
 <ol>
 <li>CTRL + A – 移动光标到行首</li>
 <li>CTRL + E – 移动光标到行末</li>
@@ -392,76 +383,54 @@ if (!doNotTrack) {
 <li>sudo !! 以root权限运行上一条命令</li>
 <li>!command 使用上一条命令的参数</li>
 </ol>
-
 <h2 id="网络">网络：</h2>
-
 <p>查看端口占用情况
 <code>lsof -i:8087</code>
 <code>netstat –apn | grep 8080</code></p>
-
 <p>查看ip:
 <code>ifconfig</code>
 <code>ip a</code></p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="cpu">CPU：</h2>
-
 <p>查看CPU核心数
- <code>cat /proc/cpuinfo |grep -c processor</code></p>
-
-<p><code>top</code>然后按Shift+P，按照进程处理器占用率排序(mac下使用 <code>top -u</code>或 <code>top -o cpu</code>)</p>
-
+<code>cat /proc/cpuinfo |grep -c processor</code></p>
+<p><code>top </code>然后按Shift+P，按照进程处理器占用率排序(mac下使用 <code>top -u</code>或 <code>top -o cpu</code>)</p>
 <h2 id="内存">内存：</h2>
-
 <p>用free命令查看内存使用情况
 <code>free -m</code></p>
-
 <p><code>top</code> 然后按Shift+M, 按照进程内存占用率排序(mac下使用 <code>top -o mem</code>)</p>
-
 <p>查看进程，按内存从大到小排列
 <code>ps -e  -o &quot;%C  : %p : %z : %a&quot;|sort -k5 -nr</code></p>
-
 <h2 id="磁盘">磁盘：</h2>
-
 <p>查看磁盘使用情况
 <code>df -h</code>
 用iostat查看磁盘/dev/sdc3的磁盘i/o情况，每两秒刷新一次
 <code>iostat -d -x /dev/sdc3 2</code></p>
-
 <p>查看磁盘目录统计数据
 <code>du -h</code>
 <code>du -h -d 1 .</code></p>
-
 <h2 id="文件查找">文件查找</h2>
-
-<p>在多级目录中查找某个文件的方法
-1) <code>find /dir -name filename.ext</code>
-2) <code>du -a | grep filename.ext</code>
-3) <code>locate filename.ext</code></p>
-
+<p>在多级目录中查找某个文件的方法</p>
+<ol>
+<li><code>find /dir -name filename.ext </code></li>
+<li><code>du -a | grep filename.ext </code></li>
+<li><code>locate filename.ext</code></li>
+</ol>
 <h2 id="软件管理">软件管理</h2>
-
 <p>debian&amp;ubuntu：
 apt-get也是dpkg的包装，直接使用<code>dpkg -l</code> 来查看已经安装了的软件
 <code>dpkg -l | grep '^ii'</code>
 对于Server版， 推荐使用<code>aptitude</code>来查看，安装、删除deb包
 <code>sudo apt-get install aptitude</code>
 然后执行 sudo aptitude 进入管理界面即可 ：）</p>
-
 <h2 id="linux服务器之间相互复制文件">linux服务器之间相互复制文件</h2>
-
 <p>copy 本地文件1.sh到远程192.168.9.10服务器的/data/目录下
-<code>scp /etc/1.sh king@192.168.9.10:/data/</code>
+<code>scp /etc/1.sh king@192.168.9.10:/data/ </code>
 copy远程192.168.9.10服务器/data/2.sh文件到本地/data/目录
 <code>scp king@192.168.9.10:/data/2.sh /data/</code></p>
-
 <h2 id="有用的命令">有用的命令</h2>
-
 <p><code>date -d @1267619929</code></p>
-
 <h3 id="一些资源">一些资源：</h3>
-
 <ul>
 <li><a href="http://linuxtools-rst.readthedocs.org/zh_CN/latest/index.html">Linux工具快速教程 — Linux Tools Quick Tutorial</a></li>
 <li><a href="http://blog.jobbole.com/83610/">10个重要的Linux ps命令实战</a></li>

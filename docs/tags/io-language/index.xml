@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>io-language on Code Play</title>
@@ -6,11 +6,7 @@
     <description>Recent content in io-language on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2015 09:00:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://blog.kk17.net/tags/io-language/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 08 May 2015 09:00:00 +0800</lastBuildDate><atom:link href="https://blog.kk17.net/tags/io-language/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>七周七语言之IO学习笔记</title>
       <link>https://blog.kk17.net/post/seven-days-seven-languages-io/</link>

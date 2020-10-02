@@ -31,7 +31,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/diving-into-airflow-scheduler/" />
@@ -50,7 +50,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -60,15 +60,12 @@
 <meta property="og:description" content="airflow scheduler" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/diving-into-airflow-scheduler/" />
-<meta property="article:published_time" content="2019-07-26T10:02:55&#43;08:00"/>
-<meta property="article:modified_time" content="2019-07-26T10:02:55&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-07-26T10:02:55+08:00" />
+<meta property="article:modified_time" content="2019-07-26T10:02:55+08:00" />
 <meta itemprop="name" content="Diving Into Airflow Scheduler">
 <meta itemprop="description" content="airflow scheduler">
-
-
-<meta itemprop="datePublished" content="2019-07-26T10:02:55&#43;08:00" />
-<meta itemprop="dateModified" content="2019-07-26T10:02:55&#43;08:00" />
+<meta itemprop="datePublished" content="2019-07-26T10:02:55+08:00" />
+<meta itemprop="dateModified" content="2019-07-26T10:02:55+08:00" />
 <meta itemprop="wordCount" content="2327">
 
 
@@ -349,17 +346,14 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#key-concept">Key Concept</a></li>
-<li><a href="#process-loop">Process Loop</a></li>
-<li><a href="#dagfileprocessormanager-heartbeat">DagFileProcessorManager Heartbeat</a></li>
-<li><a href="#schedulejob-process-file">ScheduleJob Process File</a></li>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#reference">Reference</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#key-concept">Key Concept</a></li>
+    <li><a href="#process-loop">Process Loop</a></li>
+    <li><a href="#dagfileprocessormanager-heartbeat">DagFileProcessorManager Heartbeat</a></li>
+    <li><a href="#schedulejob-process-file">ScheduleJob Process File</a></li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -367,11 +361,8 @@ if (!doNotTrack) {
     
     <div class="post-content">
       <p><a href="../understand-airflow">Last article</a> we told about the basic concepts and architecture of Airflow, and we knew that Airflow has three major components:  <code>webserver</code>,  <code>scheduler</code> and <code>executor.</code>  This article will talk about the detail of the <code>scheduler</code> by diving into some of the source code(version: 1.10.1).</p>
-
 <h2 id="key-concept">Key Concept</h2>
-
 <p>We already told about the key concepts of Airflow, let&rsquo;s recap some concepts use in airflow scheduler here.</p>
-
 <ul>
 <li>Dag Files: Python files that could contain DAGs. A DAG can be definite in a single python file or in multiple python files packaged into an egg file.</li>
 <li>Dag (Directed Acyclic Graph): a workflow which glues all the tasks with inter-dependencies.</li>
@@ -384,544 +375,496 @@ what executor to use to fire off tasks.</li>
 <li>Job: Jobs are processing items with state
 and duration that aren&rsquo;t task instances. There are three types of job in Airflow: ScheduleJob, LocalTaskJob, and BackfillJob.</li>
 </ul>
-
 <h2 id="process-loop">Process Loop</h2>
-
 <p>The Airflow scheduler is designed to run as a persistent service in an Airflow production environment. To kick it off, all you need to do is execute <code>airflow scheduler</code> command. Let&rsquo;s look at how Airflow parses this command and start the process loop.</p>
-
-<p><img src="/process_loop_outer/process_loop_outer.svg" alt="process_loop_outer" /></p>
-
+<p><img src="/process_loop_outer/process_loop_outer.svg" alt="process_loop_outer"></p>
 <p>Firstly, airflow use <code>argparse</code> to parse the command and invoke the <code>scheduler</code> function in <code>airflow.bin.cli</code>. And then <code>scheduler</code> function creates a ScheduleJob and run its <code>run</code> method. The ScheduleJob will save itself to the database, start the executor and create a <code>DagFileProcessorManager</code>. Eventually, the ScheduleJob will run a loop to invoke the <code>processor_manager periodically .heartbeat</code> method.</p>
-
 <p>All the daemon service of Airflow are started by running <code>airflow {serve_name}</code> command. Basically, the <code>airflow</code> command is a python command-line script. We can look at the source code to know how it starts the service.</p>
-
 <p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/bin/airflow#L20">airflow/bin/airflow</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">airflow.bin.cli</span> <span style="color: #008000; font-weight: bold">import</span> CLIFactory
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">from</span> airflow.bin.cli <span style="color:#fff;font-weight:bold">import</span> CLIFactory
 
-<span style="color: #008000; font-weight: bold">if</span> <span style="color: #19177C">__name__</span> <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;__main__&#39;</span>:
-    parser <span style="color: #666666">=</span> CLIFactory<span style="color: #666666">.</span>get_parser()
-    args <span style="color: #666666">=</span> parser<span style="color: #666666">.</span>parse_args()
-    args<span style="color: #666666">.</span>func(args)
-</code></pre></div>
-
-<p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/bin/cli.py#L1247">airflow/bin/cli.py#CLIFactory</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CLIFactory</span>(<span style="color: #008000">object</span>):
-    args <span style="color: #666666">=</span> {
-        <span style="color: #BA2121">&#39;dag_id&#39;</span>: Arg((<span style="color: #BA2121">&quot;dag_id&quot;</span>,), <span style="color: #BA2121">&quot;The id of the dag&quot;</span>),
-        <span style="color: #BA2121">&#39;task_id&#39;</span>: Arg((<span style="color: #BA2121">&quot;task_id&quot;</span>,), <span style="color: #BA2121">&quot;The id of the task&quot;</span>),
-        <span style="color: #666666">...</span>
+<span style="color:#fff;font-weight:bold">if</span> __name__ == <span style="color:#0ff;font-weight:bold">&#39;__main__&#39;</span>:
+    parser = CLIFactory.get_parser()
+    args = parser.parse_args()
+    args.func(args)
+</code></pre></div><p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/bin/cli.py#L1247">airflow/bin/cli.py#CLIFactory</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">class</span> CLIFactory(<span style="color:#fff;font-weight:bold">object</span>):
+    args = {
+        <span style="color:#0ff;font-weight:bold">&#39;dag_id&#39;</span>: Arg((<span style="color:#0ff;font-weight:bold">&#34;dag_id&#34;</span>,), <span style="color:#0ff;font-weight:bold">&#34;The id of the dag&#34;</span>),
+        <span style="color:#0ff;font-weight:bold">&#39;task_id&#39;</span>: Arg((<span style="color:#0ff;font-weight:bold">&#34;task_id&#34;</span>,), <span style="color:#0ff;font-weight:bold">&#34;The id of the task&#34;</span>),
+        ...
     },
-    subparsers <span style="color: #666666">=</span> (
-      <span style="color: #666666">...</span>
+    subparsers = (
+      ...
       {
-          <span style="color: #BA2121">&#39;func&#39;</span>: scheduler,
-          <span style="color: #BA2121">&#39;help&#39;</span>: <span style="color: #BA2121">&quot;Start a scheduler instance&quot;</span>,
-          <span style="color: #BA2121">&#39;args&#39;</span>: (<span style="color: #BA2121">&#39;dag_id_opt&#39;</span>, <span style="color: #BA2121">&#39;subdir&#39;</span>, <span style="color: #BA2121">&#39;run_duration&#39;</span>, <span style="color: #BA2121">&#39;num_runs&#39;</span>,
-                   <span style="color: #BA2121">&#39;do_pickle&#39;</span>, <span style="color: #BA2121">&#39;pid&#39;</span>, <span style="color: #BA2121">&#39;daemon&#39;</span>, <span style="color: #BA2121">&#39;stdout&#39;</span>, <span style="color: #BA2121">&#39;stderr&#39;</span>,
-                   <span style="color: #BA2121">&#39;log_file&#39;</span>),
+          <span style="color:#0ff;font-weight:bold">&#39;func&#39;</span>: scheduler,
+          <span style="color:#0ff;font-weight:bold">&#39;help&#39;</span>: <span style="color:#0ff;font-weight:bold">&#34;Start a scheduler instance&#34;</span>,
+          <span style="color:#0ff;font-weight:bold">&#39;args&#39;</span>: (<span style="color:#0ff;font-weight:bold">&#39;dag_id_opt&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;subdir&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;run_duration&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;num_runs&#39;</span>,
+                   <span style="color:#0ff;font-weight:bold">&#39;do_pickle&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;pid&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;daemon&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;stdout&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;stderr&#39;</span>,
+                   <span style="color:#0ff;font-weight:bold">&#39;log_file&#39;</span>),
       },
-      <span style="color: #666666">...</span>
+      ...
     )
-    subparsers_dict <span style="color: #666666">=</span> {sp[<span style="color: #BA2121">&#39;func&#39;</span>]<span style="color: #666666">.</span><span style="color: #19177C">__name__</span>: sp <span style="color: #008000; font-weight: bold">for</span> sp <span style="color: #AA22FF; font-weight: bold">in</span> subparsers}
-    dag_subparsers <span style="color: #666666">=</span> (
-        <span style="color: #BA2121">&#39;list_tasks&#39;</span>, <span style="color: #BA2121">&#39;backfill&#39;</span>, <span style="color: #BA2121">&#39;test&#39;</span>, <span style="color: #BA2121">&#39;run&#39;</span>, <span style="color: #BA2121">&#39;pause&#39;</span>, <span style="color: #BA2121">&#39;unpause&#39;</span>)
-</code></pre></div>
-
-<p>There are two important mappings in the <code>CLIFactory</code>, <code>args</code> maps the command line arguments to some default value and help information. <code>subparsers_dict</code> maps the subcommand to objective python function.</p>
-
+    subparsers_dict = {sp[<span style="color:#0ff;font-weight:bold">&#39;func&#39;</span>].__name__: sp <span style="color:#fff;font-weight:bold">for</span> sp in subparsers}
+    dag_subparsers = (
+        <span style="color:#0ff;font-weight:bold">&#39;list_tasks&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;backfill&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;test&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;run&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;pause&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;unpause&#39;</span>)
+</code></pre></div><p>There are two important mappings in the <code>CLIFactory</code>, <code>args</code> maps the command line arguments to some default value and help information. <code>subparsers_dict</code> maps the subcommand to objective python function.</p>
 <p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/bin/cli.py#L903">airflow/bin/cli.py#scheduler</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #AA22FF">@cli_utils.action_logging</span>
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">scheduler</span>(args):
-    <span style="color: #008000; font-weight: bold">print</span>(settings<span style="color: #666666">.</span>HEADER)
-    job <span style="color: #666666">=</span> jobs<span style="color: #666666">.</span>SchedulerJob(
-        dag_id<span style="color: #666666">=</span>args<span style="color: #666666">.</span>dag_id,
-        subdir<span style="color: #666666">=</span>process_subdir(args<span style="color: #666666">.</span>subdir),
-        run_duration<span style="color: #666666">=</span>args<span style="color: #666666">.</span>run_duration,
-        num_runs<span style="color: #666666">=</span>args<span style="color: #666666">.</span>num_runs,
-        do_pickle<span style="color: #666666">=</span>args<span style="color: #666666">.</span>do_pickle)
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">@cli_utils.action_logging
+<span style="color:#fff;font-weight:bold">def</span> scheduler(args):
+    <span style="color:#fff;font-weight:bold">print</span>(settings.HEADER)
+    job = jobs.SchedulerJob(
+        dag_id=args.dag_id,
+        subdir=process_subdir(args.subdir),
+        run_duration=args.run_duration,
+        num_runs=args.num_runs,
+        do_pickle=args.do_pickle)
 
-    <span style="color: #008000; font-weight: bold">if</span> args<span style="color: #666666">.</span>daemon:
-        pid, stdout, stderr, log_file <span style="color: #666666">=</span> setup_locations(<span style="color: #BA2121">&quot;scheduler&quot;</span>,
-        <span style="color: #666666">...</span>
-        ctx <span style="color: #666666">=</span> daemon<span style="color: #666666">.</span>DaemonContext(
-        <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">with</span> ctx:
-            job<span style="color: #666666">.</span>run()
-        <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">else</span>:
-        <span style="color: #666666">...</span>
-        job<span style="color: #666666">.</span>run()
-</code></pre></div>
-
-<p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L191">airflow/jobs.py#ScheduleJob.run</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span>  <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">run</span>(<span style="color: #008000">self</span>):
-    Stats<span style="color: #666666">.</span>incr(<span style="color: #008000">self</span><span style="color: #666666">.</span><span style="color: #19177C">__class__</span><span style="color: #666666">.</span><span style="color: #19177C">__name__</span><span style="color: #666666">.</span>lower() <span style="color: #666666">+</span> <span style="color: #BA2121">&#39;_start&#39;</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>)
-    <span style="color: #408080; font-style: italic"># Adding an entry in the DB</span>
-    <span style="color: #008000; font-weight: bold">with</span> create_session() <span style="color: #008000; font-weight: bold">as</span> session:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>state <span style="color: #666666">=</span> State<span style="color: #666666">.</span>RUNNING
-        session<span style="color: #666666">.</span>add(<span style="color: #008000">self</span>)
-        session<span style="color: #666666">.</span>commit()
-        <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">try</span>:
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>_execute()
-            <span style="color: #408080; font-style: italic"># In case of max runs or max duration</span>
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>state <span style="color: #666666">=</span> State<span style="color: #666666">.</span>SUCCESS
-        <span style="color: #008000; font-weight: bold">except</span> <span style="color: #D2413A; font-weight: bold">SystemExit</span> <span style="color: #008000; font-weight: bold">as</span> e:
-        <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">finally</span>:
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>end_date <span style="color: #666666">=</span> timezone<span style="color: #666666">.</span>utcnow()
-            session<span style="color: #666666">.</span>merge(<span style="color: #008000">self</span>)
-            session<span style="color: #666666">.</span>commit()
-  <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_execute</span>(<span style="color: #008000">self</span>):
-    <span style="color: #008000; font-weight: bold">raise</span> <span style="color: #D2413A; font-weight: bold">NotImplementedError</span>(<span style="color: #BA2121">&quot;This method needs to be overridden&quot;</span>)
-</code></pre></div>
-
-<p>We can know that the scheduler service is actually an <code>airflow.jobs.SchedulerJob</code> instance that runs its <code>run</code> method. It will add itself into the database <code>job</code> table and then run the <code>_execute</code> helper method handling some and normal exit situations. Now let us look at the <code>_execute</code> method.</p>
-
+    <span style="color:#fff;font-weight:bold">if</span> args.daemon:
+        pid, stdout, stderr, log_file = setup_locations(<span style="color:#0ff;font-weight:bold">&#34;scheduler&#34;</span>,
+        ...
+        ctx = daemon.DaemonContext(
+        ...
+        <span style="color:#fff;font-weight:bold">with</span> ctx:
+            job.run()
+        ...
+    <span style="color:#fff;font-weight:bold">else</span>:
+        ...
+        job.run()
+</code></pre></div><p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L191">airflow/jobs.py#ScheduleJob.run</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">  <span style="color:#fff;font-weight:bold">def</span> run(self):
+    Stats.incr(self.__class__.__name__.lower() + <span style="color:#0ff;font-weight:bold">&#39;_start&#39;</span>, <span style="color:#ff0;font-weight:bold">1</span>, <span style="color:#ff0;font-weight:bold">1</span>)
+    <span style="color:#007f7f"># Adding an entry in the DB</span>
+    <span style="color:#fff;font-weight:bold">with</span> create_session() <span style="color:#fff;font-weight:bold">as</span> session:
+        self.state = State.RUNNING
+        session.add(self)
+        session.commit()
+        ...
+        <span style="color:#fff;font-weight:bold">try</span>:
+            self._execute()
+            <span style="color:#007f7f"># In case of max runs or max duration</span>
+            self.state = State.SUCCESS
+        <span style="color:#fff;font-weight:bold">except</span> SystemExit <span style="color:#fff;font-weight:bold">as</span> e:
+        ...
+        <span style="color:#fff;font-weight:bold">finally</span>:
+            self.end_date = timezone.utcnow()
+            session.merge(self)
+            session.commit()
+  <span style="color:#fff;font-weight:bold">def</span> _execute(self):
+    <span style="color:#fff;font-weight:bold">raise</span> NotImplementedError(<span style="color:#0ff;font-weight:bold">&#34;This method needs to be overridden&#34;</span>)
+</code></pre></div><p>We can know that the scheduler service is actually an <code>airflow.jobs.SchedulerJob</code> instance that runs its <code>run</code> method. It will add itself into the database <code>job</code> table and then run the <code>_execute</code> helper method handling some and normal exit situations. Now let us look at the <code>_execute</code> method.</p>
 <p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L1544">airflow/jobs.py#ScheduleJob._execute</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_execute</span>(<span style="color: #008000">self</span>):
-    <span style="color: #408080; font-style: italic"># Use multiple processes to parse and generate tasks for the</span>
-    <span style="color: #408080; font-style: italic"># DAGs in parallel. By processing them in separate processes,</span>
-    <span style="color: #408080; font-style: italic"># we can get parallelism and isolation from potentially harmful</span>
-    <span style="color: #408080; font-style: italic"># user code.</span>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">def</span> _execute(self):
+    <span style="color:#007f7f"># Use multiple processes to parse and generate tasks for the</span>
+    <span style="color:#007f7f"># DAGs in parallel. By processing them in separate processes,</span>
+    <span style="color:#007f7f"># we can get parallelism and isolation from potentially harmful</span>
+    <span style="color:#007f7f"># user code.</span>
 
-    <span style="color: #408080; font-style: italic"># Build up a list of Python files that could contain DAGs</span>
-    known_file_paths <span style="color: #666666">=</span> list_py_file_paths(<span style="color: #008000">self</span><span style="color: #666666">.</span>subdir)
+    <span style="color:#007f7f"># Build up a list of Python files that could contain DAGs</span>
+    known_file_paths = list_py_file_paths(self.subdir)
 
-    processor_manager <span style="color: #666666">=</span> DagFileProcessorManager(<span style="color: #008000">self</span><span style="color: #666666">.</span>subdir,
+    processor_manager = DagFileProcessorManager(self.subdir,
                                                 known_file_paths,
-                                                <span style="color: #008000">self</span><span style="color: #666666">.</span>max_threads,
-                                                <span style="color: #008000">self</span><span style="color: #666666">.</span>file_process_interval,
-                                                <span style="color: #008000">self</span><span style="color: #666666">.</span>file_process_interval,
+                                                self.max_threads,
+                                                self.file_process_interval,
+                                                self.file_process_interval,
                                                 processor_factory)
 
-    <span style="color: #008000; font-weight: bold">try</span>:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>_execute_helper(processor_manager)
-    <span style="color: #008000; font-weight: bold">finally</span>:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>info(<span style="color: #BA2121">&quot;Exited execute loop&quot;</span>)
+    <span style="color:#fff;font-weight:bold">try</span>:
+        self._execute_helper(processor_manager)
+    <span style="color:#fff;font-weight:bold">finally</span>:
+        self.log.info(<span style="color:#0ff;font-weight:bold">&#34;Exited execute loop&#34;</span>)
 
-        <span style="color: #408080; font-style: italic"># Kill all child processes on exit since we don&#39;t want to leave</span>
-        <span style="color: #408080; font-style: italic"># them as orphaned.</span>
-        pids_to_kill <span style="color: #666666">=</span> processor_manager<span style="color: #666666">.</span>get_all_pids()
-        <span style="color: #666666">...</span>
-</code></pre></div>
+        <span style="color:#007f7f"># Kill all child processes on exit since we don&#39;t want to leave</span>
+        <span style="color:#007f7f"># them as orphaned.</span>
+        pids_to_kill = processor_manager.get_all_pids()
+        ...
+</code></pre></div><p>We can see that <code>_execute</code> method create a <code>processor_manager</code> and the <code>processor_manager</code> use <code>processor_factory</code> to create a processor for each dag file_path. We can also find out it uses configurations which configured in the <code>airflow.cfg</code> file.</p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">file_process_interval=conf.getint(<span style="color:#0ff;font-weight:bold">&#39;scheduler&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;min_file_process_interval&#39;</span>),
+self.heartrate = conf.getint(<span style="color:#0ff;font-weight:bold">&#39;scheduler&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;SCHEDULER_HEARTBEAT_SEC&#39;</span>)
+self.max_threads = conf.getint(<span style="color:#0ff;font-weight:bold">&#39;scheduler&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;max_threads&#39;</span>)
 
-<p>We can see that <code>_execute</code> method create a <code>processor_manager</code> and the <code>processor_manager</code> use <code>processor_factory</code> to create a processor for each dag file_path. We can also find out it uses configurations which configured in the <code>airflow.cfg</code> file.</p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span>file_process_interval<span style="color: #666666">=</span>conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;scheduler&#39;</span>, <span style="color: #BA2121">&#39;min_file_process_interval&#39;</span>),
-<span style="color: #008000">self</span><span style="color: #666666">.</span>heartrate <span style="color: #666666">=</span> conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;scheduler&#39;</span>, <span style="color: #BA2121">&#39;SCHEDULER_HEARTBEAT_SEC&#39;</span>)
-<span style="color: #008000">self</span><span style="color: #666666">.</span>max_threads <span style="color: #666666">=</span> conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;scheduler&#39;</span>, <span style="color: #BA2121">&#39;max_threads&#39;</span>)
+<span style="color:#007f7f"># How often to scan the DAGs directory for new files. Default to 5 minutes.</span>
+self.dag_dir_list_interval = conf.getint(<span style="color:#0ff;font-weight:bold">&#39;scheduler&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;dag_dir_list_interval&#39;</span>)
+<span style="color:#007f7f"># How often to print out DAG file processing stats to the log. Default to</span>
+<span style="color:#007f7f"># 30 seconds.</span>
+self.print_stats_interval = conf.getint(<span style="color:#0ff;font-weight:bold">&#39;scheduler&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;print_stats_interval&#39;</span>)
+<span style="color:#007f7f"># Parse and schedule each file no faster than this interval. Default</span>
+<span style="color:#007f7f"># to 3 minutes.</span>
+self.file_process_interval = file_process_interval
 
-<span style="color: #408080; font-style: italic"># How often to scan the DAGs directory for new files. Default to 5 minutes.</span>
-<span style="color: #008000">self</span><span style="color: #666666">.</span>dag_dir_list_interval <span style="color: #666666">=</span> conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;scheduler&#39;</span>, <span style="color: #BA2121">&#39;dag_dir_list_interval&#39;</span>)
-<span style="color: #408080; font-style: italic"># How often to print out DAG file processing stats to the log. Default to</span>
-<span style="color: #408080; font-style: italic"># 30 seconds.</span>
-<span style="color: #008000">self</span><span style="color: #666666">.</span>print_stats_interval <span style="color: #666666">=</span> conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;scheduler&#39;</span>, <span style="color: #BA2121">&#39;print_stats_interval&#39;</span>)
-<span style="color: #408080; font-style: italic"># Parse and schedule each file no faster than this interval. Default</span>
-<span style="color: #408080; font-style: italic"># to 3 minutes.</span>
-<span style="color: #008000">self</span><span style="color: #666666">.</span>file_process_interval <span style="color: #666666">=</span> file_process_interval
-
-<span style="color: #008000">self</span><span style="color: #666666">.</span>max_tis_per_query <span style="color: #666666">=</span> conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;scheduler&#39;</span>, <span style="color: #BA2121">&#39;max_tis_per_query&#39;</span>)
-<span style="color: #008000; font-weight: bold">if</span> run_duration <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
-    <span style="color: #008000">self</span><span style="color: #666666">.</span>run_duration <span style="color: #666666">=</span> conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;scheduler&#39;</span>, <span style="color: #BA2121">&#39;run_duration&#39;</span>)
-</code></pre></div>
-
-<p>Then the <code>_execute</code> method run the <code>_execute_helper</code> method.</p>
-
+self.max_tis_per_query = conf.getint(<span style="color:#0ff;font-weight:bold">&#39;scheduler&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;max_tis_per_query&#39;</span>)
+<span style="color:#fff;font-weight:bold">if</span> run_duration is None:
+    self.run_duration = conf.getint(<span style="color:#0ff;font-weight:bold">&#39;scheduler&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;run_duration&#39;</span>)
+</code></pre></div><p>Then the <code>_execute</code> method run the <code>_execute_helper</code> method.</p>
 <p><a href="https://github.com/apache/airflow/blob/1.10.1/a.irflow/jobs.py#L1627">airflow/jobs.py#ScheduleJob._execute_helper</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_execute_helper</span>(<span style="color: #008000">self</span>, processor_manager):
-    <span style="color: #008000">self</span><span style="color: #666666">.</span>executor<span style="color: #666666">.</span>start()
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">def</span> _execute_helper(self, processor_manager):
+    self.executor.start()
 
-    <span style="color: #408080; font-style: italic">## self.log.info(&quot;Resetting orphaned tasks for active dag runs&quot;)</span>
-    <span style="color: #008000">self</span><span style="color: #666666">.</span>reset_state_for_orphaned_tasks()
+    <span style="color:#007f7f">## self.log.info(&#34;Resetting orphaned tasks for active dag runs&#34;)</span>
+    self.reset_state_for_orphaned_tasks()
 
-    execute_start_time <span style="color: #666666">=</span> timezone<span style="color: #666666">.</span>utcnow()
+    execute_start_time = timezone.utcnow()
 
-    <span style="color: #408080; font-style: italic"># Use this value initially</span>
-    known_file_paths <span style="color: #666666">=</span> processor_manager<span style="color: #666666">.</span>file_paths
+    <span style="color:#007f7f"># Use this value initially</span>
+    known_file_paths = processor_manager.file_paths
 
 
-    <span style="color: #408080; font-style: italic"># For the execute duration, parse and schedule DAGs</span>
-    <span style="color: #008000; font-weight: bold">while</span> (timezone<span style="color: #666666">.</span>utcnow() <span style="color: #666666">-</span> execute_start_time)<span style="color: #666666">.</span>total_seconds() <span style="color: #666666">&lt;</span>    <span style="color: #008000">self</span><span style="color: #666666">.</span>run_duration <span style="color: #AA22FF; font-weight: bold">or</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>run_duration <span style="color: #666666">&lt;</span> <span style="color: #666666">0</span>:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>debug(<span style="color: #BA2121">&quot;Starting Loop...&quot;</span>)
+    <span style="color:#007f7f"># For the execute duration, parse and schedule DAGs</span>
+    <span style="color:#fff;font-weight:bold">while</span> (timezone.utcnow() - execute_start_time).total_seconds() &lt;    self.run_duration or self.run_duration &lt; <span style="color:#ff0;font-weight:bold">0</span>:
+        self.log.debug(<span style="color:#0ff;font-weight:bold">&#34;Starting Loop...&#34;</span>)
 
-        <span style="color: #008000; font-weight: bold">if</span> elapsed_time_since_refresh <span style="color: #666666">&gt;</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>dag_dir_list_interval:
-                    <span style="color: #408080; font-style: italic"># Build up a list of Python files that could contain DAGs</span>
-                    known_file_paths <span style="color: #666666">=</span> list_py_file_paths(<span style="color: #008000">self</span><span style="color: #666666">.</span>subdir)
-                    last_dag_dir_refresh_time <span style="color: #666666">=</span> timezone<span style="color: #666666">.</span>utcnow()
-                    processor_manager<span style="color: #666666">.</span>set_file_paths(known_file_paths)
-                    <span style="color: #008000">self</span><span style="color: #666666">.</span>clear_nonexistent_import_errors    (known_file_paths<span style="color: #666666">=</span>known_file_paths)
+        <span style="color:#fff;font-weight:bold">if</span> elapsed_time_since_refresh &gt; self.dag_dir_list_interval:
+                    <span style="color:#007f7f"># Build up a list of Python files that could contain DAGs</span>
+                    known_file_paths = list_py_file_paths(self.subdir)
+                    last_dag_dir_refresh_time = timezone.utcnow()
+                    processor_manager.set_file_paths(known_file_paths)
+                    self.clear_nonexistent_import_errors    (known_file_paths=known_file_paths)
 
-        simple_dags <span style="color: #666666">=</span> processor_manager<span style="color: #666666">.</span>heartbeat()
-</code></pre></div>
-
-<p>The <code>_execute_helper</code> starts the <code>executor</code> and run the <code>processor_manager.heartbeat()</code> in a loop with the configured <code>dag_dir_list_interval</code>.</p>
-
+        simple_dags = processor_manager.heartbeat()
+</code></pre></div><p>The <code>_execute_helper</code> starts the <code>executor</code> and run the <code>processor_manager.heartbeat()</code> in a loop with the configured <code>dag_dir_list_interval</code>.</p>
 <h2 id="dagfileprocessormanager-heartbeat">DagFileProcessorManager Heartbeat</h2>
-
 <p>As fast as we know, the <code>processor_manager.heartbeat</code> is the most important method in the process loop, so let&rsquo;s dive into it.</p>
-
-<p><img src="/process_loop_inner/process_loop_inner.svg" alt="process_loop_inner" /></p>
-
+<p><img src="/process_loop_inner/process_loop_inner.svg" alt="process_loop_inner"></p>
 <p>The <code>processor_manager</code> actually maintains a list of DagFileProcessor(<em>don&rsquo;t know how to present this list in the UML sequence diagram</em>) to process the dag files. The max size of the processor list is configured in the <code>airflow.cfg</code> -&gt; <code>scheduler</code>-&gt; <code>max_threads</code>. In the <code>heartbeat</code> method, the <code>processor_manager.heartbeat</code> kick off new <code>DagFileProcessor</code> and <code>DagFileProcessor</code> kick off new <code>multiprocessing. Process</code> to process DAG definition files and read the results from the finished processors. One process corresponds to one <code>SchedulerJob</code> instance. When the process started, it use <code>scheduler_job.process_file</code> method to process the DAG files and stores the result into a queue. The <code>processor_manager</code> collects all the results that were produced by processors that have finished since the last time this was called. it also starts more processors if necessary.</p>
-
 <p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/utils/dag_processing.py#L473">airflow/utils/dag_processing.py#DagFileProcessorManager.heartbeat</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">heartbeat</span>(<span style="color: #008000">self</span>):
-    <span style="color: #408080; font-style: italic"># get finished_processors and running_processors</span>
-    finished_processors <span style="color: #666666">=</span> {}
-    running_processors <span style="color: #666666">=</span> {}
-    <span style="color: #008000; font-weight: bold">for</span> file_path, processor <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>_processors<span style="color: #666666">.</span>items():
-        <span style="color: #008000; font-weight: bold">if</span> processor<span style="color: #666666">.</span>done:
-            <span style="color: #666666">...</span>
-            finished_processors[file_path] <span style="color: #666666">=</span> processor
-            <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">else</span>:
-            running_processors[file_path] <span style="color: #666666">=</span> processor
-    <span style="color: #008000">self</span><span style="color: #666666">.</span>_processors <span style="color: #666666">=</span> running_processors
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">def</span> heartbeat(self):
+    <span style="color:#007f7f"># get finished_processors and running_processors</span>
+    finished_processors = {}
+    running_processors = {}
+    <span style="color:#fff;font-weight:bold">for</span> file_path, processor in self._processors.items():
+        <span style="color:#fff;font-weight:bold">if</span> processor.done:
+            ...
+            finished_processors[file_path] = processor
+            ...
+        <span style="color:#fff;font-weight:bold">else</span>:
+            running_processors[file_path] = processor
+    self._processors = running_processors
 
-    <span style="color: #408080; font-style: italic"># Collect all the DAGs that were found in the processed files</span>
-    simple_dags <span style="color: #666666">=</span> []
-    <span style="color: #008000; font-weight: bold">for</span> file_path, processor <span style="color: #AA22FF; font-weight: bold">in</span> finished_processors<span style="color: #666666">.</span>items():
-        <span style="color: #008000; font-weight: bold">if</span> processor<span style="color: #666666">.</span>result <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #008000">None</span>:
-            <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">else</span>:
-            <span style="color: #008000; font-weight: bold">for</span> simple_dag <span style="color: #AA22FF; font-weight: bold">in</span> processor<span style="color: #666666">.</span>result:
-                simple_dags<span style="color: #666666">.</span>append(simple_dag)
+    <span style="color:#007f7f"># Collect all the DAGs that were found in the processed files</span>
+    simple_dags = []
+    <span style="color:#fff;font-weight:bold">for</span> file_path, processor in finished_processors.items():
+        <span style="color:#fff;font-weight:bold">if</span> processor.result is None:
+            ...
+        <span style="color:#fff;font-weight:bold">else</span>:
+            <span style="color:#fff;font-weight:bold">for</span> simple_dag in processor.result:
+                simple_dags.append(simple_dag)
 
-    <span style="color: #408080; font-style: italic"># Generate more file paths to process if we processed all the files</span>
-    <span style="color: #408080; font-style: italic"># already.</span>
-    <span style="color: #666666">...</span>
-    <span style="color: #408080; font-style: italic"># Start more processors if we have enough slots and files to process</span>
-    <span style="color: #008000; font-weight: bold">while</span> (<span style="color: #008000">self</span><span style="color: #666666">.</span>_parallelism <span style="color: #666666">-</span> <span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>_processors) <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span> <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #008000">len</span>    (<span style="color: #008000">self</span><span style="color: #666666">.</span>_file_path_queue) <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>):
-        file_path <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>_file_path_queue<span style="color: #666666">.</span>pop(<span style="color: #666666">0</span>)
-        processor <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>_processor_factory(file_path)
+    <span style="color:#007f7f"># Generate more file paths to process if we processed all the files</span>
+    <span style="color:#007f7f"># already.</span>
+    ...
+    <span style="color:#007f7f"># Start more processors if we have enough slots and files to process</span>
+    <span style="color:#fff;font-weight:bold">while</span> (self._parallelism - <span style="color:#fff;font-weight:bold">len</span>(self._processors) &gt; <span style="color:#ff0;font-weight:bold">0</span> and <span style="color:#fff;font-weight:bold">len</span>    (self._file_path_queue) &gt; <span style="color:#ff0;font-weight:bold">0</span>):
+        file_path = self._file_path_queue.pop(<span style="color:#ff0;font-weight:bold">0</span>)
+        processor = self._processor_factory(file_path)
 
-        processor<span style="color: #666666">.</span>start()
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>_processors[file_path] <span style="color: #666666">=</span> processor
-    <span style="color: #408080; font-style: italic"># Update scheduler heartbeat count.</span>
-    <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">return</span> simple_dags
-</code></pre></div>
+        processor.start()
+        self._processors[file_path] = processor
+    <span style="color:#007f7f"># Update scheduler heartbeat count.</span>
+    ...
+    <span style="color:#fff;font-weight:bold">return</span> simple_dags
+</code></pre></div><p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L301">airflow/jobs.py#DagFileProcessor</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">class</span> DagFileProcessor(AbstractDagFileProcessor, LoggingMixin):
+    ...
+    <span style="color:#fff;font-weight:bold">def</span> _launch_process(result_queue,...):
+        ...
+        <span style="color:#fff;font-weight:bold">def</span> helper()
+            scheduler_job = SchedulerJob(dag_ids=dag_id_white_list, log=log)
+            result = scheduler_job.process_file(file_path, pickle_dags)
+            result_queue.put(result)
+        ...
+        p = multiprocessing.Process(target=helper,
+                                    args=(),
+                                    name=<span style="color:#0ff;font-weight:bold">&#34;{}-Process&#34;</span>.format(thread_name))
+        p.start()
+        <span style="color:#fff;font-weight:bold">return</span> p
+    ...
+    <span style="color:#fff;font-weight:bold">def</span> start(self):
+        <span style="color:#0ff;font-weight:bold">&#34;&#34;&#34;
+</span><span style="color:#0ff;font-weight:bold">        Launch the process and start processing the DAG.
+</span><span style="color:#0ff;font-weight:bold">        &#34;&#34;&#34;</span>
+        self._process = DagFileProcessor._launch_process(
+            self._result_queue,
+            self.file_path,
+            self._pickle_dags,
+            self._dag_id_white_list,
+            <span style="color:#0ff;font-weight:bold">&#34;DagFileProcessor{}&#34;</span>.format(self._instance_id))
+        self._start_time = timezone.utcnow()
 
-<p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L301">airflow/jobs.py#DagFileProcessor</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">DagFileProcessor</span>(AbstractDagFileProcessor, LoggingMixin):
-    <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_launch_process</span>(result_queue,<span style="color: #666666">...</span>):
-        <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">helper</span>()
-            scheduler_job <span style="color: #666666">=</span> SchedulerJob(dag_ids<span style="color: #666666">=</span>dag_id_white_list, log<span style="color: #666666">=</span>log)
-            result <span style="color: #666666">=</span> scheduler_job<span style="color: #666666">.</span>process_file(file_path, pickle_dags)
-            result_queue<span style="color: #666666">.</span>put(result)
-        <span style="color: #666666">...</span>
-        p <span style="color: #666666">=</span> multiprocessing<span style="color: #666666">.</span>Process(target<span style="color: #666666">=</span>helper,
-                                    args<span style="color: #666666">=</span>(),
-                                    name<span style="color: #666666">=</span><span style="color: #BA2121">&quot;{}-Process&quot;</span><span style="color: #666666">.</span>format(thread_name))
-        p<span style="color: #666666">.</span>start()
-        <span style="color: #008000; font-weight: bold">return</span> p
-    <span style="color: #666666">...</span>
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">start</span>(<span style="color: #008000">self</span>):
-        <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BA2121; font-style: italic">        Launch the process and start processing the DAG.</span>
-<span style="color: #BA2121; font-style: italic">        &quot;&quot;&quot;</span>
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>_process <span style="color: #666666">=</span> DagFileProcessor<span style="color: #666666">.</span>_launch_process(
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>_result_queue,
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>file_path,
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>_pickle_dags,
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>_dag_id_white_list,
-            <span style="color: #BA2121">&quot;DagFileProcessor{}&quot;</span><span style="color: #666666">.</span>format(<span style="color: #008000">self</span><span style="color: #666666">.</span>_instance_id))
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>_start_time <span style="color: #666666">=</span> timezone<span style="color: #666666">.</span>utcnow()
-</code></pre></div>
-
-<h2 id="schedulejob-process-file">ScheduleJob Process File</h2>
-
+</code></pre></div><h2 id="schedulejob-process-file">ScheduleJob Process File</h2>
 <p>Let&rsquo;s keep diving into the <code>scheduler_job.process_file</code> method.</p>
-
-<p><img src="/process_file/process_file.svg" alt="process_file" /></p>
-
+<p><img src="/process_file/process_file.svg" alt="process_file"></p>
 <p>The <code>scheduler_job.process_file</code> method first creates a <code>DagBag</code> instance for the dag file path. In the <code>DagBag</code> instance initiation, it loads the python modules in the file path using different std lib base on whether the path is a zip path.
 After modules are loaded, <code>DagBag</code> collects all the DAGs in the modules.
 ScheduleJob then gets all dags from <code>DagBag</code>, sync their states db and collect those dags which are not paused.</p>
-
 <p>ScheduleJob iterates over all the un-paused dags and processes them. Processing includes:</p>
-
 <ol>
 <li>Calculate <code>next_run_date</code> for dag and create appropriate <code>DagRun(s)</code> in the DB.</li>
 <li>Create appropriate <code>TaskInstance(s)</code> in the DB for new <code>DagRuns</code>.</li>
 <li>Find all active <code>DagRuns</code> for a dag and iterate over their unscheduled <code>TaskInstances</code>. If the dependencies of a <code>TaskInstance</code> is met, update the state of the <code>TaskInstance</code> to SCHEDULED.</li>
 <li>Send emails for tasks that have missed SLAs.</li>
 </ol>
-
 <p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L1771">airflow/jobs.py#ScheduleJob.process_file</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">process_file</span>(<span style="color: #008000">self</span>, file_path, pickle_dags<span style="color: #666666">=</span><span style="color: #008000">False</span>, session<span style="color: #666666">=</span><span style="color: #008000">None</span>):
-    simple_dags <span style="color: #666666">=</span> []
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">def</span> process_file(self, file_path, pickle_dags=False, session=None):
+    simple_dags = []
 
-    <span style="color: #008000; font-weight: bold">try</span>:
-        dagbag <span style="color: #666666">=</span> models<span style="color: #666666">.</span>DagBag(file_path)
-    <span style="color: #008000; font-weight: bold">except</span> <span style="color: #D2413A; font-weight: bold">Exception</span>:
-        <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">return</span> []
-    <span style="color: #666666">...</span>
-    <span style="color: #408080; font-style: italic"># Save individual DAGs in the ORM and update DagModel.last_scheduled_time</span>
-    <span style="color: #008000; font-weight: bold">for</span> dag <span style="color: #AA22FF; font-weight: bold">in</span> dagbag<span style="color: #666666">.</span>dags<span style="color: #666666">.</span>values():
-        dag<span style="color: #666666">.</span>sync_to_db()
+    <span style="color:#fff;font-weight:bold">try</span>:
+        dagbag = models.DagBag(file_path)
+    <span style="color:#fff;font-weight:bold">except</span> Exception:
+        ...
+        <span style="color:#fff;font-weight:bold">return</span> []
+    ...
+    <span style="color:#007f7f"># Save individual DAGs in the ORM and update DagModel.last_scheduled_time</span>
+    <span style="color:#fff;font-weight:bold">for</span> dag in dagbag.dags.values():
+        dag.sync_to_db()
 
-    paused_dag_ids <span style="color: #666666">=</span> [dag<span style="color: #666666">.</span>dag_id <span style="color: #008000; font-weight: bold">for</span> dag <span style="color: #AA22FF; font-weight: bold">in</span> dagbag<span style="color: #666666">.</span>dags<span style="color: #666666">.</span>values() <span style="color: #008000; font-weight: bold">if</span> dag<span style="color: #666666">.</span>is_paused]
+    paused_dag_ids = [dag.dag_id <span style="color:#fff;font-weight:bold">for</span> dag in dagbag.dags.values() <span style="color:#fff;font-weight:bold">if</span> dag.is_paused]
 
-    <span style="color: #408080; font-style: italic"># Pickle the DAGs (if necessary) and put them into a SimpleDag</span>
-    <span style="color: #008000; font-weight: bold">for</span> dag_id <span style="color: #AA22FF; font-weight: bold">in</span> dagbag<span style="color: #666666">.</span>dags:
-        dag <span style="color: #666666">=</span> dagbag<span style="color: #666666">.</span>get_dag(dag_id)
-        <span style="color: #666666">...</span>
-        <span style="color: #408080; font-style: italic"># Only return DAGs that are not paused</span>
-        <span style="color: #008000; font-weight: bold">if</span> dag_id <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #AA22FF; font-weight: bold">in</span> paused_dag_ids:
-            simple_dags<span style="color: #666666">.</span>append(SimpleDag(dag, pickle_id<span style="color: #666666">=</span>pickle_id))
+    <span style="color:#007f7f"># Pickle the DAGs (if necessary) and put them into a SimpleDag</span>
+    <span style="color:#fff;font-weight:bold">for</span> dag_id in dagbag.dags:
+        dag = dagbag.get_dag(dag_id)
+        ...
+        <span style="color:#007f7f"># Only return DAGs that are not paused</span>
+        <span style="color:#fff;font-weight:bold">if</span> dag_id not in paused_dag_ids:
+            simple_dags.append(SimpleDag(dag, pickle_id=pickle_id))
 
-    <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(<span style="color: #008000">self</span><span style="color: #666666">.</span>dag_ids) <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>:
-        dags <span style="color: #666666">=</span> [dag <span style="color: #008000; font-weight: bold">for</span> dag <span style="color: #AA22FF; font-weight: bold">in</span> dagbag<span style="color: #666666">.</span>dags<span style="color: #666666">.</span>values()
-                <span style="color: #008000; font-weight: bold">if</span> dag<span style="color: #666666">.</span>dag_id <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>dag_ids <span style="color: #AA22FF; font-weight: bold">and</span>
-                dag<span style="color: #666666">.</span>dag_id <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #AA22FF; font-weight: bold">in</span> paused_dag_ids]
-    <span style="color: #008000; font-weight: bold">else</span>:
-        dags <span style="color: #666666">=</span> [dag <span style="color: #008000; font-weight: bold">for</span> dag <span style="color: #AA22FF; font-weight: bold">in</span> dagbag<span style="color: #666666">.</span>dags<span style="color: #666666">.</span>values()
-                <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> dag<span style="color: #666666">.</span>parent_dag <span style="color: #AA22FF; font-weight: bold">and</span>
-                dag<span style="color: #666666">.</span>dag_id <span style="color: #AA22FF; font-weight: bold">not</span> <span style="color: #AA22FF; font-weight: bold">in</span> paused_dag_ids]
+    <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(self.dag_ids) &gt; <span style="color:#ff0;font-weight:bold">0</span>:
+        dags = [dag <span style="color:#fff;font-weight:bold">for</span> dag in dagbag.dags.values()
+                <span style="color:#fff;font-weight:bold">if</span> dag.dag_id in self.dag_ids and
+                dag.dag_id not in paused_dag_ids]
+    <span style="color:#fff;font-weight:bold">else</span>:
+        dags = [dag <span style="color:#fff;font-weight:bold">for</span> dag in dagbag.dags.values()
+                <span style="color:#fff;font-weight:bold">if</span> not dag.parent_dag and
+                dag.dag_id not in paused_dag_ids]
 
-    <span style="color: #408080; font-style: italic"># Not using multiprocessing.Queue() since it&#39;s no longer a separate</span>
-    <span style="color: #408080; font-style: italic"># process and due to some unusual behavior. (empty() incorrectly</span>
-    <span style="color: #408080; font-style: italic"># returns true?)</span>
-    ti_keys_to_schedule <span style="color: #666666">=</span> []
-    <span style="color: #008000">self</span><span style="color: #666666">.</span>_process_dags(dagbag, dags, ti_keys_to_schedule)
+    <span style="color:#007f7f"># Not using multiprocessing.Queue() since it&#39;s no longer a separate</span>
+    <span style="color:#007f7f"># process and due to some unusual behavior. (empty() incorrectly</span>
+    <span style="color:#007f7f"># returns true?)</span>
+    ti_keys_to_schedule = []
+    self._process_dags(dagbag, dags, ti_keys_to_schedule)
 
-    <span style="color: #008000; font-weight: bold">for</span> ti_key <span style="color: #AA22FF; font-weight: bold">in</span> ti_keys_to_schedule:
-        dag <span style="color: #666666">=</span> dagbag<span style="color: #666666">.</span>dags[ti_key[<span style="color: #666666">0</span>]]
-        task <span style="color: #666666">=</span> dag<span style="color: #666666">.</span>get_task(ti_key[<span style="color: #666666">1</span>])
-        <span style="color: #408080; font-style: italic"># NOTE: create TaskInstance</span>
-        ti <span style="color: #666666">=</span> models<span style="color: #666666">.</span>TaskInstance(task, ti_key[<span style="color: #666666">2</span>])
-        ti<span style="color: #666666">.</span>refresh_from_db(session<span style="color: #666666">=</span>session, lock_for_update<span style="color: #666666">=</span><span style="color: #008000">True</span>)
-        <span style="color: #666666">...</span>
-        dep_context <span style="color: #666666">=</span> DepContext(deps<span style="color: #666666">=</span>QUEUE_DEPS, ignore_task_deps<span style="color: #666666">=</span><span style="color: #008000">True</span>)
-        <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">if</span> ti<span style="color: #666666">.</span>are_dependencies_met(
-                dep_context<span style="color: #666666">=</span>dep_context,
-                session<span style="color: #666666">=</span>session,
-                verbose<span style="color: #666666">=</span><span style="color: #008000">True</span>):
-            <span style="color: #408080; font-style: italic"># Task starts out in the scheduled state. All tasks in the</span>
-            <span style="color: #408080; font-style: italic"># scheduled state will be sent to the executor</span>
-            ti<span style="color: #666666">.</span>state <span style="color: #666666">=</span> State<span style="color: #666666">.</span>SCHEDULED
+    <span style="color:#fff;font-weight:bold">for</span> ti_key in ti_keys_to_schedule:
+        dag = dagbag.dags[ti_key[<span style="color:#ff0;font-weight:bold">0</span>]]
+        task = dag.get_task(ti_key[<span style="color:#ff0;font-weight:bold">1</span>])
+        <span style="color:#007f7f"># NOTE: create TaskInstance</span>
+        ti = models.TaskInstance(task, ti_key[<span style="color:#ff0;font-weight:bold">2</span>])
+        ti.refresh_from_db(session=session, lock_for_update=True)
+        ...
+        dep_context = DepContext(deps=QUEUE_DEPS, ignore_task_deps=True)
+        ...
+        <span style="color:#fff;font-weight:bold">if</span> ti.are_dependencies_met(
+                dep_context=dep_context,
+                session=session,
+                verbose=True):
+            <span style="color:#007f7f"># Task starts out in the scheduled state. All tasks in the</span>
+            <span style="color:#007f7f"># scheduled state will be sent to the executor</span>
+            ti.state = State.SCHEDULED
 
-        <span style="color: #408080; font-style: italic"># Also save this task instance to the DB.</span>
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>info(<span style="color: #BA2121">&quot;Creating / updating </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121"> in ORM&quot;</span>, ti)
-        session<span style="color: #666666">.</span>merge(ti)
-    <span style="color: #408080; font-style: italic"># commit batch</span>
-    session<span style="color: #666666">.</span>commit()
+        <span style="color:#007f7f"># Also save this task instance to the DB.</span>
+        self.log.info(<span style="color:#0ff;font-weight:bold">&#34;Creating / updating </span><span style="color:#0ff;font-weight:bold">%s</span><span style="color:#0ff;font-weight:bold"> in ORM&#34;</span>, ti)
+        session.merge(ti)
+    <span style="color:#007f7f"># commit batch</span>
+    session.commit()
 
-    <span style="color: #408080; font-style: italic"># Record import errors into the ORM</span>
-    <span style="color: #666666">...</span>
-    <span style="color: #408080; font-style: italic"># kill_zombies</span>
-    <span style="color: #666666">...</span>
+    <span style="color:#007f7f"># Record import errors into the ORM</span>
+    ...
+    <span style="color:#007f7f"># kill_zombies</span>
+    ...
 
-    <span style="color: #008000; font-weight: bold">return</span> simple_dags
-</code></pre></div>
+    <span style="color:#fff;font-weight:bold">return</span> simple_dags
+</code></pre></div><p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/models/__init__.py#L265">airflow/models/__init__.py#DagBag.process_file</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#fff;font-weight:bold">def</span> process_file(self, filepath, only_if_updated=True, safe_mode=True):
+        ...
+        mods = []
+        is_zipfile = zipfile.is_zipfile(filepath)
+        <span style="color:#fff;font-weight:bold">if</span> not is_zipfile:
+            ...
+            org_mod_name, _ = os.path.splitext(os.path.split(filepath)[-<span style="color:#ff0;font-weight:bold">1</span>])
+            mod_name = ...
+            ...
+            <span style="color:#fff;font-weight:bold">with</span> timeout(configuration.conf.getint(<span style="color:#0ff;font-weight:bold">&#39;core&#39;</span>, <span style="color:#0ff;font-weight:bold">&#34;DAGBAG_IMPORT_TIMEOUT&#34;</span>)):
+                <span style="color:#fff;font-weight:bold">try</span>:
+                    m = imp.load_source(mod_name, filepath)
+                    mods.append(m)
+                <span style="color:#fff;font-weight:bold">except</span> Exception <span style="color:#fff;font-weight:bold">as</span> e:
+                    ...
+        <span style="color:#fff;font-weight:bold">else</span>:
+            zip_file = zipfile.ZipFile(filepath)
+            <span style="color:#fff;font-weight:bold">for</span> mod in zip_file.infolist():
+                head, _ = os.path.split(mod.filename)
+                mod_name, ext = os.path.splitext(mod.filename)
+                <span style="color:#fff;font-weight:bold">if</span> not head and (ext == <span style="color:#0ff;font-weight:bold">&#39;.py&#39;</span> or ext == <span style="color:#0ff;font-weight:bold">&#39;.pyc&#39;</span>):
+                    ...
+                    <span style="color:#fff;font-weight:bold">try</span>:
+                        sys.path.insert(<span style="color:#ff0;font-weight:bold">0</span>, filepath)
+                        m = importlib.import_module(mod_name)
+                        mods.append(m)
+                    <span style="color:#fff;font-weight:bold">except</span> Exception <span style="color:#fff;font-weight:bold">as</span> e:
+                        ...
+        <span style="color:#fff;font-weight:bold">for</span> m in mods:
+            <span style="color:#fff;font-weight:bold">for</span> dag in <span style="color:#fff;font-weight:bold">list</span>(m.__dict__.values()):
+                <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">isinstance</span>(dag, DAG):
+                    ...
+                    <span style="color:#fff;font-weight:bold">try</span>:
+                        dag.is_subdag = False
+                        self.bag_dag(dag, parent_dag=dag, root_dag=dag)
+                        <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">isinstance</span>(dag._schedule_interval, six.string_types):
+                            croniter(dag._schedule_interval)
+                        found_dags.append(dag)
+                        found_dags += dag.subdags
+                    <span style="color:#fff;font-weight:bold">except</span> ...
+        self.file_last_changed[filepath] = file_last_changed_on_disk
+        <span style="color:#fff;font-weight:bold">return</span> found_dags
+</code></pre></div><p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L1398">airflow/jobs.py#ScheduleJob._process_dags</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">def</span> _process_dags(self, dagbag, dags, tis_out):
+    <span style="color:#fff;font-weight:bold">for</span> dag in dags:
+        ...
+        dag_run = self.create_dag_run(dag)
+        <span style="color:#fff;font-weight:bold">if</span> dag_run:
+            self.log.info(<span style="color:#0ff;font-weight:bold">&#34;Created </span><span style="color:#0ff;font-weight:bold">%s</span><span style="color:#0ff;font-weight:bold">&#34;</span>, dag_run)
+        self._process_task_instances(dag, tis_out)
+        self.manage_slas(dag)
 
-<p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/models/__init__.py#L265">airflow/models/__init__.py#DagBag.process_file</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span>    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">process_file</span>(<span style="color: #008000">self</span>, filepath, only_if_updated<span style="color: #666666">=</span><span style="color: #008000">True</span>, safe_mode<span style="color: #666666">=</span><span style="color: #008000">True</span>):
-        <span style="color: #666666">...</span>
-        mods <span style="color: #666666">=</span> []
-        is_zipfile <span style="color: #666666">=</span> zipfile<span style="color: #666666">.</span>is_zipfile(filepath)
-        <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> is_zipfile:
-            <span style="color: #666666">...</span>
-            org_mod_name, _ <span style="color: #666666">=</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>splitext(os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>split(filepath)[<span style="color: #666666">-1</span>])
-            mod_name <span style="color: #666666">=</span> <span style="color: #666666">...</span>
-            <span style="color: #666666">...</span>
-            <span style="color: #008000; font-weight: bold">with</span> timeout(configuration<span style="color: #666666">.</span>conf<span style="color: #666666">.</span>getint(<span style="color: #BA2121">&#39;core&#39;</span>, <span style="color: #BA2121">&quot;DAGBAG_IMPORT_TIMEOUT&quot;</span>)):
-                <span style="color: #008000; font-weight: bold">try</span>:
-                    m <span style="color: #666666">=</span> imp<span style="color: #666666">.</span>load_source(mod_name, filepath)
-                    mods<span style="color: #666666">.</span>append(m)
-                <span style="color: #008000; font-weight: bold">except</span> <span style="color: #D2413A; font-weight: bold">Exception</span> <span style="color: #008000; font-weight: bold">as</span> e:
-                    <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">else</span>:
-            zip_file <span style="color: #666666">=</span> zipfile<span style="color: #666666">.</span>ZipFile(filepath)
-            <span style="color: #008000; font-weight: bold">for</span> mod <span style="color: #AA22FF; font-weight: bold">in</span> zip_file<span style="color: #666666">.</span>infolist():
-                head, _ <span style="color: #666666">=</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>split(mod<span style="color: #666666">.</span>filename)
-                mod_name, ext <span style="color: #666666">=</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>splitext(mod<span style="color: #666666">.</span>filename)
-                <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> head <span style="color: #AA22FF; font-weight: bold">and</span> (ext <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;.py&#39;</span> <span style="color: #AA22FF; font-weight: bold">or</span> ext <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;.pyc&#39;</span>):
-                    <span style="color: #666666">...</span>
-                    <span style="color: #008000; font-weight: bold">try</span>:
-                        sys<span style="color: #666666">.</span>path<span style="color: #666666">.</span>insert(<span style="color: #666666">0</span>, filepath)
-                        m <span style="color: #666666">=</span> importlib<span style="color: #666666">.</span>import_module(mod_name)
-                        mods<span style="color: #666666">.</span>append(m)
-                    <span style="color: #008000; font-weight: bold">except</span> <span style="color: #D2413A; font-weight: bold">Exception</span> <span style="color: #008000; font-weight: bold">as</span> e:
-                        <span style="color: #666666">...</span>
-        <span style="color: #008000; font-weight: bold">for</span> m <span style="color: #AA22FF; font-weight: bold">in</span> mods:
-            <span style="color: #008000; font-weight: bold">for</span> dag <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">list</span>(m<span style="color: #666666">.</span><span style="color: #19177C">__dict__</span><span style="color: #666666">.</span>values()):
-                <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(dag, DAG):
-                    <span style="color: #666666">...</span>
-                    <span style="color: #008000; font-weight: bold">try</span>:
-                        dag<span style="color: #666666">.</span>is_subdag <span style="color: #666666">=</span> <span style="color: #008000">False</span>
-                        <span style="color: #008000">self</span><span style="color: #666666">.</span>bag_dag(dag, parent_dag<span style="color: #666666">=</span>dag, root_dag<span style="color: #666666">=</span>dag)
-                        <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">isinstance</span>(dag<span style="color: #666666">.</span>_schedule_interval, six<span style="color: #666666">.</span>string_types):
-                            croniter(dag<span style="color: #666666">.</span>_schedule_interval)
-                        found_dags<span style="color: #666666">.</span>append(dag)
-                        found_dags <span style="color: #666666">+=</span> dag<span style="color: #666666">.</span>subdags
-                    <span style="color: #008000; font-weight: bold">except</span> <span style="color: #666666">...</span>
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>file_last_changed[filepath] <span style="color: #666666">=</span> file_last_changed_on_disk
-        <span style="color: #008000; font-weight: bold">return</span> found_dags
-</code></pre></div>
+    models.DagStat.update([d.dag_id <span style="color:#fff;font-weight:bold">for</span> d in dags])
 
-<p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L1398">airflow/jobs.py#ScheduleJob._process_dags</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_process_dags</span>(<span style="color: #008000">self</span>, dagbag, dags, tis_out):
-    <span style="color: #008000; font-weight: bold">for</span> dag <span style="color: #AA22FF; font-weight: bold">in</span> dags:
-        <span style="color: #666666">...</span>
-        dag_run <span style="color: #666666">=</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>create_dag_run(dag)
-        <span style="color: #008000; font-weight: bold">if</span> dag_run:
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>info(<span style="color: #BA2121">&quot;Created </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&quot;</span>, dag_run)
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>_process_task_instances(dag, tis_out)
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>manage_slas(dag)
+</code></pre></div><p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L783">airflow/jobs.py#ScheduleJob.create_dag_run</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">def</span> create_dag_run(self, dag, session=None):
+    <span style="color:#0ff;font-weight:bold">&#34;&#34;&#34;
+</span><span style="color:#0ff;font-weight:bold">    This method checks whether a new DagRun needs to be created
+</span><span style="color:#0ff;font-weight:bold">    for a DAG based on scheduling interval
+</span><span style="color:#0ff;font-weight:bold">    Returns DagRun if one is scheduled. Otherwise returns None.
+</span><span style="color:#0ff;font-weight:bold">    &#34;&#34;&#34;</span>
+    <span style="color:#fff;font-weight:bold">if</span> dag.schedule_interval:
+        active_runs = DagRun.find(...)
+        <span style="color:#007f7f"># return if already reached maximum active runs and no timeout setting</span>
+        <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(active_runs) &gt;= dag.max_active_runs and not dag.dagrun_timeout:
+            <span style="color:#fff;font-weight:bold">return</span>
+        timedout_runs = <span style="color:#ff0;font-weight:bold">0</span>
+        <span style="color:#fff;font-weight:bold">for</span> dr in active_runs:
+            <span style="color:#fff;font-weight:bold">if</span> (dr.start_date and dag.dagrun_timeout and dr.start_date &lt; timezone.utcnow() - dag.dagrun_timeout):
+                dr.state = State.FAILED
+                dr.end_date = timezone.utcnow()
+                dag.handle_callback(dr, success=False, reason=<span style="color:#0ff;font-weight:bold">&#39;dagrun_timeout&#39;</span>,  dsession=session)
+                timedout_runs += <span style="color:#ff0;font-weight:bold">1</span>
+        session.commit()
+        <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(active_runs) - timedout_runs &gt;= dag.max_active_runs:
+            <span style="color:#fff;font-weight:bold">return</span>
 
-    models<span style="color: #666666">.</span>DagStat<span style="color: #666666">.</span>update([d<span style="color: #666666">.</span>dag_id <span style="color: #008000; font-weight: bold">for</span> d <span style="color: #AA22FF; font-weight: bold">in</span> dags])
-</code></pre></div>
+        <span style="color:#007f7f"># this query should be replaced by find dagrun</span>
+        last_scheduled_run = session.query(func.max(DagRun.execution_date)).filter_by(...).scalar()
 
-<p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L783">airflow/jobs.py#ScheduleJob.create_dag_run</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">create_dag_run</span>(<span style="color: #008000">self</span>, dag, session<span style="color: #666666">=</span><span style="color: #008000">None</span>):
-    <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BA2121; font-style: italic">    This method checks whether a new DagRun needs to be created</span>
-<span style="color: #BA2121; font-style: italic">    for a DAG based on scheduling interval</span>
-<span style="color: #BA2121; font-style: italic">    Returns DagRun if one is scheduled. Otherwise returns None.</span>
-<span style="color: #BA2121; font-style: italic">    &quot;&quot;&quot;</span>
-    <span style="color: #008000; font-weight: bold">if</span> dag<span style="color: #666666">.</span>schedule_interval:
-        active_runs <span style="color: #666666">=</span> DagRun<span style="color: #666666">.</span>find(<span style="color: #666666">...</span>)
-        <span style="color: #408080; font-style: italic"># return if already reached maximum active runs and no timeout setting</span>
-        <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(active_runs) <span style="color: #666666">&gt;=</span> dag<span style="color: #666666">.</span>max_active_runs <span style="color: #AA22FF; font-weight: bold">and</span> <span style="color: #AA22FF; font-weight: bold">not</span> dag<span style="color: #666666">.</span>dagrun_timeout:
-            <span style="color: #008000; font-weight: bold">return</span>
-        timedout_runs <span style="color: #666666">=</span> <span style="color: #666666">0</span>
-        <span style="color: #008000; font-weight: bold">for</span> dr <span style="color: #AA22FF; font-weight: bold">in</span> active_runs:
-            <span style="color: #008000; font-weight: bold">if</span> (dr<span style="color: #666666">.</span>start_date <span style="color: #AA22FF; font-weight: bold">and</span> dag<span style="color: #666666">.</span>dagrun_timeout <span style="color: #AA22FF; font-weight: bold">and</span> dr<span style="color: #666666">.</span>start_date <span style="color: #666666">&lt;</span> timezone<span style="color: #666666">.</span>utcnow() <span style="color: #666666">-</span> dag<span style="color: #666666">.</span>dagrun_timeout):
-                dr<span style="color: #666666">.</span>state <span style="color: #666666">=</span> State<span style="color: #666666">.</span>FAILED
-                dr<span style="color: #666666">.</span>end_date <span style="color: #666666">=</span> timezone<span style="color: #666666">.</span>utcnow()
-                dag<span style="color: #666666">.</span>handle_callback(dr, success<span style="color: #666666">=</span><span style="color: #008000">False</span>, reason<span style="color: #666666">=</span><span style="color: #BA2121">&#39;dagrun_timeout&#39;</span>,  dsession<span style="color: #666666">=</span>session)
-                timedout_runs <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
-        session<span style="color: #666666">.</span>commit()
-        <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(active_runs) <span style="color: #666666">-</span> timedout_runs <span style="color: #666666">&gt;=</span> dag<span style="color: #666666">.</span>max_active_runs:
-            <span style="color: #008000; font-weight: bold">return</span>
+        <span style="color:#007f7f"># don&#39;t schedule @once again</span>
+        <span style="color:#fff;font-weight:bold">if</span> dag.schedule_interval == <span style="color:#0ff;font-weight:bold">&#39;@once&#39;</span> and last_scheduled_run:
+            <span style="color:#fff;font-weight:bold">return</span> None
 
-        <span style="color: #408080; font-style: italic"># this query should be replaced by find dagrun</span>
-        last_scheduled_run <span style="color: #666666">=</span> session<span style="color: #666666">.</span>query(func<span style="color: #666666">.</span>max(DagRun<span style="color: #666666">.</span>execution_date))<span style="color: #666666">.</span>filter_by(<span style="color: #666666">...</span>)<span style="color: #666666">.</span>scalar()
+        <span style="color:#007f7f"># don&#39;t do scheduler catchup for dag&#39;s that don&#39;t have dag.catchup = True</span>
+        <span style="color:#fff;font-weight:bold">if</span> not (dag.catchup or dag.schedule_interval == <span style="color:#0ff;font-weight:bold">&#39;@once&#39;</span>):
+            ...
+            dag.start_date = ... <span style="color:#007f7f"># next_schedule_time_before_now</span>
 
-        <span style="color: #408080; font-style: italic"># don&#39;t schedule @once again</span>
-        <span style="color: #008000; font-weight: bold">if</span> dag<span style="color: #666666">.</span>schedule_interval <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;@once&#39;</span> <span style="color: #AA22FF; font-weight: bold">and</span> last_scheduled_run:
-            <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">None</span>
+        next_run_date = None
+        <span style="color:#fff;font-weight:bold">if</span> not last_scheduled_run:
+            <span style="color:#007f7f"># First run</span>
+            next_run_date = ... <span style="color:#007f7f"># minimal start_time of dag tasks</span>
+        <span style="color:#fff;font-weight:bold">else</span>:
+            next_run_date = dag.following_schedule(last_scheduled_run)
 
-        <span style="color: #408080; font-style: italic"># don&#39;t do scheduler catchup for dag&#39;s that don&#39;t have dag.catchup = True</span>
-        <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> (dag<span style="color: #666666">.</span>catchup <span style="color: #AA22FF; font-weight: bold">or</span> dag<span style="color: #666666">.</span>schedule_interval <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;@once&#39;</span>):
-            <span style="color: #666666">...</span>
-            dag<span style="color: #666666">.</span>start_date <span style="color: #666666">=</span> <span style="color: #666666">...</span> <span style="color: #408080; font-style: italic"># next_schedule_time_before_now</span>
+        <span style="color:#007f7f"># make sure backfills are also considered</span>
+        ...
 
-        next_run_date <span style="color: #666666">=</span> <span style="color: #008000">None</span>
-        <span style="color: #008000; font-weight: bold">if</span> <span style="color: #AA22FF; font-weight: bold">not</span> last_scheduled_run:
-            <span style="color: #408080; font-style: italic"># First run</span>
-            next_run_date <span style="color: #666666">=</span> <span style="color: #666666">...</span> <span style="color: #408080; font-style: italic"># minimal start_time of dag tasks</span>
-        <span style="color: #008000; font-weight: bold">else</span>:
-            next_run_date <span style="color: #666666">=</span> dag<span style="color: #666666">.</span>following_schedule(last_scheduled_run)
+        <span style="color:#007f7f"># don&#39;t ever schedule prior to the dag&#39;s start_date</span>
+        ...
 
-        <span style="color: #408080; font-style: italic"># make sure backfills are also considered</span>
-        <span style="color: #666666">...</span>
+        <span style="color:#007f7f"># don&#39;t ever schedule in the future</span>
+        ...
 
-        <span style="color: #408080; font-style: italic"># don&#39;t ever schedule prior to the dag&#39;s start_date</span>
-        <span style="color: #666666">...</span>
+        <span style="color:#007f7f"># this structure is necessary to avoid a TypeError from concatenating</span>
+        <span style="color:#007f7f"># NoneType</span>
+        <span style="color:#fff;font-weight:bold">if</span> dag.schedule_interval == <span style="color:#0ff;font-weight:bold">&#39;@once&#39;</span>:
+            period_end = next_run_date
+        <span style="color:#fff;font-weight:bold">elif</span> next_run_date:
+            period_end = dag.following_schedule(next_run_date)
 
-        <span style="color: #408080; font-style: italic"># don&#39;t ever schedule in the future</span>
-        <span style="color: #666666">...</span>
+        <span style="color:#007f7f"># Don&#39;t schedule a dag beyond its end_date (as specified by the dag param)</span>
+        <span style="color:#fff;font-weight:bold">if</span> next_run_date and dag.end_date and next_run_date &gt; dag.end_date:
+            <span style="color:#fff;font-weight:bold">return</span>
 
-        <span style="color: #408080; font-style: italic"># this structure is necessary to avoid a TypeError from concatenating</span>
-        <span style="color: #408080; font-style: italic"># NoneType</span>
-        <span style="color: #008000; font-weight: bold">if</span> dag<span style="color: #666666">.</span>schedule_interval <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;@once&#39;</span>:
-            period_end <span style="color: #666666">=</span> next_run_date
-        <span style="color: #008000; font-weight: bold">elif</span> next_run_date:
-            period_end <span style="color: #666666">=</span> dag<span style="color: #666666">.</span>following_schedule(next_run_date)
+        <span style="color:#007f7f"># Don&#39;t schedule a dag beyond its end_date (as specified by the task params)</span>
+        <span style="color:#007f7f"># Get the min task end date, which may come from the dag.default_args</span>
+        ...
 
-        <span style="color: #408080; font-style: italic"># Don&#39;t schedule a dag beyond its end_date (as specified by the dag param)</span>
-        <span style="color: #008000; font-weight: bold">if</span> next_run_date <span style="color: #AA22FF; font-weight: bold">and</span> dag<span style="color: #666666">.</span>end_date <span style="color: #AA22FF; font-weight: bold">and</span> next_run_date <span style="color: #666666">&gt;</span> dag<span style="color: #666666">.</span>end_date:
-            <span style="color: #008000; font-weight: bold">return</span>
-
-        <span style="color: #408080; font-style: italic"># Don&#39;t schedule a dag beyond its end_date (as specified by the task params)</span>
-        <span style="color: #408080; font-style: italic"># Get the min task end date, which may come from the dag.default_args</span>
-        <span style="color: #666666">...</span>
-
-        <span style="color: #008000; font-weight: bold">if</span> next_run_date <span style="color: #AA22FF; font-weight: bold">and</span> period_end <span style="color: #AA22FF; font-weight: bold">and</span> period_end <span style="color: #666666">&lt;=</span> timezone<span style="color: #666666">.</span>utcnow():
-            <span style="color: #408080; font-style: italic"># create a dagrun and save it to db</span>
-            next_run <span style="color: #666666">=</span> dag<span style="color: #666666">.</span>create_dagrun(
-                run_id<span style="color: #666666">=</span>DagRun<span style="color: #666666">.</span>ID_PREFIX <span style="color: #666666">+</span> next_run_date<span style="color: #666666">.</span>isoformat(),
-                execution_date<span style="color: #666666">=</span>next_run_date,
-                start_date<span style="color: #666666">=</span>timezone<span style="color: #666666">.</span>utcnow(),
-                state<span style="color: #666666">=</span>State<span style="color: #666666">.</span>RUNNING,
-                external_trigger<span style="color: #666666">=</span><span style="color: #008000">False</span>
+        <span style="color:#fff;font-weight:bold">if</span> next_run_date and period_end and period_end &lt;= timezone.utcnow():
+            <span style="color:#007f7f"># create a dagrun and save it to db</span>
+            next_run = dag.create_dagrun(
+                run_id=DagRun.ID_PREFIX + next_run_date.isoformat(),
+                execution_date=next_run_date,
+                start_date=timezone.utcnow(),
+                state=State.RUNNING,
+                external_trigger=False
             )
-            <span style="color: #008000; font-weight: bold">return</span> next_run
-</code></pre></div>
+            <span style="color:#fff;font-weight:bold">return</span> next_run
+</code></pre></div><p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L914">airflow/jobs.py##ScheduleJob._process_task_instances</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">@provide_session
+<span style="color:#fff;font-weight:bold">def</span> _process_task_instances(self, dag, queue, session=None):
+    <span style="color:#0ff;font-weight:bold">&#34;&#34;&#34;
+</span><span style="color:#0ff;font-weight:bold">    This method schedules the tasks for a single DAG by looking at the
+</span><span style="color:#0ff;font-weight:bold">    active DAG runs and adding task instances that should run to the
+</span><span style="color:#0ff;font-weight:bold">    queue.
+</span><span style="color:#0ff;font-weight:bold">    &#34;&#34;&#34;</span>
 
-<p><a href="https://github.com/apache/airflow/blob/1.10.1/airflow/jobs.py#L914">airflow/jobs.py##ScheduleJob._process_task_instances</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #AA22FF">@provide_session</span>
-<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">_process_task_instances</span>(<span style="color: #008000">self</span>, dag, queue, session<span style="color: #666666">=</span><span style="color: #008000">None</span>):
-    <span style="color: #BA2121; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BA2121; font-style: italic">    This method schedules the tasks for a single DAG by looking at the</span>
-<span style="color: #BA2121; font-style: italic">    active DAG runs and adding task instances that should run to the</span>
-<span style="color: #BA2121; font-style: italic">    queue.</span>
-<span style="color: #BA2121; font-style: italic">    &quot;&quot;&quot;</span>
+    <span style="color:#007f7f"># update the state of the previously active dag runs</span>
+    dag_runs = DagRun.find(dag_id=dag.dag_id, state=State.RUNNING, session=session)
+    active_dag_runs = []
+    <span style="color:#fff;font-weight:bold">for</span> run in dag_runs:
+        self.log.info(<span style="color:#0ff;font-weight:bold">&#34;Examining DAG run </span><span style="color:#0ff;font-weight:bold">%s</span><span style="color:#0ff;font-weight:bold">&#34;</span>, run)
+        <span style="color:#007f7f"># don&#39;t consider runs that are executed in the future</span>
+        ...
 
-    <span style="color: #408080; font-style: italic"># update the state of the previously active dag runs</span>
-    dag_runs <span style="color: #666666">=</span> DagRun<span style="color: #666666">.</span>find(dag_id<span style="color: #666666">=</span>dag<span style="color: #666666">.</span>dag_id, state<span style="color: #666666">=</span>State<span style="color: #666666">.</span>RUNNING, session<span style="color: #666666">=</span>session)
-    active_dag_runs <span style="color: #666666">=</span> []
-    <span style="color: #008000; font-weight: bold">for</span> run <span style="color: #AA22FF; font-weight: bold">in</span> dag_runs:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>info(<span style="color: #BA2121">&quot;Examining DAG run </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&quot;</span>, run)
-        <span style="color: #408080; font-style: italic"># don&#39;t consider runs that are executed in the future</span>
-        <span style="color: #666666">...</span>
+        <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">len</span>(active_dag_runs) &gt;= dag.max_active_runs:
+            self.log.info(<span style="color:#0ff;font-weight:bold">&#34;Active dag runs &gt; max_active_run.&#34;</span>)
+            <span style="color:#fff;font-weight:bold">continue</span>
 
-        <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(active_dag_runs) <span style="color: #666666">&gt;=</span> dag<span style="color: #666666">.</span>max_active_runs:
-            <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>info(<span style="color: #BA2121">&quot;Active dag runs &gt; max_active_run.&quot;</span>)
-            <span style="color: #008000; font-weight: bold">continue</span>
+        <span style="color:#007f7f"># skip backfill dagruns for now as long as they are not really scheduled</span>
+        <span style="color:#fff;font-weight:bold">if</span> run.is_backfill:
+            <span style="color:#fff;font-weight:bold">continue</span>
 
-        <span style="color: #408080; font-style: italic"># skip backfill dagruns for now as long as they are not really scheduled</span>
-        <span style="color: #008000; font-weight: bold">if</span> run<span style="color: #666666">.</span>is_backfill:
-            <span style="color: #008000; font-weight: bold">continue</span>
-
-        <span style="color: #408080; font-style: italic"># todo: run.dag is transient but needs to be set</span>
-        run<span style="color: #666666">.</span>dag <span style="color: #666666">=</span> dag
-        <span style="color: #408080; font-style: italic"># todo: preferably the integrity check happens at dag collection time</span>
-        run<span style="color: #666666">.</span>verify_integrity(session<span style="color: #666666">=</span>session)
-        run<span style="color: #666666">.</span>update_state(session<span style="color: #666666">=</span>session)
-        <span style="color: #008000; font-weight: bold">if</span> run<span style="color: #666666">.</span>state <span style="color: #666666">==</span> State<span style="color: #666666">.</span>RUNNING:
+        <span style="color:#007f7f"># todo: run.dag is transient but needs to be set</span>
+        run.dag = dag
+        <span style="color:#007f7f"># todo: preferably the integrity check happens at dag collection time</span>
+        run.verify_integrity(session=session)
+        run.update_state(session=session)
+        <span style="color:#fff;font-weight:bold">if</span> run.state == State.RUNNING:
             make_transient(run)
-            active_dag_runs<span style="color: #666666">.</span>append(run)
+            active_dag_runs.append(run)
 
-    <span style="color: #008000; font-weight: bold">for</span> run <span style="color: #AA22FF; font-weight: bold">in</span> active_dag_runs:
-        <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>debug(<span style="color: #BA2121">&quot;Examining active DAG run: </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&quot;</span>, run)
-        <span style="color: #408080; font-style: italic"># this needs a fresh session sometimes tis get detached</span>
-        <span style="color: #408080; font-style: italic"># Get a set of task instance related to this task for a specific date range.</span>
-        tis <span style="color: #666666">=</span> run<span style="color: #666666">.</span>get_task_instances(state<span style="color: #666666">=</span>(State<span style="color: #666666">.</span>NONE, State<span style="color: #666666">.</span>UP_FOR_RETRY))
+    <span style="color:#fff;font-weight:bold">for</span> run in active_dag_runs:
+        self.log.debug(<span style="color:#0ff;font-weight:bold">&#34;Examining active DAG run: </span><span style="color:#0ff;font-weight:bold">%s</span><span style="color:#0ff;font-weight:bold">&#34;</span>, run)
+        <span style="color:#007f7f"># this needs a fresh session sometimes tis get detached</span>
+        <span style="color:#007f7f"># Get a set of task instance related to this task for a specific date range.</span>
+        tis = run.get_task_instances(state=(State.NONE, State.UP_FOR_RETRY))
 
-        <span style="color: #408080; font-style: italic"># this loop is quite slow as it uses are_dependencies_met for</span>
-        <span style="color: #408080; font-style: italic"># every task (in ti.is_runnable). This is also called in</span>
-        <span style="color: #408080; font-style: italic"># update_state above which has already checked these tasks</span>
-        <span style="color: #008000; font-weight: bold">for</span> ti <span style="color: #AA22FF; font-weight: bold">in</span> tis:
-            task <span style="color: #666666">=</span> dag<span style="color: #666666">.</span>get_task(ti<span style="color: #666666">.</span>task_id)
+        <span style="color:#007f7f"># this loop is quite slow as it uses are_dependencies_met for</span>
+        <span style="color:#007f7f"># every task (in ti.is_runnable). This is also called in</span>
+        <span style="color:#007f7f"># update_state above which has already checked these tasks</span>
+        <span style="color:#fff;font-weight:bold">for</span> ti in tis:
+            task = dag.get_task(ti.task_id)
 
-            <span style="color: #408080; font-style: italic"># fixme: ti.task is transient but needs to be set</span>
-            ti<span style="color: #666666">.</span>task <span style="color: #666666">=</span> task
+            <span style="color:#007f7f"># fixme: ti.task is transient but needs to be set</span>
+            ti.task = task
 
-            <span style="color: #408080; font-style: italic"># future: remove adhoc</span>
-            <span style="color: #008000; font-weight: bold">if</span> task<span style="color: #666666">.</span>adhoc:
-                <span style="color: #008000; font-weight: bold">continue</span>
+            <span style="color:#007f7f"># future: remove adhoc</span>
+            <span style="color:#fff;font-weight:bold">if</span> task.adhoc:
+                <span style="color:#fff;font-weight:bold">continue</span>
 
-            <span style="color: #008000; font-weight: bold">if</span> ti<span style="color: #666666">.</span>are_dependencies_met(
-                    dep_context<span style="color: #666666">=</span>DepContext(flag_upstream_failed<span style="color: #666666">=</span><span style="color: #008000">True</span>),
-                    session<span style="color: #666666">=</span>session):
-                <span style="color: #008000">self</span><span style="color: #666666">.</span>log<span style="color: #666666">.</span>debug(<span style="color: #BA2121">&#39;Queuing task: </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BA2121">&#39;</span>, ti)
-                queue<span style="color: #666666">.</span>append(ti<span style="color: #666666">.</span>key)
-</code></pre></div>
+            <span style="color:#fff;font-weight:bold">if</span> ti.are_dependencies_met(
+                    dep_context=DepContext(flag_upstream_failed=True),
+                    session=session):
+                self.log.debug(<span style="color:#0ff;font-weight:bold">&#39;Queuing task: </span><span style="color:#0ff;font-weight:bold">%s</span><span style="color:#0ff;font-weight:bold">&#39;</span>, ti)
+                queue.append(ti.key)
 
-<h2 id="overview">Overview</h2>
-
+</code></pre></div><h2 id="overview">Overview</h2>
 <p>The Airflow scheduler spins up a process loop, which monitors and stays in sync with a folder for all DAG objects it may contain, and periodically (every minute or so) collects DAG parsing results and inspects active tasks to see whether they can be scheduled.</p>
-
 <h2 id="reference">Reference</h2>
-
 <ul>
 <li><a href="https://airflow.apache.org/scheduler.html">Scheduling &amp; Triggers — Airflow Documentation</a></li>
 </ul>

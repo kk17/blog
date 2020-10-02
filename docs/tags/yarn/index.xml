@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>YARN on Code Play</title>
@@ -6,11 +6,7 @@
     <description>Recent content in YARN on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 15 Jul 2019 19:31:49 +0800</lastBuildDate>
-    
-	<atom:link href="https://blog.kk17.net/tags/yarn/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 15 Jul 2019 19:31:49 +0800</lastBuildDate><atom:link href="https://blog.kk17.net/tags/yarn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>YARN Basics</title>
       <link>https://blog.kk17.net/post/yarn-basics/</link>

@@ -35,7 +35,7 @@ After using Spark Catalog API for a period of time, I found some pitfalls.
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/" />
@@ -54,7 +54,7 @@ After using Spark Catalog API for a period of time, I found some pitfalls.
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -62,25 +62,18 @@ After using Spark Catalog API for a period of time, I found some pitfalls.
 
 <meta property="og:title" content="Pitfalls in Using Spark Catalog API" />
 <meta property="og:description" content="Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  Hive Tables - Spark 2.4.1 Documentation
-
 Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: Catalog (Spark 2.2.1 JavaDoc) and pyspark.sql.catalog — PySpark master documentation.
-
 After using Spark Catalog API for a period of time, I found some pitfalls." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/" />
-<meta property="article:published_time" content="2019-04-27T16:42:59&#43;08:00"/>
-<meta property="article:modified_time" content="2019-04-27T16:42:59&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-04-27T16:42:59+08:00" />
+<meta property="article:modified_time" content="2019-04-27T16:42:59+08:00" />
 <meta itemprop="name" content="Pitfalls in Using Spark Catalog API">
 <meta itemprop="description" content="Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  Hive Tables - Spark 2.4.1 Documentation
-
 Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: Catalog (Spark 2.2.1 JavaDoc) and pyspark.sql.catalog — PySpark master documentation.
-
 After using Spark Catalog API for a period of time, I found some pitfalls.">
-
-
-<meta itemprop="datePublished" content="2019-04-27T16:42:59&#43;08:00" />
-<meta itemprop="dateModified" content="2019-04-27T16:42:59&#43;08:00" />
+<meta itemprop="datePublished" content="2019-04-27T16:42:59+08:00" />
+<meta itemprop="dateModified" content="2019-04-27T16:42:59+08:00" />
 <meta itemprop="wordCount" content="854">
 
 
@@ -89,9 +82,7 @@ After using Spark Catalog API for a period of time, I found some pitfalls.">
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Pitfalls in Using Spark Catalog API"/>
 <meta name="twitter:description" content="Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  Hive Tables - Spark 2.4.1 Documentation
-
 Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: Catalog (Spark 2.2.1 JavaDoc) and pyspark.sql.catalog — PySpark master documentation.
-
 After using Spark Catalog API for a period of time, I found some pitfalls."/>
 
 <!--[if lte IE 9]>
@@ -365,20 +356,15 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#1-problem-in-creating-external-table-with-specified-schema">1. Problem in creating external table with specified schema</a>
-<ul>
-<li>
-<ul>
-<li><a href="#solution">Solution</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#2-partitioned-table-data-only-avaliable-after-invoked-recoverpartitions">2. Partitioned table data only avaliable after invoked <code>recoverPartitions</code></a></li>
-<li><a href="#3-refreshtable-api-only-refresh-the-cache-in-sparkcontext">3. <code>refreshTable</code> API only refresh the cache in SparkContext</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#1-problem-in-creating-external-table-with-specified-schema">1. Problem in creating external table with specified schema</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#2-partitioned-table-data-only-avaliable-after-invoked-recoverpartitions">2. Partitioned table data only avaliable after invoked <code>recoverPartitions</code></a></li>
+    <li><a href="#3-refreshtable-api-only-refresh-the-cache-in-sparkcontext">3. <code>refreshTable</code> API only refresh the cache in SparkContext</a></li>
+  </ul>
 </nav>
   </div>
 </div>
@@ -386,192 +372,173 @@ if (!doNotTrack) {
     
     <div class="post-content">
       <p>Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  <a href="https://spark.apache.org/docs/latest/sql-data-sources-hive-tables.html">Hive Tables - Spark 2.4.1 Documentation</a></p>
-
 <p>Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: <a href="https://spark.apache.org/docs/2.2.1/api/java/org/apache/spark/sql/catalog/Catalog.html">Catalog (Spark 2.2.1 JavaDoc)</a> and <a href="https://spark.apache.org/docs/2.3.0/api/python/_modules/pyspark/sql/catalog.html">pyspark.sql.catalog — PySpark master documentation</a>.</p>
-
 <p>After using Spark Catalog API for a period of time, I found some pitfalls.</p>
-
 <h2 id="1-problem-in-creating-external-table-with-specified-schema">1. Problem in creating external table with specified schema</h2>
-
 <p>When a user create an external table with specified schema, the schema will actually not be used and the table will fail to be recognized as a partitioned table. I dived into the Spark source code and found the reason. The source code is from Spark 2.3.2.</p>
-
 <p>Source Code is listed below and I omitted some code and added some notes start with <code>//NOTE:</code>.</p>
-
 <p>The API where implemented by <a href="https://github.com/apache/spark/blob/branch-2.3/sql/core/src/main/scala/org/apache/spark/sql/internal/CatalogImpl.scala#L338">CatalogImpl.scala</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">override</span> <span style="color: #008000; font-weight: bold">def</span> createTable<span style="color: #666666">(</span>  
-      tableName<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">String</span><span style="color: #666666">,</span>  
-      source<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">String</span><span style="color: #666666">,</span>  
-      schema<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">StructType</span><span style="color: #666666">,</span>  
-      options<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Map</span><span style="color: #666666">[</span><span style="color: #B00040">String</span>, <span style="color: #B00040">String</span><span style="color: #666666">])</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">DataFrame</span> <span style="color: #666666">=</span> <span style="color: #666666">{</span>  
-    <span style="color: #008000; font-weight: bold">val</span> tableIdent <span style="color: #008000; font-weight: bold">=</span> sparkSession<span style="color: #666666">.</span>sessionState<span style="color: #666666">.</span>sqlParser<span style="color: #666666">.</span>parseTableIdentifier<span style="color: #666666">(</span>tableName<span style="color: #666666">)</span>  
-    <span style="color: #008000; font-weight: bold">val</span> storage <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">DataSource</span><span style="color: #666666">.</span>buildStorageFormatFromOptions<span style="color: #666666">(</span>options<span style="color: #666666">)</span>  
-    <span style="color: #008000; font-weight: bold">val</span> tableType <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>storage<span style="color: #666666">.</span>locationUri<span style="color: #666666">.</span>isDefined<span style="color: #666666">)</span> <span style="color: #666666">{</span>  
-      <span style="color: #0000FF; font-weight: bold">CatalogTableType</span><span style="color: #666666">.</span><span style="color: #0000FF; font-weight: bold">EXTERNAL</span>  
-    <span style="color: #666666">}</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">{</span>  
-      <span style="color: #0000FF; font-weight: bold">CatalogTableType</span><span style="color: #666666">.</span><span style="color: #0000FF; font-weight: bold">MANAGED</span>  
-    <span style="color: #666666">}</span>  
-    <span style="color: #408080; font-style: italic">//NOTE: user specified schema is set to tableDesc and use no partitionColumnNames can specify here  </span>
-    <span style="color: #008000; font-weight: bold">val</span> tableDesc <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">CatalogTable</span><span style="color: #666666">(</span>  
-      identifier <span style="color: #008000; font-weight: bold">=</span> tableIdent<span style="color: #666666">,</span>  
-      tableType <span style="color: #008000; font-weight: bold">=</span> tableType<span style="color: #666666">,</span>  
-      storage <span style="color: #008000; font-weight: bold">=</span> storage<span style="color: #666666">,</span>  
-      schema <span style="color: #008000; font-weight: bold">=</span> schema<span style="color: #666666">,</span>   
-      provider <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">Some</span><span style="color: #666666">(</span>source<span style="color: #666666">)</span>  
-    <span style="color: #666666">)</span>  
-    <span style="color: #008000; font-weight: bold">val</span> plan <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">CreateTable</span><span style="color: #666666">(</span>tableDesc<span style="color: #666666">,</span> <span style="color: #0000FF; font-weight: bold">SaveMode</span><span style="color: #666666">.</span><span style="color: #0000FF; font-weight: bold">ErrorIfExists</span><span style="color: #666666">,</span> <span style="color: #0000FF; font-weight: bold">None</span><span style="color: #666666">)</span>  
-    sparkSession<span style="color: #666666">.</span>sessionState<span style="color: #666666">.</span>executePlan<span style="color: #666666">(</span>plan<span style="color: #666666">).</span>toRdd  
-    sparkSession<span style="color: #666666">.</span>table<span style="color: #666666">(</span>tableIdent<span style="color: #666666">)</span>  
-  <span style="color: #666666">}</span>
-</code></pre></div>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#fff;font-weight:bold">override</span> <span style="color:#fff;font-weight:bold">def</span> createTable(  
+      tableName<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">String</span>,  
+      source<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">String</span>,  
+      schema<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">StructType</span>,  
+      options<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">Map</span>[<span style="color:#fff;font-weight:bold">String</span>, <span style="color:#fff;font-weight:bold">String</span>])<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">DataFrame</span> = {  
+    <span style="color:#fff;font-weight:bold">val</span> tableIdent <span style="color:#fff;font-weight:bold">=</span> sparkSession.sessionState.sqlParser.parseTableIdentifier(tableName)  
+    <span style="color:#fff;font-weight:bold">val</span> storage <span style="color:#fff;font-weight:bold">=</span> DataSource.buildStorageFormatFromOptions(options)  
+    <span style="color:#fff;font-weight:bold">val</span> tableType <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">if</span> (storage.locationUri.isDefined) {  
+      CatalogTableType.EXTERNAL  
+    } <span style="color:#fff;font-weight:bold">else</span> {  
+      CatalogTableType.MANAGED  
+    }  
+    <span style="color:#007f7f">//NOTE: user specified schema is set to tableDesc and use no partitionColumnNames can specify here  
+</span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">val</span> tableDesc <span style="color:#fff;font-weight:bold">=</span> CatalogTable(  
+      identifier <span style="color:#fff;font-weight:bold">=</span> tableIdent,  
+      tableType <span style="color:#fff;font-weight:bold">=</span> tableType,  
+      storage <span style="color:#fff;font-weight:bold">=</span> storage,  
+      schema <span style="color:#fff;font-weight:bold">=</span> schema,   
+      provider <span style="color:#fff;font-weight:bold">=</span> Some(source)  
+    )  
+    <span style="color:#fff;font-weight:bold">val</span> plan <span style="color:#fff;font-weight:bold">=</span> CreateTable(tableDesc, SaveMode.ErrorIfExists, None)  
+    sparkSession.sessionState.executePlan(plan).toRdd  
+    sparkSession.table(tableIdent)  
+  }
+</code></pre></div><p>The Catalog createTable API will eventually run <code>CreateDataSourceTableCommand</code> in <a href="https://github.com/apache/spark/blob/branch-2.3/sql/core/src/main/scala/org/apache/spark/sql/execution/command/createDataSourceTables.scala#L80">createDataSourceTables.scala</a></p>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#fff;font-weight:bold">case</span> <span style="color:#fff;font-weight:bold">class</span> CreateDataSourceTableCommand(table<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">CatalogTable</span>, ignoreIfExists<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">Boolean</span>)  
+  <span style="color:#fff;font-weight:bold">extends</span> RunnableCommand {
 
-<p>The Catalog createTable API will eventually run <code>CreateDataSourceTableCommand</code> in <a href="https://github.com/apache/spark/blob/branch-2.3/sql/core/src/main/scala/org/apache/spark/sql/execution/command/createDataSourceTables.scala#L80">createDataSourceTables.scala</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">case</span> <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CreateDataSourceTableCommand</span><span style="color: #666666">(</span>table<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">CatalogTable</span><span style="color: #666666">,</span> ignoreIfExists<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Boolean</span><span style="color: #666666">)</span>  
-  <span style="color: #008000; font-weight: bold">extends</span> <span style="color: #0000FF; font-weight: bold">RunnableCommand</span> <span style="color: #666666">{</span>
+  <span style="color:#fff;font-weight:bold">override</span> <span style="color:#fff;font-weight:bold">def</span> run(sparkSession<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">SparkSession</span>)<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">Seq</span>[<span style="color:#fff;font-weight:bold">Row</span>] <span style="color:#fff;font-weight:bold">=</span> {  
+    ...  
+    <span style="color:#007f7f">//NOTE: the resolved dataSource include an inferred schema and partitionSchema  
+</span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">val</span> dataSource<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">BaseRelation</span> =  
+      DataSource(  
+        sparkSession <span style="color:#fff;font-weight:bold">=</span> sparkSession,  
+        userSpecifiedSchema <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">if</span> (table.schema.isEmpty) None <span style="color:#fff;font-weight:bold">else</span> Some(table.schema),  
+        partitionColumns <span style="color:#fff;font-weight:bold">=</span> table.partitionColumnNames,  
+        className <span style="color:#fff;font-weight:bold">=</span> table.provider.get,  
+        bucketSpec <span style="color:#fff;font-weight:bold">=</span> table.bucketSpec,  
+        options <span style="color:#fff;font-weight:bold">=</span> table.storage.properties ++ pathOption,  
+        <span style="color:#007f7f">// As discussed in SPARK-19583, we don&#39;t check if the location is existed  
+</span><span style="color:#007f7f"></span>        catalogTable <span style="color:#fff;font-weight:bold">=</span> Some(tableWithDefaultOptions)).resolveRelation(checkFilesExist <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">false</span>)
 
-  <span style="color: #008000; font-weight: bold">override</span> <span style="color: #008000; font-weight: bold">def</span> run<span style="color: #666666">(</span>sparkSession<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">SparkSession</span><span style="color: #666666">)</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Seq</span><span style="color: #666666">[</span><span style="color: #B00040">Row</span><span style="color: #666666">]</span> <span style="color: #008000; font-weight: bold">=</span> <span style="color: #666666">{</span>  
-    <span style="color: #666666">...</span>  
-    <span style="color: #408080; font-style: italic">//NOTE: the resolved dataSource include an inferred schema and partitionSchema  </span>
-    <span style="color: #008000; font-weight: bold">val</span> dataSource<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">BaseRelation</span> <span style="color: #666666">=</span>  
-      <span style="color: #0000FF; font-weight: bold">DataSource</span><span style="color: #666666">(</span>  
-        sparkSession <span style="color: #008000; font-weight: bold">=</span> sparkSession<span style="color: #666666">,</span>  
-        userSpecifiedSchema <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">.</span>isEmpty<span style="color: #666666">)</span> <span style="color: #0000FF; font-weight: bold">None</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #0000FF; font-weight: bold">Some</span><span style="color: #666666">(</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">),</span>  
-        partitionColumns <span style="color: #008000; font-weight: bold">=</span> table<span style="color: #666666">.</span>partitionColumnNames<span style="color: #666666">,</span>  
-        className <span style="color: #008000; font-weight: bold">=</span> table<span style="color: #666666">.</span>provider<span style="color: #666666">.</span>get<span style="color: #666666">,</span>  
-        bucketSpec <span style="color: #008000; font-weight: bold">=</span> table<span style="color: #666666">.</span>bucketSpec<span style="color: #666666">,</span>  
-        options <span style="color: #008000; font-weight: bold">=</span> table<span style="color: #666666">.</span>storage<span style="color: #666666">.</span>properties <span style="color: #666666">++</span> pathOption<span style="color: #666666">,</span>  
-        <span style="color: #408080; font-style: italic">// As discussed in SPARK-19583, we don&#39;t check if the location is existed  </span>
-        catalogTable <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">Some</span><span style="color: #666666">(</span>tableWithDefaultOptions<span style="color: #666666">)).</span>resolveRelation<span style="color: #666666">(</span>checkFilesExist <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">false</span><span style="color: #666666">)</span>
+    <span style="color:#fff;font-weight:bold">val</span> partitionColumnNames <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">if</span> (table.schema.nonEmpty) {  
+      <span style="color:#007f7f">//NOTE: if user specified schama, use the partitionColumnNames from CatalogTable passed to the class  
+</span><span style="color:#007f7f"></span>      table.partitionColumnNames  
+    } <span style="color:#fff;font-weight:bold">else</span> {  
+      ...  
+    }
 
-    <span style="color: #008000; font-weight: bold">val</span> partitionColumnNames <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">.</span>nonEmpty<span style="color: #666666">)</span> <span style="color: #666666">{</span>  
-      <span style="color: #408080; font-style: italic">//NOTE: if user specified schama, use the partitionColumnNames from CatalogTable passed to the class  </span>
-      table<span style="color: #666666">.</span>partitionColumnNames  
-    <span style="color: #666666">}</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">{</span>  
-      <span style="color: #666666">...</span>  
-    <span style="color: #666666">}</span>
+    <span style="color:#fff;font-weight:bold">val</span> newTable <span style="color:#fff;font-weight:bold">=</span> dataSource <span style="color:#fff;font-weight:bold">match</span> {  
+      <span style="color:#fff;font-weight:bold">case</span> r<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">HadoopFsRelation</span> <span style="color:#fff;font-weight:bold">if</span> <span style="color:#fff;font-weight:bold">r.overlappedPartCols.nonEmpty</span> =&gt;  
+        ...
 
-    <span style="color: #008000; font-weight: bold">val</span> newTable <span style="color: #008000; font-weight: bold">=</span> dataSource <span style="color: #008000; font-weight: bold">match</span> <span style="color: #666666">{</span>  
-      <span style="color: #008000; font-weight: bold">case</span> r<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">HadoopFsRelation</span> <span style="color: #B00040">if</span> <span style="color: #B00040">r.overlappedPartCols.nonEmpty</span> <span style="color: #666666">=&gt;</span>  
-        <span style="color: #666666">...</span>
+      <span style="color:#fff;font-weight:bold">case</span> <span style="color:#fff;font-weight:bold">_</span> <span style="color:#fff;font-weight:bold">=&gt;</span> 
 
-      <span style="color: #008000; font-weight: bold">case</span> <span style="color: #008000; font-weight: bold">_</span> <span style="color: #008000; font-weight: bold">=&gt;</span> 
+        table.copy(  
+          schema <span style="color:#fff;font-weight:bold">=</span> dataSource.schema, <span style="color:#007f7f">//NOTE: no matter whether user specify a schema, just use the infered schmea here  
+</span><span style="color:#007f7f"></span>          partitionColumnNames <span style="color:#fff;font-weight:bold">=</span> partitionColumnNames,  
+          ...  
+          )  
+    }  
+    ...  
+    sessionState.catalog.createTable(newTable, ignoreIfExists <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">false</span>)
 
-        table<span style="color: #666666">.</span>copy<span style="color: #666666">(</span>  
-          schema <span style="color: #008000; font-weight: bold">=</span> dataSource<span style="color: #666666">.</span>schema<span style="color: #666666">,</span> <span style="color: #408080; font-style: italic">//NOTE: no matter whether user specify a schema, just use the infered schmea here  </span>
-          partitionColumnNames <span style="color: #008000; font-weight: bold">=</span> partitionColumnNames<span style="color: #666666">,</span>  
-          <span style="color: #666666">...</span>  
-          <span style="color: #666666">)</span>  
-    <span style="color: #666666">}</span>  
-    <span style="color: #666666">...</span>  
-    sessionState<span style="color: #666666">.</span>catalog<span style="color: #666666">.</span>createTable<span style="color: #666666">(</span>newTable<span style="color: #666666">,</span> ignoreIfExists <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">false</span><span style="color: #666666">)</span>
-
-    <span style="color: #0000FF; font-weight: bold">Seq</span><span style="color: #666666">.</span>empty<span style="color: #666666">[</span><span style="color: #B00040">Row</span><span style="color: #666666">]</span>  
-  <span style="color: #666666">}</span>  
-<span style="color: #666666">}</span>
-</code></pre></div>
-
-<h4 id="solution">Solution</h4>
-
+    Seq.empty[<span style="color:#fff;font-weight:bold">Row</span>]  
+  }  
+}
+</code></pre></div><h4 id="solution">Solution</h4>
 <p>Don&rsquo;t know the reason why the source code is written in that way and whether this should be considered as a bug. One solution we come up with for this problem is to implement a custom crateTable API.</p>
-
 <p><a href="https://gist.github.com/kk17/60f956379398b0792059498543566e2a#file-catalogutil-scala">CatalogUtil.scala</a></p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-scala" data-lang="scala"><span></span><span style="color: #008000; font-weight: bold">object</span> <span style="color: #0000FF; font-weight: bold">CatalogUtil</span> <span style="color: #666666">{</span>
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala"><span style="color:#fff;font-weight:bold">object</span> CatalogUtil {
 
-    <span style="color: #008000; font-weight: bold">lazy</span> <span style="color: #008000; font-weight: bold">val</span> sparkSession <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">SparkSession</span><span style="color: #666666">.</span>getActiveSession<span style="color: #666666">.</span>get  
-    <span style="color: #666666">...</span>  
-    <span style="color: #008000; font-weight: bold">def</span> createTable<span style="color: #666666">(</span>  
-                       tableName<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">String</span><span style="color: #666666">,</span>  
-                       source<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">String</span><span style="color: #666666">,</span>  
-                       path<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">String</span><span style="color: #666666">,</span>  
-                       schema<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">StructType</span><span style="color: #666666">,</span>  
-                       options<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Map</span><span style="color: #666666">[</span><span style="color: #B00040">String</span>, <span style="color: #B00040">String</span><span style="color: #666666">],</span>  
-                       partitionColumnsInSchema<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Boolean</span>  
-                   <span style="color: #666666">)</span><span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Unit</span> <span style="color: #666666">=</span> <span style="color: #666666">{</span>  
-        <span style="color: #666666">...</span>
+    <span style="color:#fff;font-weight:bold">lazy</span> <span style="color:#fff;font-weight:bold">val</span> sparkSession <span style="color:#fff;font-weight:bold">=</span> SparkSession.getActiveSession.get  
+    ...  
+    <span style="color:#fff;font-weight:bold">def</span> createTable(  
+                       tableName<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">String</span>,  
+                       source<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">String</span>,  
+                       path<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">String</span>,  
+                       schema<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">StructType</span>,  
+                       options<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">Map</span>[<span style="color:#fff;font-weight:bold">String</span>, <span style="color:#fff;font-weight:bold">String</span>],  
+                       partitionColumnsInSchema<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">Boolean</span>  
+                   )<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">Unit</span> = {  
+        ...
 
-        <span style="color: #008000; font-weight: bold">val</span> table <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">CatalogTable</span><span style="color: #666666">(</span>  
-            identifier <span style="color: #008000; font-weight: bold">=</span> tableIdent<span style="color: #666666">,</span>  
-            tableType <span style="color: #008000; font-weight: bold">=</span> tableType<span style="color: #666666">,</span>  
-            storage <span style="color: #008000; font-weight: bold">=</span> storage<span style="color: #666666">,</span>  
-            schema <span style="color: #008000; font-weight: bold">=</span> schema<span style="color: #666666">,</span>  
-            provider <span style="color: #008000; font-weight: bold">=</span> <span style="color: #0000FF; font-weight: bold">Some</span><span style="color: #666666">(</span>newSource<span style="color: #666666">)</span>  
-        <span style="color: #666666">)</span>  
-        <span style="color: #666666">...</span>  
-        <span style="color: #008000; font-weight: bold">val</span> dataSource<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">BaseRelation</span> <span style="color: #666666">=</span>  
-            <span style="color: #0000FF; font-weight: bold">DataSource</span><span style="color: #666666">(</span>  
-                sparkSession <span style="color: #008000; font-weight: bold">=</span> sparkSession<span style="color: #666666">,</span>  
-                userSpecifiedSchema <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">.</span>isEmpty<span style="color: #666666">)</span> <span style="color: #0000FF; font-weight: bold">None</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #0000FF; font-weight: bold">Some</span><span style="color: #666666">(</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">),</span>  
-                partitionColumns <span style="color: #008000; font-weight: bold">=</span> table<span style="color: #666666">.</span>partitionColumnNames<span style="color: #666666">,</span>  
-                className <span style="color: #008000; font-weight: bold">=</span> table<span style="color: #666666">.</span>provider<span style="color: #666666">.</span>get<span style="color: #666666">,</span>  
-                <span style="color: #666666">...</span>  
-                <span style="color: #666666">)).</span>resolveRelation<span style="color: #666666">(</span>checkFilesExist <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">false</span><span style="color: #666666">)</span>
+        <span style="color:#fff;font-weight:bold">val</span> table <span style="color:#fff;font-weight:bold">=</span> CatalogTable(  
+            identifier <span style="color:#fff;font-weight:bold">=</span> tableIdent,  
+            tableType <span style="color:#fff;font-weight:bold">=</span> tableType,  
+            storage <span style="color:#fff;font-weight:bold">=</span> storage,  
+            schema <span style="color:#fff;font-weight:bold">=</span> schema,  
+            provider <span style="color:#fff;font-weight:bold">=</span> Some(newSource)  
+        )  
+        ...  
+        <span style="color:#fff;font-weight:bold">val</span> dataSource<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">BaseRelation</span> =  
+            DataSource(  
+                sparkSession <span style="color:#fff;font-weight:bold">=</span> sparkSession,  
+                userSpecifiedSchema <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">if</span> (table.schema.isEmpty) None <span style="color:#fff;font-weight:bold">else</span> Some(table.schema),  
+                partitionColumns <span style="color:#fff;font-weight:bold">=</span> table.partitionColumnNames,  
+                className <span style="color:#fff;font-weight:bold">=</span> table.provider.get,  
+                ...  
+                )).resolveRelation(checkFilesExist <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">false</span>)
 
-        <span style="color: #408080; font-style: italic">//NOTE: alway use infered partitionColumnNames here, cause we don&#39;t allow use specify partitionColumnNames  </span>
-        <span style="color: #008000; font-weight: bold">val</span> partitionColumns<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">Array</span><span style="color: #666666">[</span><span style="color: #B00040">StructField</span><span style="color: #666666">]</span> <span style="color: #008000; font-weight: bold">=</span> <span style="color: #666666">{</span>  
-            assert<span style="color: #666666">(</span>table<span style="color: #666666">.</span>partitionColumnNames<span style="color: #666666">.</span>isEmpty<span style="color: #666666">)</span>  
-            dataSource <span style="color: #008000; font-weight: bold">match</span> <span style="color: #666666">{</span>  
-                <span style="color: #008000; font-weight: bold">case</span> r<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">HadoopFsRelation</span> <span style="color: #666666">=&gt;</span> r<span style="color: #666666">.</span>partitionSchema<span style="color: #666666">.</span>fields  
-                <span style="color: #008000; font-weight: bold">case</span> <span style="color: #008000; font-weight: bold">_</span> <span style="color: #008000; font-weight: bold">=&gt;</span> <span style="color: #0000FF; font-weight: bold">Array</span><span style="color: #666666">.</span>empty  
-            <span style="color: #666666">}</span>  
-        <span style="color: #666666">}</span>
+        <span style="color:#007f7f">//NOTE: alway use infered partitionColumnNames here, cause we don&#39;t allow use specify partitionColumnNames  
+</span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">val</span> partitionColumns<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">Array</span>[<span style="color:#fff;font-weight:bold">StructField</span>] <span style="color:#fff;font-weight:bold">=</span> {  
+            assert(table.partitionColumnNames.isEmpty)  
+            dataSource <span style="color:#fff;font-weight:bold">match</span> {  
+                <span style="color:#fff;font-weight:bold">case</span> r<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">HadoopFsRelation</span> =&gt; r.partitionSchema.fields  
+                <span style="color:#fff;font-weight:bold">case</span> <span style="color:#fff;font-weight:bold">_</span> <span style="color:#fff;font-weight:bold">=&gt;</span> Array.empty  
+            }  
+        }
 
-        <span style="color: #008000; font-weight: bold">val</span> partitionColumnNames <span style="color: #008000; font-weight: bold">=</span> partitionColumns<span style="color: #666666">.</span>map<span style="color: #666666">(</span><span style="color: #008000; font-weight: bold">_</span><span style="color: #666666">.</span>name<span style="color: #666666">)</span>
+        <span style="color:#fff;font-weight:bold">val</span> partitionColumnNames <span style="color:#fff;font-weight:bold">=</span> partitionColumns.map(<span style="color:#fff;font-weight:bold">_</span>.name)
 
-        <span style="color: #408080; font-style: italic">//NOTE: merge partitionColumns into table schema if necessary  </span>
-        <span style="color: #008000; font-weight: bold">val</span> newSchema<span style="color: #008000; font-weight: bold">:</span> <span style="color: #B00040">StructType</span> <span style="color: #666666">=</span> <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">.</span>nonEmpty<span style="color: #666666">)</span> <span style="color: #666666">{</span>  
-            <span style="color: #008000; font-weight: bold">if</span> <span style="color: #666666">(</span>partitionColumnsInSchema<span style="color: #666666">)</span> <span style="color: #666666">{</span>  
-                table<span style="color: #666666">.</span>schema  
-            <span style="color: #666666">}</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">{</span>  
-                table<span style="color: #666666">.</span>schema<span style="color: #666666">.</span>fields<span style="color: #666666">.</span>map<span style="color: #666666">(</span><span style="color: #008000; font-weight: bold">_</span><span style="color: #666666">.</span>name<span style="color: #666666">).</span>intersect<span style="color: #666666">(</span>partitionColumnNames<span style="color: #666666">)</span> <span style="color: #008000; font-weight: bold">match</span> <span style="color: #666666">{</span>  
-                    <span style="color: #008000; font-weight: bold">case</span> <span style="color: #0000FF; font-weight: bold">Array</span><span style="color: #666666">()</span> <span style="color: #008000; font-weight: bold">=&gt;</span> <span style="color: #0000FF; font-weight: bold">StructType</span><span style="color: #666666">(</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">.</span>fields <span style="color: #666666">++</span> partitionColumns<span style="color: #666666">)</span>  
-                    <span style="color: #008000; font-weight: bold">case</span> arr <span style="color: #008000; font-weight: bold">=&gt;</span> <span style="color: #666666">{</span>  
-                        <span style="color: #008000; font-weight: bold">val</span> message <span style="color: #008000; font-weight: bold">=</span> <span style="color: #BA2121">&quot;Partition column names: &quot;</span> <span style="color: #666666">+</span>  
-                            <span style="color: #BA2121">s&quot;[</span><span style="color: #BB6688; font-weight: bold">${</span>arr<span style="color: #666666">.</span>mkString<span style="color: #666666">(</span><span style="color: #BA2121">&quot;,&quot;</span><span style="color: #666666">)</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BA2121">] cannot exist in user specified schema.\n&quot;</span> <span style="color: #666666">+</span>  
-                            <span style="color: #BA2121">s&quot; Inferred partition columns: [</span><span style="color: #BB6688; font-weight: bold">${</span>partitionColumnNames<span style="color: #666666">.</span>mkString<span style="color: #666666">(</span><span style="color: #BA2121">&quot;,&quot;</span><span style="color: #666666">)</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BA2121">].\n&quot;</span> <span style="color: #666666">+</span>  
-                            <span style="color: #BA2121">s&quot; User specified schema:\n</span><span style="color: #BB6688; font-weight: bold">${</span>table<span style="color: #666666">.</span>schema<span style="color: #666666">.</span>treeString<span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>
+        <span style="color:#007f7f">//NOTE: merge partitionColumns into table schema if necessary  
+</span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">val</span> newSchema<span style="color:#fff;font-weight:bold">:</span> <span style="color:#fff;font-weight:bold">StructType</span> = <span style="color:#fff;font-weight:bold">if</span> (table.schema.nonEmpty) {  
+            <span style="color:#fff;font-weight:bold">if</span> (partitionColumnsInSchema) {  
+                table.schema  
+            } <span style="color:#fff;font-weight:bold">else</span> {  
+                table.schema.fields.map(<span style="color:#fff;font-weight:bold">_</span>.name).intersect(partitionColumnNames) <span style="color:#fff;font-weight:bold">match</span> {  
+                    <span style="color:#fff;font-weight:bold">case</span> Array() <span style="color:#fff;font-weight:bold">=&gt;</span> StructType(table.schema.fields ++ partitionColumns)  
+                    <span style="color:#fff;font-weight:bold">case</span> arr <span style="color:#fff;font-weight:bold">=&gt;</span> {  
+                        <span style="color:#fff;font-weight:bold">val</span> message <span style="color:#fff;font-weight:bold">=</span> <span style="color:#0ff;font-weight:bold">&#34;Partition column names: &#34;</span> +  
+                            <span style="color:#0ff;font-weight:bold">s&#34;[</span><span style="color:#0ff;font-weight:bold">${</span>arr.mkString(<span style="color:#0ff;font-weight:bold">&#34;,&#34;</span>)<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">] cannot exist in user specified schema.\n&#34;</span> +  
+                            <span style="color:#0ff;font-weight:bold">s&#34; Inferred partition columns: [</span><span style="color:#0ff;font-weight:bold">${</span>partitionColumnNames.mkString(<span style="color:#0ff;font-weight:bold">&#34;,&#34;</span>)<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">].\n&#34;</span> +  
+                            <span style="color:#0ff;font-weight:bold">s&#34; User specified schema:\n</span><span style="color:#0ff;font-weight:bold">${</span>table.schema.treeString<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
 
-                        <span style="color: #008000; font-weight: bold">throw</span> <span style="color: #008000; font-weight: bold">new</span> <span style="color: #0000FF; font-weight: bold">ConflictedSchemaException</span><span style="color: #666666">(</span>message<span style="color: #666666">)</span>  
-                    <span style="color: #666666">}</span>  
-                <span style="color: #666666">}</span>  
-            <span style="color: #666666">}</span>  
-        <span style="color: #666666">}</span> <span style="color: #008000; font-weight: bold">else</span> <span style="color: #666666">{</span>  
-            dataSource<span style="color: #666666">.</span>schema  
-        <span style="color: #666666">}</span>
+                        <span style="color:#fff;font-weight:bold">throw</span> <span style="color:#fff;font-weight:bold">new</span> ConflictedSchemaException(message)  
+                    }  
+                }  
+            }  
+        } <span style="color:#fff;font-weight:bold">else</span> {  
+            dataSource.schema  
+        }
 
-        <span style="color: #008000; font-weight: bold">val</span> newTable <span style="color: #008000; font-weight: bold">=</span>  
-            table<span style="color: #666666">.</span>copy<span style="color: #666666">(</span>  
-                schema <span style="color: #008000; font-weight: bold">=</span> newSchema<span style="color: #666666">,</span> <span style="color: #408080; font-style: italic">//NOTE: use specifed schema  </span>
-                partitionColumnNames <span style="color: #008000; font-weight: bold">=</span> partitionColumnNames<span style="color: #666666">,</span>  
-                <span style="color: #666666">...</span>
+        <span style="color:#fff;font-weight:bold">val</span> newTable <span style="color:#fff;font-weight:bold">=</span>  
+            table.copy(  
+                schema <span style="color:#fff;font-weight:bold">=</span> newSchema, <span style="color:#007f7f">//NOTE: use specifed schema  
+</span><span style="color:#007f7f"></span>                partitionColumnNames <span style="color:#fff;font-weight:bold">=</span> partitionColumnNames,  
+                ...
 
   
-        sessionState<span style="color: #666666">.</span>catalog<span style="color: #666666">.</span>createTable<span style="color: #666666">(</span>newTable<span style="color: #666666">,</span> ignoreIfExists <span style="color: #008000; font-weight: bold">=</span> <span style="color: #008000; font-weight: bold">false</span><span style="color: #666666">)</span>  
-    <span style="color: #666666">}</span>
+        sessionState.catalog.createTable(newTable, ignoreIfExists <span style="color:#fff;font-weight:bold">=</span> <span style="color:#fff;font-weight:bold">false</span>)  
+    }
 
-<span style="color: #666666">}</span>
-</code></pre></div>
-
-<p>As you see our custom API is written in Scala, if we want to use in a python application, we must use Python Java Gateway. You can find more detail here:<a href="https://diogoalexandrefranco.github.io/scala-code-in-pyspark/">Using Scala code in PySpark applications</a></p>
-
+}
+</code></pre></div><p>As you see our custom API is written in Scala, if we want to use in a python application, we must use Python Java Gateway. You can find more detail here:<a href="https://diogoalexandrefranco.github.io/scala-code-in-pyspark/">Using Scala code in PySpark applications</a></p>
 <h2 id="2-partitioned-table-data-only-avaliable-after-invoked-recoverpartitions">2. Partitioned table data only avaliable after invoked <code>recoverPartitions</code></h2>
-
 <p>If you created an external partitioned table and immediately read data from the table, you will find the data is empty. Data only available after invoked <code>recoverPartitions</code> method. This is different from a non-partitioned table and Spark Catalog doesn&rsquo;t have a convenient method for testing whether the table is partitioned.</p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">SparkCatalog</span>(Catalog):  
-    <span style="color: #666666">...</span>  
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">is_partitioned_table</span>(<span style="color: #008000">self</span>, table_name):  
-        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #BA2121">&quot;PARTITIONED BY&quot;</span> <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>get_create_table_statement(table_name)
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#fff;font-weight:bold">class</span> SparkCatalog(Catalog):  
+    ...  
+    <span style="color:#fff;font-weight:bold">def</span> is_partitioned_table(self, table_name):  
+        <span style="color:#fff;font-weight:bold">return</span> <span style="color:#0ff;font-weight:bold">&#34;PARTITIONED BY&#34;</span> in self.get_create_table_statement(table_name)
 
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">get_create_table_statement</span>(<span style="color: #008000">self</span>, table_name):  
-        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>_sparkSession<span style="color: #666666">.</span>sql(f<span style="color: #BA2121">&quot;show create table `{table_name}`&quot;</span>)<span style="color: #666666">.</span>collect()[<span style="color: #666666">0</span>][<span style="color: #BA2121">&quot;createtab_stmt&quot;</span>]
+    <span style="color:#fff;font-weight:bold">def</span> get_create_table_statement(self, table_name):  
+        <span style="color:#fff;font-weight:bold">return</span> self._sparkSession.sql(f<span style="color:#0ff;font-weight:bold">&#34;show create table `{table_name}`&#34;</span>).collect()[<span style="color:#ff0;font-weight:bold">0</span>][<span style="color:#0ff;font-weight:bold">&#34;createtab_stmt&#34;</span>]
 
-    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">create_or_refresh_table</span>(<span style="color: #666666">...</span>):  
-    <span style="color: #666666">...</span>  
-                <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">self</span><span style="color: #666666">.</span>is_partitioned_table(table):  
-                    <span style="color: #008000">self</span><span style="color: #666666">.</span>recoverPartitions(table)  
-    <span style="color: #666666">...</span>
-</code></pre></div>
-
-<h2 id="3-refreshtable-api-only-refresh-the-cache-in-sparkcontext">3. <code>refreshTable</code> API only refresh the cache in SparkContext</h2>
-
+    <span style="color:#fff;font-weight:bold">def</span> create_or_refresh_table(...):  
+    ...  
+                <span style="color:#fff;font-weight:bold">if</span> self.is_partitioned_table(table):  
+                    self.recoverPartitions(table)  
+    ...
+</code></pre></div><h2 id="3-refreshtable-api-only-refresh-the-cache-in-sparkcontext">3. <code>refreshTable</code> API only refresh the cache in SparkContext</h2>
 <p><code>catalog.refreshTable</code> only refresh the cached data and metadata of the given table in sparkContext, if we want to update the table&rsquo;s meta(schema, transient_lastDdlTime and etc) in the hive metastore, we need to drop and recreate the table.</p>
     </div>
 

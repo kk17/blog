@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>reading-note on Code Play</title>
@@ -6,11 +6,7 @@
     <description>Recent content in reading-note on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 08 May 2015 10:00:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://blog.kk17.net/categories/reading-note/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 08 May 2015 10:00:00 +0800</lastBuildDate><atom:link href="https://blog.kk17.net/categories/reading-note/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>七周七语言之Prolog学习笔记</title>
       <link>https://blog.kk17.net/post/seven-days-seven-languages-prelog/</link>
@@ -35,7 +31,7 @@
       <pubDate>Thu, 07 May 2015 09:00:00 +0800</pubDate>
       
       <guid>https://blog.kk17.net/post/effective-java-reading-note/</guid>
-      <description>第2章 创建和销毁对象 第1条：考虑用静态工厂代替构造器 静态工厂的优点： 1. 有名字 2. 不必每次调用都创建新的对象 3. 可以返回原类型的任何子类型（可以于</description>
+      <description>第2章 创建和销毁对象## 第1条：考虑用静态工厂代替构造器 静态工厂的优点： 有名字 不必每次调用都创建新的对象 可以返回原类型的任何子类型（可以于服</description>
     </item>
     
   </channel>

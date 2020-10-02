@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Code Play</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Posts on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 20 Apr 2020 00:03:23 +0800</lastBuildDate>
-    
-	<atom:link href="https://blog.kk17.net/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 20 Apr 2020 00:03:23 +0800</lastBuildDate><atom:link href="https://blog.kk17.net/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning How to Learn in Learning Machine Learning</title>
       <link>https://blog.kk17.net/post/learning-how-to-learn-in-learning-machine-learning/</link>
@@ -46,9 +42,7 @@ I first knew about this course when I was trying to create my own learning path 
       
       <guid>https://blog.kk17.net/post/understand-airflow/</guid>
       <description>&lt;h2 id=&#34;key-concepts&#34;&gt;Key concepts&lt;/h2&gt;
-
 &lt;p&gt;For context around the terms used in this blog post, here are a few key concepts for Airflow:&lt;/p&gt;
-
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;DAG&lt;/strong&gt; (Directed Acyclic Graph): a workflow which glues all the tasks with inter-dependencies.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Operator&lt;/strong&gt;: a template for a specific type of work to be executed. For example, BashOperator represents how to execute a bash script, while PythonOperator represents how to execute a python function, etc.&lt;/li&gt;
@@ -56,9 +50,9 @@ I first knew about this course when I was trying to create my own learning path 
 &lt;li&gt;&lt;strong&gt;Task&lt;/strong&gt;: a parameterized instance of an operator/sensor which represents a unit of actual work to be executed.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Plugin&lt;/strong&gt;: an extension to allow users to easily extend Airflow with various custom hooks, operators, sensors, macros, and web views.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Pools&lt;/strong&gt;: concurrency limit configuration for a set of Airflow tasks.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;em&gt;Connections&lt;/em&gt;&lt;/strong&gt; to define any external DB, FTP etc. connection’s authentication.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;em&gt;Variables&lt;/em&gt;&lt;/strong&gt; to store and retrieve arbitrary content or settings as a simple key value.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&lt;em&gt;XCom&lt;/em&gt;&lt;/strong&gt; to share keys/values between independent tasks.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;Connections&lt;/strong&gt;&lt;/em&gt; to define any external DB, FTP etc. connection’s authentication.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;Variables&lt;/strong&gt;&lt;/em&gt; to store and retrieve arbitrary content or settings as a simple key value.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;&lt;strong&gt;XCom&lt;/strong&gt;&lt;/em&gt; to share keys/values between independent tasks.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Pools&lt;/strong&gt; to limit the execution parallelism on arbitrary sets of tasks.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Hooks&lt;/strong&gt; to reach external platforms and databases.&lt;/li&gt;
 &lt;/ul&gt;</description>
@@ -100,9 +94,7 @@ Run Locally In local mode, spark jobs run on a single machine and are executed i
       
       <guid>https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/</guid>
       <description>&lt;p&gt;Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  &lt;a href=&#34;https://spark.apache.org/docs/latest/sql-data-sources-hive-tables.html&#34;&gt;Hive Tables - Spark 2.4.1 Documentation&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: &lt;a href=&#34;https://spark.apache.org/docs/2.2.1/api/java/org/apache/spark/sql/catalog/Catalog.html&#34;&gt;Catalog (Spark 2.2.1 JavaDoc)&lt;/a&gt; and &lt;a href=&#34;https://spark.apache.org/docs/2.3.0/api/python/_modules/pyspark/sql/catalog.html&#34;&gt;pyspark.sql.catalog — PySpark master documentation&lt;/a&gt;.&lt;/p&gt;
-
 &lt;p&gt;After using Spark Catalog API for a period of time, I found some pitfalls.&lt;/p&gt;</description>
     </item>
     
@@ -113,9 +105,10 @@ Run Locally In local mode, spark jobs run on a single machine and are executed i
       
       <guid>https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/</guid>
       <description>Spark SQL Spark SQL is a module for working with structured data
-spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;quot;use database_name&amp;quot;) spark.sql(&amp;quot;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;#34;use database_name&amp;#34;) spark.sql(&amp;#34;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;#34;).toPandas() Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
 Hive transforms SQL queries as Hive MapReduce job.
-Besides MapReduce, Hive can use Spark and Tez as execute engine.</description>
+Besides MapReduce, Hive can use Spark and Tez as execute engine.
+Spark and Hive In Spark 1.</description>
     </item>
     
     <item>
@@ -169,7 +162,7 @@ Besides MapReduce, Hive can use Spark and Tez as execute engine.</description>
       <pubDate>Thu, 07 May 2015 09:00:00 +0800</pubDate>
       
       <guid>https://blog.kk17.net/post/effective-java-reading-note/</guid>
-      <description>第2章 创建和销毁对象 第1条：考虑用静态工厂代替构造器 静态工厂的优点： 1. 有名字 2. 不必每次调用都创建新的对象 3. 可以返回原类型的任何子类型（可以于</description>
+      <description>第2章 创建和销毁对象## 第1条：考虑用静态工厂代替构造器 静态工厂的优点： 有名字 不必每次调用都创建新的对象 可以返回原类型的任何子类型（可以于服</description>
     </item>
     
     <item>

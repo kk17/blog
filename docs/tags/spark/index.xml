@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>spark on Code Play</title>
@@ -6,11 +6,7 @@
     <description>Recent content in spark on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 16 Jul 2019 19:31:49 +0800</lastBuildDate>
-    
-	<atom:link href="https://blog.kk17.net/tags/spark/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 16 Jul 2019 19:31:49 +0800</lastBuildDate><atom:link href="https://blog.kk17.net/tags/spark/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Spark Run Mode and Application Deployment Mode</title>
       <link>https://blog.kk17.net/post/spark-run-mode-and-application-deployment-mode/</link>
@@ -38,9 +34,7 @@ Run Locally In local mode, spark jobs run on a single machine and are executed i
       
       <guid>https://blog.kk17.net/post/pitfalls-in-using-spark-catalog-api/</guid>
       <description>&lt;p&gt;Spark SQL supports querying data via SQL and in order to use this feature, we must enable Spark with Hive support, because Spark uses Hive Metastore to store metadata. By default, Spark uses an in-memory embedded database called Derby to store the metadata, but it can also configure to use an external Hive Metastore. Spark Hive Configuration can be found here:  &lt;a href=&#34;https://spark.apache.org/docs/latest/sql-data-sources-hive-tables.html&#34;&gt;Hive Tables - Spark 2.4.1 Documentation&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;Except using DDL SQL to manipulate metadata stored in Hive Metastore, Spark SQL also provides a minimalist API know as Catalog API to manipulate metadata in spark applications. Spark Catalog API can be found here: &lt;a href=&#34;https://spark.apache.org/docs/2.2.1/api/java/org/apache/spark/sql/catalog/Catalog.html&#34;&gt;Catalog (Spark 2.2.1 JavaDoc)&lt;/a&gt; and &lt;a href=&#34;https://spark.apache.org/docs/2.3.0/api/python/_modules/pyspark/sql/catalog.html&#34;&gt;pyspark.sql.catalog — PySpark master documentation&lt;/a&gt;.&lt;/p&gt;
-
 &lt;p&gt;After using Spark Catalog API for a period of time, I found some pitfalls.&lt;/p&gt;</description>
     </item>
     
@@ -51,9 +45,10 @@ Run Locally In local mode, spark jobs run on a single machine and are executed i
       
       <guid>https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/</guid>
       <description>Spark SQL Spark SQL is a module for working with structured data
-spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;quot;use database_name&amp;quot;) spark.sql(&amp;quot;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;#34;use database_name&amp;#34;) spark.sql(&amp;#34;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;#34;).toPandas() Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
 Hive transforms SQL queries as Hive MapReduce job.
-Besides MapReduce, Hive can use Spark and Tez as execute engine.</description>
+Besides MapReduce, Hive can use Spark and Tez as execute engine.
+Spark and Hive In Spark 1.</description>
     </item>
     
   </channel>

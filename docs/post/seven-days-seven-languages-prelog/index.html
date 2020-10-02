@@ -32,7 +32,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/seven-days-seven-languages-prelog/" />
@@ -51,7 +51,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -61,15 +61,12 @@
 <meta property="og:description" content="有关于Prolog Prolog是一门逻辑编程语言，它于1972年由Alain Colmerauer和Phillipe Roussel开发完成，在" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/seven-days-seven-languages-prelog/" />
-<meta property="article:published_time" content="2015-05-08T10:00:00&#43;08:00"/>
-<meta property="article:modified_time" content="2015-05-08T10:00:00&#43;08:00"/>
-
+<meta property="article:published_time" content="2015-05-08T10:00:00+08:00" />
+<meta property="article:modified_time" content="2015-05-08T10:00:00+08:00" />
 <meta itemprop="name" content="七周七语言之Prolog学习笔记">
 <meta itemprop="description" content="有关于Prolog Prolog是一门逻辑编程语言，它于1972年由Alain Colmerauer和Phillipe Roussel开发完成，在">
-
-
-<meta itemprop="datePublished" content="2015-05-08T10:00:00&#43;08:00" />
-<meta itemprop="dateModified" content="2015-05-08T10:00:00&#43;08:00" />
+<meta itemprop="datePublished" content="2015-05-08T10:00:00+08:00" />
+<meta itemprop="dateModified" content="2015-05-08T10:00:00+08:00" />
 <meta itemprop="wordCount" content="1339">
 
 
@@ -350,42 +347,34 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#有关于prolog">有关于Prolog</a>
-<ul>
-<li><a href="#合一">合一</a></li>
-</ul></li>
-<li><a href="#第一天自习">第一天自习</a></li>
-<li><a href="#第二天自习">第二天自习</a></li>
-<li><a href="#第三天自习">第三天自习</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#有关于prolog">有关于Prolog</a>
+      <ul>
+        <li><a href="#合一">合一</a></li>
+      </ul>
+    </li>
+    <li><a href="#第一天自习">第一天自习</a></li>
+    <li><a href="#第二天自习">第二天自习</a></li>
+    <li><a href="#第三天自习">第三天自习</a></li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      
-
-<h2 id="有关于prolog">有关于Prolog</h2>
-
+      <h2 id="有关于prolog">有关于Prolog</h2>
 <p>Prolog是一门逻辑编程语言，它于1972年由Alain Colmerauer和Phillipe Roussel开发完成，在
 自然语言处理领域颇受欢迎。在Prolog中，数据以逻辑规则的形式存在，下面是基本
 构建单元。</p>
-
 <ol>
 <li>事实。事实是关于真实世界的基本断言。（Babe是一头猪，猪喜欢泥巴。）</li>
 <li>规则。规则是关于真实世界中一些事实的推论。（如果一个动物是猪，那么它喜欢泥巴。）</li>
 <li>查询。查询是关于真实世界的一个问题。（Babe喜欢泥巴吗？）</li>
 </ol>
-
 <p>事实和规则被放入一个知识库（knowledge base）。Prolog编译器将这个知识库编译成一种适
-于高效查询的形式。<br />
+于高效查询的形式。<br>
 在Prolog中，第一个字母的大小写是有着重要意义的，如果一个词以小写字母开头，它就是一个原子（atom）——一个类似Ruby符号（symbol）的固定值，如果一个词以大写字母或下划线开头，那么它就是一个变量。变量的值可以改变，原子则不能。</p>
-
 <pre><code>likes(wallace,cheese). //事实
 likes(grommit,cheese).
 likes(wendolene,sheep).
@@ -394,26 +383,21 @@ friend(X,Y) :- \+(X = Y), likes(X, Z), likes(Y, Z). //规则，\+执行逻辑取
 
 | ？- friend(grommit， wallace). //查询
 </code></pre>
-
-<p>Prolog让你通过事实和推论来表达逻辑，然后直接提问即可。
-<!-- more --></p>
-
+<p>Prolog让你通过事实和推论来表达逻辑，然后直接提问即可。</p>
+<!-- raw HTML omitted -->
 <h3 id="合一">合一</h3>
-
 <p>合一的意思是“找出那些使规则两侧匹配的值”</p>
-
 <h2 id="第一天自习">第一天自习</h2>
-
 <ol>
-<li><p>建立一个知识库，描述你最喜欢的书籍和其作者。</p>
-
+<li>
+<p>建立一个知识库，描述你最喜欢的书籍和其作者。</p>
 <pre><code>%--列出书籍
 book('Zen and the Art of Motorcycle Maintenance').
 book('Seven Languages in Seven Weeks').
 book('Introduction to Algorithms').
 book('Design Patterns').
 book('Effective Java').
-
+	
 %--列出作者
 author('Bruce A.Tate').
 author('Erich Gamma').
@@ -426,7 +410,7 @@ author('Ronald L.Rivest').
 author(' Clifford Stein').
 author('Joshua Bloch').
 author('Robert M. Pirsig').
-
+	
 book_author('Zen and the Art of Motorcycle Maintenance','Robert M. Pirsig').
 book_author('Seven Languages in Seven Weeks','Bruce A.Tate').
 book_author('Introduction to Algorithms','Thomas H.Cormen').
@@ -438,7 +422,7 @@ book_author('Design Patterns','Erich Gamma').
 book_author('Design Patterns','Richard Helm').
 book_author('Design Patterns','Ralph Johnson').
 book_author('Design Patterns','John Vlissides').
-
+	
 %--定义共同作者
 coauthor( FirstAuthor, SecondAuthor ) :-
 (FirstAuthor \= SecondAuthor),
@@ -446,104 +430,101 @@ author( FirstAuthor ),
 author( SecondAuthor ),
 book_author( SomeBook ,FirstAuthor),
 book_author( SomeBook, SecondAuthor).
-
+	
 %--定义非共同作者
 notCoauthor( FirstAuthor, SecondAuthor ) :-
 (FirstAuthor \= SecondAuthor),
 \+coauthor( FirstAuthor, SecondAuthor ).
 </code></pre>
-
-<p>查询</p>
-
-<pre><code>GNU Prolog 1.4.4 (64 bits)
-Compiled Apr 23 2013, 16:05:07 with cl
-By Daniel Diaz
-Copyright (C) 1999-2013 Daniel Diaz
-| ?- consult('D:/PrologCodes/books.pl').
-compiling D:/PrologCodes/books.pl for byte code...
-D:/PrologCodes/books.pl compiled, 45 lines read - 4452 bytes written, 8 ms
-
-yes
-| ?- book(Whatbook).
-
-Whatbook = 'Zen and the Art of Motorcycle Maintenance' ? ;
-
-Whatbook = 'Seven Languages in Seven Weeks' ? ;
-
-Whatbook = 'Introduction to Algorithms' ? ;
-
-Whatbook = 'Design Patterns' ? ;
-
-Whatbook = 'Effective Java'
-
-(16 ms) yes
-| ?- author(Author).
-
-Author = 'Bruce A.Tate' ? ;
-
-Author = 'Erich Gamma' ? ;
-
-Author = 'Richard Helm' ? ;
-
-Author = 'Ralph Johnson' ? ;
-
-Author = 'John Vlissides' ? ;
-
-Author = 'Thomas H.Cormen' ? ;
-
-Author = 'Charles E.Leiserson' ? ;
-
-Author = 'Ronald L.Rivest' ? ;
-
-Author = ' Clifford Stein' ? ;
-
-Author = 'Joshua Bloch' ? ;
-
-Author = 'Robert M. Pirsig'
-
-| ?- book_author('Design Patterns',Author).
-
-Author = 'Erich Gamma' ? ;
-
-Author = 'Richard Helm' ? ;
-
-Author = 'Ralph Johnson' ? ;
-
-Author = 'John Vlissides'
-
-yes
-
-| ?- coauthor('Erich Gamma','Richard Helm').
-
-true ? ;
-
-no
-
-| ?- notCoauthor('Erich Gamma','Richard Helm').
-
-no
-| ?- coauthor('Bruce A.Tate','Erich Gamma').
-
-no
-| ?- coauthor('Bruce A.Ta1te','Erich Gamma').
-
-no
-| ?- notCoauthor('Erich Gamma','Richard Helm').
-
-no
-| ?- book_author(SomeBook,'Erich Gamma').
-
-SomeBook = 'Design Patterns' ? ;
-
-no
-</code></pre></li>
+</li>
 </ol>
-
+<p>查询</p>
+<pre><code>    GNU Prolog 1.4.4 (64 bits)
+    Compiled Apr 23 2013, 16:05:07 with cl
+    By Daniel Diaz
+    Copyright (C) 1999-2013 Daniel Diaz
+    | ?- consult('D:/PrologCodes/books.pl').
+    compiling D:/PrologCodes/books.pl for byte code...
+    D:/PrologCodes/books.pl compiled, 45 lines read - 4452 bytes written, 8 ms
+	
+    yes
+    | ?- book(Whatbook).
+	
+    Whatbook = 'Zen and the Art of Motorcycle Maintenance' ? ;
+	
+    Whatbook = 'Seven Languages in Seven Weeks' ? ;
+	
+    Whatbook = 'Introduction to Algorithms' ? ;
+	
+    Whatbook = 'Design Patterns' ? ;
+	
+    Whatbook = 'Effective Java'
+	
+    (16 ms) yes
+    | ?- author(Author).
+	
+    Author = 'Bruce A.Tate' ? ;
+	
+    Author = 'Erich Gamma' ? ;
+	
+    Author = 'Richard Helm' ? ;
+	
+    Author = 'Ralph Johnson' ? ;
+	
+    Author = 'John Vlissides' ? ;
+	
+    Author = 'Thomas H.Cormen' ? ;
+	
+    Author = 'Charles E.Leiserson' ? ;
+	
+    Author = 'Ronald L.Rivest' ? ;
+	
+    Author = ' Clifford Stein' ? ;
+	
+    Author = 'Joshua Bloch' ? ;
+	
+    Author = 'Robert M. Pirsig'
+	
+    | ?- book_author('Design Patterns',Author).
+	
+    Author = 'Erich Gamma' ? ;
+	
+    Author = 'Richard Helm' ? ;
+	
+    Author = 'Ralph Johnson' ? ;
+	
+    Author = 'John Vlissides'
+	
+    yes
+	
+    | ?- coauthor('Erich Gamma','Richard Helm').
+	
+    true ? ;
+	
+    no
+	
+    | ?- notCoauthor('Erich Gamma','Richard Helm').
+	
+    no
+    | ?- coauthor('Bruce A.Tate','Erich Gamma').
+	
+    no
+    | ?- coauthor('Bruce A.Ta1te','Erich Gamma').
+	
+    no
+    | ?- notCoauthor('Erich Gamma','Richard Helm').
+	
+    no
+    | ?- book_author(SomeBook,'Erich Gamma').
+	
+    SomeBook = 'Design Patterns' ? ;
+	
+    no
+</code></pre>
 <h2 id="第二天自习">第二天自习</h2>
-
 <ol>
-<li><p>斐波那契数列和阶乘的实现。</p>
-
+<li>
+<p>斐波那契数列和阶乘的实现。</p>
 <pre><code>fib(1,1).
 fib(2,1).
 fib(N,Ret) :- N &gt; 2, N1 is N -1, N2 is N -2, fib(N1,Prv1), fib(N2,Prv2), Ret is Prv2 + Prv1.
@@ -551,43 +532,43 @@ fib(N,Ret) :- N &gt; 2, N1 is N -1, N2 is N -2, fib(N1,Prv1), fib(N2,Prv2), Ret 
 factorial(0,1).
 factorial(1,1).
 factorial(N,Ret) :-  N &gt; 1, N1 is N - 1, factorial(N1, Ret1), Ret is N * Ret1.
-</code></pre></li>
-
-<li><p>汉诺塔问题</p>
-
+</code></pre>
+</li>
+<li>
+<p>汉诺塔问题</p>
 <pre><code>%--参考了网上的实现
 hanoi(N) :- move(N,left,middle,right).
-
+	
 move(1,A,_,C) :- inform(A,C), !. %-- 此处的!作用不太明白
 move(N,A,B,C) :- N1 is N - 1,
     move(N1,A,C,B),
     inform(A,C),
     move(N1,B,A,C).
-
+	
 inform(Loc1,Loc2) :- nl,write('Move a disk from '-Loc1-' to '-Loc2).
-</code></pre></li>
-
-<li><p>翻转列表元素</p>
-
+</code></pre>
+</li>
+<li>
+<p>翻转列表元素</p>
 <pre><code>reverse_list([],[]).
 reverse_list(List,ReverseList) :- List = [Head|Tail],
          reverse_list(Tail, ReverseTail),
          append(ReverseTail,[Head],ReverseList).
-</code></pre></li>
-
-<li><p>找出列表最小元素</p>
-
+</code></pre>
+</li>
+<li>
+<p>找出列表最小元素</p>
 <pre><code>find_min([E],E).
 find_min(List,Min) :- List = [Head|Tail], find_min(Tail,Min2), Min is min(Head,Min2).
-</code></pre></li>
-
-<li><p>对列表元素进行排序</p>
-
+</code></pre>
+</li>
+<li>
+<p>对列表元素进行排序</p>
 <pre><code>sort_list([],[]).
 sort_list(List,SortedList) :- List = [Head|Tail],
     sort_list(Tail,SortedTail),
     merge_list(Head,SortedTail,SortedList).
-
+	
 merge_list(E,[],[E]).
 merge_list(E1,SortedTail,MergedList) :- SortedTail = [E2|Tail],
     (E1 &lt; E2 -&gt;
@@ -595,19 +576,18 @@ merge_list(E1,SortedTail,MergedList) :- SortedTail = [E2|Tail],
         merge_list(E1,Tail,MergedTail),
         append([E2],MergedTail,MergedList)
     ).
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
-
 <h2 id="第三天自习">第三天自习</h2>
-
 <ol>
-<li><p>9x9数独问题。</p>
-
+<li>
+<p>9x9数独问题。</p>
 <pre><code>valid([]).
 valid([Head|Tail]) :-
     fd_all_different(Head),
     valid(Tail).
-
+	
 sudoku(Puzzle, Solution) :- Solution = Puzzle ,
     Puzzle = [S11,S12,S13,S14,S15,S16,S17,S18,S19,
     S21,S22,S23,S24,S25,S26,S27,S28,S29,
@@ -619,7 +599,7 @@ sudoku(Puzzle, Solution) :- Solution = Puzzle ,
     S81,S82,S83,S84,S85,S86,S87,S88,S89,
     S91,S92,S93,S94,S95,S96,S97,S98,S99],
     fd_domain(Puzzle,1,9),
-
+	
     Row1=[S11,S12,S13,S14,S15,S16,S17,S18,S19],
     Row2=[S21,S22,S23,S24,S25,S26,S27,S28,S29],
     Row3=[S31,S32,S33,S34,S35,S36,S37,S38,S39],
@@ -638,7 +618,7 @@ sudoku(Puzzle, Solution) :- Solution = Puzzle ,
     Col7=[S17, S27, S37, S47, S57, S67, S77, S87, S97],
     Col8=[S18, S28, S38, S48, S58, S68, S78, S88, S98],
     Col9=[S19, S29, S39, S49, S59, S69, S79, S89, S99],
-
+	
     Square1=[S11,S12,S13, S21,S22,S23, S31,S32,S33],
     Square2=[S14,S15,S16, S24,S25,S26, S34,S35,S36],
     Square3=[S17,S18,S19, S27,S28,S29, S37,S38,S39],
@@ -648,12 +628,12 @@ sudoku(Puzzle, Solution) :- Solution = Puzzle ,
     Square7=[S71,S72,S73, S81,S82,S83, S91,S92,S93],
     Square8=[S74,S75,S76, S84,S85,S86, S94,S95,S96],
     Square9=[S77,S78,S79, S87,S88,S89, S97,S98,S99],
-
+	
     valid([Row1, Row2, Row3, Row4, Row5, Row6, Row7, Row8, 
         Row9, Col1, Col2, Col3, Col4, Col5, Col6, Col7, Col8, Col9,
         Square1, Square2, Square3, Square4, Square5, Square6,
         Square7, Square8, Square9]),
-
+	
     write( '\n' ), write( Row1 ),
     write( '\n' ), write( Row2 ),
     write( '\n' ), write( Row3 ),
@@ -663,7 +643,8 @@ sudoku(Puzzle, Solution) :- Solution = Puzzle ,
     write( '\n' ), write( Row7 ),
     write( '\n' ), write( Row8 ),
     write( '\n' ), write( Row9 ).
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
 
     </div>

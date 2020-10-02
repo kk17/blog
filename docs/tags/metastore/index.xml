@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>metastore on Code Play</title>
@@ -6,11 +6,7 @@
     <description>Recent content in metastore on Code Play</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 27 Feb 2019 15:52:48 +0800</lastBuildDate>
-    
-	<atom:link href="https://blog.kk17.net/tags/metastore/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 27 Feb 2019 15:52:48 +0800</lastBuildDate><atom:link href="https://blog.kk17.net/tags/metastore/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Use Spark Sql With Hive Metastore</title>
       <link>https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/</link>
@@ -18,9 +14,10 @@
       
       <guid>https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/</guid>
       <description>Spark SQL Spark SQL is a module for working with structured data
-spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;quot;use database_name&amp;quot;) spark.sql(&amp;quot;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;#34;use database_name&amp;#34;) spark.sql(&amp;#34;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;#34;).toPandas() Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
 Hive transforms SQL queries as Hive MapReduce job.
-Besides MapReduce, Hive can use Spark and Tez as execute engine.</description>
+Besides MapReduce, Hive can use Spark and Tez as execute engine.
+Spark and Hive In Spark 1.</description>
     </item>
     
   </channel>

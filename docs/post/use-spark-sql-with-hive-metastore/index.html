@@ -24,9 +24,10 @@
 
 <meta name="author" content="Kyle" />
   <meta name="description" content="Spark SQL Spark SQL is a module for working with structured data
-spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;quot;use database_name&amp;quot;) spark.sql(&amp;quot;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&amp;#34;use database_name&amp;#34;) spark.sql(&amp;#34;select * from table_name where id in (3085,3086,3087) and dt &amp;gt; &amp;#39;2019-03-10&amp;#39;&amp;#34;).toPandas() Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
 Hive transforms SQL queries as Hive MapReduce job.
-Besides MapReduce, Hive can use Spark and Tez as execute engine." />
+Besides MapReduce, Hive can use Spark and Tez as execute engine.
+Spark and Hive In Spark 1." />
 <meta name="keywords" content="spark-sql, hive, metastore, thrift-server" />
 
 
@@ -35,7 +36,7 @@ Besides MapReduce, Hive can use Spark and Tez as execute engine." />
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.75.1" />
 
 
 <link rel="canonical" href="https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/" />
@@ -54,7 +55,7 @@ Besides MapReduce, Hive can use Spark and Tez as execute engine." />
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.ec807d8b802a40889537c26e014f733206312ea440d42e1f0dabed80918de1ac.css" integrity="sha256-7IB9i4AqQIiVN8JuAU9zMgYxLqRA1C4fDavtgJGN4aw=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.808d4affbaf0ff7ec86adf72ae5af4ad82cebbeff5a0230d3fdb50ddaf0842af.css" integrity="sha256-gI1K/7rw/37Iat9yrlr0rYLOu&#43;/1oCMNP9tQ3a8IQq8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -62,23 +63,22 @@ Besides MapReduce, Hive can use Spark and Tez as execute engine." />
 
 <meta property="og:title" content="Use Spark Sql With Hive Metastore" />
 <meta property="og:description" content="Spark SQL Spark SQL is a module for working with structured data
-spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&quot;use database_name&quot;) spark.sql(&quot;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&#34;use database_name&#34;) spark.sql(&#34;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&#34;).toPandas() Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
 Hive transforms SQL queries as Hive MapReduce job.
-Besides MapReduce, Hive can use Spark and Tez as execute engine." />
+Besides MapReduce, Hive can use Spark and Tez as execute engine.
+Spark and Hive In Spark 1." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.kk17.net/post/use-spark-sql-with-hive-metastore/" />
-<meta property="article:published_time" content="2019-02-27T15:52:48&#43;08:00"/>
-<meta property="article:modified_time" content="2019-02-27T15:52:48&#43;08:00"/>
-
+<meta property="article:published_time" content="2019-02-27T15:52:48+08:00" />
+<meta property="article:modified_time" content="2019-02-27T15:52:48+08:00" />
 <meta itemprop="name" content="Use Spark Sql With Hive Metastore">
 <meta itemprop="description" content="Spark SQL Spark SQL is a module for working with structured data
-spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&quot;use database_name&quot;) spark.sql(&quot;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&#34;use database_name&#34;) spark.sql(&#34;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&#34;).toPandas() Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
 Hive transforms SQL queries as Hive MapReduce job.
-Besides MapReduce, Hive can use Spark and Tez as execute engine.">
-
-
-<meta itemprop="datePublished" content="2019-02-27T15:52:48&#43;08:00" />
-<meta itemprop="dateModified" content="2019-02-27T15:52:48&#43;08:00" />
+Besides MapReduce, Hive can use Spark and Tez as execute engine.
+Spark and Hive In Spark 1.">
+<meta itemprop="datePublished" content="2019-02-27T15:52:48+08:00" />
+<meta itemprop="dateModified" content="2019-02-27T15:52:48+08:00" />
 <meta itemprop="wordCount" content="396">
 
 
@@ -87,9 +87,10 @@ Besides MapReduce, Hive can use Spark and Tez as execute engine.">
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Use Spark Sql With Hive Metastore"/>
 <meta name="twitter:description" content="Spark SQL Spark SQL is a module for working with structured data
-spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&quot;use database_name&quot;) spark.sql(&quot;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&quot;).toPandas()  Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
+spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate() spark.sql(&#34;use database_name&#34;) spark.sql(&#34;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&#34;).toPandas() Hive Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.
 Hive transforms SQL queries as Hive MapReduce job.
-Besides MapReduce, Hive can use Spark and Tez as execute engine."/>
+Besides MapReduce, Hive can use Spark and Tez as execute engine.
+Spark and Hive In Spark 1."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -362,96 +363,56 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">Table of Contents</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li><a href="#spark-sql">Spark SQL</a>
-<ul>
-<li><a href="#hive">Hive</a></li>
-<li><a href="#spark-and-hive">Spark and Hive</a></li>
-<li><a href="#hiveserver2">HiveServer2</a></li>
-<li><a href="#spark-thrift-server">Spark Thrift Server</a>
-<ul>
-<li>
-<ul>
-<li><a href="#inception-or-multiple-sessions">“Inception” or “Multiple Sessions”</a></li>
-<li><a href="#mysterious-ooms-and-how-to-avoid-them-or-incremental-collect">“Mysterious OOMs and How to Avoid Them” or “Incremental Collect”</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#metastore">Metastore</a></li>
-<li><a href="#references">References</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#hive">Hive</a></li>
+    <li><a href="#spark-and-hive">Spark and Hive</a></li>
+    <li><a href="#hiveserver2">HiveServer2</a></li>
+    <li><a href="#spark-thrift-server">Spark Thrift Server</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#metastore">Metastore</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      
-
-<h1 id="spark-sql">Spark SQL</h1>
-
+      <h1 id="spark-sql">Spark SQL</h1>
 <p>Spark SQL is a module for working with structured data</p>
-<div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span>spark <span style="color: #666666">=</span> SparkSession<span style="color: #666666">.</span>builder<span style="color: #666666">.</span>config(conf<span style="color: #666666">=</span>conf)<span style="color: #666666">.</span>enableHiveSupport()<span style="color: #666666">.</span>getOrCreate()
-spark<span style="color: #666666">.</span>sql(<span style="color: #BA2121">&quot;use database_name&quot;</span>)
-spark<span style="color: #666666">.</span>sql(<span style="color: #BA2121">&quot;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&quot;</span>)<span style="color: #666666">.</span>toPandas()
-</code></pre></div>
-
-<h2 id="hive">Hive</h2>
-
+<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">spark = SparkSession.builder.config(conf=conf).enableHiveSupport().getOrCreate()
+spark.sql(<span style="color:#0ff;font-weight:bold">&#34;use database_name&#34;</span>)
+spark.sql(<span style="color:#0ff;font-weight:bold">&#34;select * from table_name where id in (3085,3086,3087) and dt &gt; &#39;2019-03-10&#39;&#34;</span>).toPandas()
+</code></pre></div><h2 id="hive">Hive</h2>
 <p>Data warehouse software for reading, writing, and managing large datasets residing in distributed storage and queried using SQL syntax.</p>
-
 <p>Hive transforms SQL queries as Hive MapReduce job.</p>
-
 <p>Besides MapReduce, Hive can use Spark and Tez as execute engine.</p>
-
 <h2 id="spark-and-hive">Spark and Hive</h2>
-
 <p>In Spark 1.0, Spark use many Hive codes in Spark SQL. It ran Hadoop style Map/Reduce jobs on top of the Spark engine</p>
-
 <p>There is almost no Hive left in Spark 2.0. While the Sql Thrift Server is still built on the HiveServer2 code, almost all of the internals are now completely Spark-native, for example Spark it build a brand new Spark-native optimization engine knows as Catalyst.</p>
-
 <h2 id="hiveserver2">HiveServer2</h2>
-
 <p>A server interface that enables remote clients to execute queries against Hive and retrieve the results.</p>
-
 <p>With HiveServer2, we can use JDBC and ODBC connecters to connect to Hive.</p>
-
 <h2 id="spark-thrift-server">Spark Thrift Server</h2>
-
 <p>Spark Thrift Server is variant of HiveServer2.</p>
-
 <p>Thrift is the RPC framework use for client and Server communication.</p>
-
-<p><img src="https://user-images.githubusercontent.com/22542670/27733176-54b684c2-5db2-11e7-946b-5b5ef5595e43.png" alt="https://user-images.githubusercontent.com/22542670/27733176-54b684c2-5db2-11e7-946b-5b5ef5595e43.png" /></p>
-
+<p><img src="https://user-images.githubusercontent.com/22542670/27733176-54b684c2-5db2-11e7-946b-5b5ef5595e43.png" alt="https://user-images.githubusercontent.com/22542670/27733176-54b684c2-5db2-11e7-946b-5b5ef5595e43.png"></p>
 <p>Spark Thrift Server have a bug in showing db schemes and tables. We cherry-picked the patch codes into Spark 2.3.2 the version we now used and used a shaded jar in deploying Spark Thrift Server.</p>
-
 <p><a href="https://issues.apache.org/jira/browse/SPARK-24196">[SPARK-24196] Spark Thrift Server - SQL Client connections does&rsquo;t show db artefacts - ASF JIRA</a></p>
-
 <h4 id="inception-or-multiple-sessions">“Inception” or “Multiple Sessions”</h4>
-
 <p>From Spark 1.6, by default, the Thrift server runs in multi-session mode</p>
-
 <pre><code>spark.sql.hive.thriftServer.singleSession=false
-</code></pre>
-
-<h4 id="mysterious-ooms-and-how-to-avoid-them-or-incremental-collect">“Mysterious OOMs and How to Avoid Them” or “Incremental Collect”</h4>
-
+</code></pre><h4 id="mysterious-ooms-and-how-to-avoid-them-or-incremental-collect">“Mysterious OOMs and How to Avoid Them” or “Incremental Collect”</h4>
 <pre><code>spark.sql.thriftServer.incrementalCollect=false
-</code></pre>
-
-<p>The setting IncrementalCollect changes the gather method from collect to toLocalIterator.</p>
-
+</code></pre><p>The setting IncrementalCollect changes the gather method from collect to toLocalIterator.</p>
 <h2 id="metastore">Metastore</h2>
-
 <p>Central repository of Hive metadata.</p>
-
-<p><img src="https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.5/bk_spark-component-guide/content/figures/4/figures/sts-architecture.png" alt="https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.5/bk_spark-component-guide/content/figures/4/figures/sts-architecture.png" /></p>
-
+<p><img src="https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.5/bk_spark-component-guide/content/figures/4/figures/sts-architecture.png" alt="https://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.6.5/bk_spark-component-guide/content/figures/4/figures/sts-architecture.png"></p>
 <p><em>Metastore need a warehouse location for storage for internal tables data. Although we only use external tables, the warehouse location is still needed because every database in Metastore needs a corresponding folder in the warehouse. Spark references <code>spark.sql.warehouse.dir</code> as the default Spark SQL Hive Warehouse location. In EMR cluster this property is config to cluster HDFS location by default. If the cluster goes down the HDFS will become unavailable and this may cause some problem in using Spark SQL to query table data. Therefore we the location to the local file system. In other words, config <code>spark.sql.warehouse.dir</code> to <code>file:///usr/lib/spark/warehouse</code> in <code>spark-defaults.conf</code>.</em></p>
-
 <h2 id="references">References</h2>
-
 <p><a href="http://www.russellspitzer.com/2017/05/19/Spark-Sql-Thriftserver/">Russell Spitzer&rsquo;s Blog: Spark Thrift Server Basics and a History</a></p>
 
     </div>
